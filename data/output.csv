@@ -1,0 +1,401 @@
+date,title,artist,current,previous,peak,weeks
+2019-12-07,"Circles","Post Malone",1,1,1,13
+2019-12-07,"Someone You Loved","Lewis Capaldi",2,2,1,29
+2019-12-07,"Good As Hell","Lizzo",3,3,3,14
+2019-12-07,"Memories","Maroon 5",4,4,4,10
+2019-12-07,"Roxanne","Arizona Zervas",5,12,5,4
+2019-12-07,"Lose You To Love Me","Selena Gomez",6,5,1,6
+2019-12-07,"Senorita","Shawn Mendes & Camila Cabello",7,6,1,23
+2019-12-07,"10,000 Hours","Dan + Shay & Justin Bieber",8,9,4,8
+2019-12-07,"Truth Hurts","Lizzo",9,10,1,30
+2019-12-07,"No Guidance","Chris Brown Featuring Drake",10,7,5,25
+2019-12-07,"Dance Monkey","Tones And I",11,19,11,8
+2019-12-07,"BOP","DaBaby",12,18,12,9
+2019-12-07,"Panini","Lil Nas X",13,11,5,23
+2019-12-07,"Bad Guy","Billie Eilish",14,17,1,35
+2019-12-07,"HIGHEST IN THE ROOM","Travis Scott",15,14,1,8
+2019-12-07,"Ballin'","Mustard Featuring Roddy Ricch",16,20,16,19
+2019-12-07,"Trampoline","SHAED",17,13,13,26
+2019-12-07,"All I Want For Christmas Is You","Mariah Carey",18,31,3,33
+2019-12-07,"Lover","Taylor Swift",19,15,10,15
+2019-12-07,"Old Town Road","Lil Nas X Featuring Billy Ray Cyrus",20,27,1,39
+2019-12-07,"Hot","Young Thug Featuring Gunna",21,21,11,15
+2019-12-07,"One Man Band","Old Dominion",22,22,20,14
+2019-12-07,"Woah","Lil Baby",23,16,16,3
+2019-12-07,"Only Human","Jonas Brothers",24,24,18,24
+2019-12-07,"Ran$om","Lil Tecca",25,26,4,26
+2019-12-07,"everything i wanted","Billie Eilish",26,8,8,3
+2019-12-07,"Beautiful People","Ed Sheeran Featuring Khalid",27,23,13,22
+2019-12-07,"Even Though I'm Leaving","Luke Combs",28,25,11,13
+2019-12-07,"Rockin' Around The Christmas Tree","Brenda Lee",29,0,9,28
+2019-12-07,"Bandit","Juice WRLD & YoungBoy Never Broke Again",30,28,10,8
+2019-12-07,"On Chill","Wale Featuring Jeremih",31,29,22,16
+2019-12-07,"Heartless","The Weeknd",32,0,32,1
+2019-12-07,"Vete","Bad Bunny",33,0,33,1
+2019-12-07,"Graveyard","Halsey",34,39,34,11
+2019-12-07,"I Don't Care","Ed Sheeran & Justin Bieber",35,30,2,29
+2019-12-07,"Talk","Khalid",36,32,3,42
+2019-12-07,"Don't Start Now","Dua Lipa",37,42,30,4
+2019-12-07,"Heat","Chris Brown Featuring Gunna",38,37,36,13
+2019-12-07,"Baby","Lil Baby & DaBaby",39,34,21,19
+2019-12-07,"How Do You Sleep?","Sam Smith",40,35,24,19
+2019-12-07,"Goodbyes","Post Malone Featuring Young Thug",41,33,3,21
+2019-12-07,"Falling","Trevor Daniel",42,75,42,2
+2019-12-07,"Playing Games","Summer Walker",43,36,16,13
+2019-12-07,"Suge","DaBaby",44,40,7,35
+2019-12-07,"Hot Girl Bummer","blackbear",45,41,41,11
+2019-12-07,"Last Christmas","Wham!",46,0,25,10
+2019-12-07,"Jingle Bell Rock","Bobby Helms",47,0,8,26
+2019-12-07,"A Holly Jolly Christmas","Burl Ives",48,0,10,11
+2019-12-07,"It's The Most Wonderful Time Of The Year","Andy Williams",49,0,10,11
+2019-12-07,"Take What You Want","Post Malone Featuring Ozzy Osbourne & Travis Scott",50,57,8,12
+2019-12-07,"Juicy","Doja Cat & Tyga",51,51,47,5
+2019-12-07,"One Thing Right","Marshmello & Kane Brown",52,45,36,23
+2019-12-07,"The Bones","Maren Morris",53,50,48,10
+2019-12-07,"Time","NF",54,43,41,19
+2019-12-07,"Into The Unknown","Idina Menzel & AURORA",55,0,55,1
+2019-12-07,"Heart On Ice","Rod Wave",56,54,54,3
+2019-12-07,"223's","YNW Melly & 9lokknine",57,56,34,12
+2019-12-07,"Who Needs Love","Trippie Redd",58,0,58,1
+2019-12-07,"Death","Trippie Redd Featuring DaBaby",59,97,59,2
+2019-12-07,"6 Kiss","Trippie Redd Featuring Juice WRLD & YNW Melly",60,0,60,1
+2019-12-07,"What If I Never Get Over You","Lady Antebellum",61,47,47,14
+2019-12-07,"Remember You Young","Thomas Rhett",62,53,53,11
+2019-12-07,"Loyal","PARTYNEXTDOOR Featuring Drake",63,0,63,1
+2019-12-07,"Suicidal","YNW Melly",64,0,64,1
+2019-12-07,"Camelot","NLE Choppa",65,58,37,11
+2019-12-07,"VIBEZ","DaBaby",66,59,21,9
+2019-12-07,"Leave Em Alone","Layton Greene, Lil Baby, City Girls & PnB Rock",67,63,60,8
+2019-12-07,"We Were","Keith Urban",68,65,65,13
+2019-12-07,"Prayed For You","Matt Stell",69,61,36,17
+2019-12-07,"Kinfolks","Sam Hunt",70,62,62,7
+2019-12-07,"Enemies","Post Malone Featuring DaBaby",71,68,16,12
+2019-12-07,"Ridin' Roads","Dustin Lynch",72,70,70,4
+2019-12-07,"Hate Me","Ellie Goulding & Juice WRLD",73,69,56,16
+2019-12-07,"Heartache Medication","Jon Pardi",74,67,67,9
+2019-12-07,"Baby Sitter","DaBaby Featuring Offset",75,64,59,16
+2019-12-07,"All The Good Girls Go To Hell","Billie Eilish",76,76,46,6
+2019-12-07,"Watermelon Sugar","Harry Styles",77,60,60,2
+2019-12-07,"We Back","Jason Aldean",78,93,78,2
+2019-12-07,"Follow God","Kanye West",79,52,7,5
+2019-12-07,"Jerry Sprunger","Tory Lanez & T-Pain",80,44,44,3
+2019-12-07,"Love Me More","Trippie Redd",81,0,79,2
+2019-12-07,"Nice To Meet Ya","Niall Horan",82,71,63,7
+2019-12-07,"Lalala","Y2K & bbno$",83,91,55,21
+2019-12-07,"Hate Me","Trippie Redd Featuring YoungBoy Never Broke Again",84,0,84,1
+2019-12-07,"Reply","A Boogie Wit da Hoodie Featuring Lil Uzi Vert",85,49,49,2
+2019-12-07,"Tip Of My Tongue","Kenny Chesney",86,74,73,20
+2019-12-07,"Candy","Doja Cat",87,0,87,1
+2019-12-07,"Slow Dancing In The Dark","Joji",88,85,69,8
+2019-12-07,"None Of Your Concern","Jhene Aiko Featuring Big Sean",89,55,55,2
+2019-12-07,"Yellow Hearts","Ant Saunders",90,98,81,3
+2019-12-07,"Make No Sense","YoungBoy Never Broke Again",91,78,57,7
+2019-12-07,"Good Vibes","Chris Janson",92,84,48,13
+2019-12-07,"La Cancion","J Balvin & Bad Bunny",93,86,84,7
+2019-12-07,"Easy","DaniLeigh Featuring Chris Brown",94,88,88,4
+2019-12-07,"Cuban Links","Rod Wave & Kevin Gates",95,0,95,1
+2019-12-07,"Hot Girl Summer","Megan Thee Stallion, Nicki Minaj & Ty Dolla $ign",96,79,11,16
+2019-12-07,"Lonely Child","YoungBoy Never Broke Again",97,81,44,7
+2019-12-07,"Into The Unknown","Panic! At The Disco",98,0,98,1
+2019-12-07,"Show Yourself","Idina Menzel & Evan Rachel Wood",99,0,99,1
+2019-12-07,"Homesick","Kane Brown",100,95,95,2
+2019-12-28,"All I Want For Christmas Is You","Mariah Carey",1,1,1,36
+2019-12-28,"Rockin' Around The Christmas Tree","Brenda Lee",2,3,2,31
+2019-12-28,"Circles","Post Malone",3,2,1,16
+2019-12-28,"Roxanne","Arizona Zervas",4,6,4,7
+2019-12-28,"Futsal Shuffle 2020","Lil Uzi Vert",5,0,5,1
+2019-12-28,"A Holly Jolly Christmas","Burl Ives",6,10,6,14
+2019-12-28,"Memories","Maroon 5",7,7,4,13
+2019-12-28,"Someone You Loved","Lewis Capaldi",8,4,1,32
+2019-12-28,"Jingle Bell Rock","Bobby Helms",9,15,8,29
+2019-12-28,"Good As Hell","Lizzo",10,5,3,17
+2019-12-28,"Dance Monkey","Tones And I",11,9,9,11
+2019-12-28,"Lose You To Love Me","Selena Gomez",12,13,1,9
+2019-12-28,"10,000 Hours","Dan + Shay & Justin Bieber",13,14,4,11
+2019-12-28,"Ballin'","Mustard Featuring Roddy Ricch",14,18,14,22
+2019-12-28,"It's The Most Wonderful Time Of The Year","Andy Williams",15,20,10,14
+2019-12-28,"BOP","DaBaby",16,11,11,12
+2019-12-28,"Last Christmas","Wham!",17,26,17,13
+2019-12-28,"The Box","Roddy Ricch",18,47,18,2
+2019-12-28,"Bandit","Juice WRLD & YoungBoy Never Broke Again",19,12,10,11
+2019-12-28,"No Guidance","Chris Brown Featuring Drake",20,19,5,28
+2019-12-28,"Senorita","Shawn Mendes & Camila Cabello",21,16,1,26
+2019-12-28,"Lucid Dreams","Juice WRLD",22,8,2,48
+2019-12-28,"Feliz Navidad","Jose Feliciano",23,34,23,8
+2019-12-28,"Adore You","Harry Styles",24,35,24,2
+2019-12-28,"Bad Guy","Billie Eilish",25,21,1,38
+2019-12-28,"Heartless","The Weeknd",26,17,1,4
+2019-12-28,"HIGHEST IN THE ROOM","Travis Scott",27,25,1,11
+2019-12-28,"Let It Snow, Let It Snow, Let It Snow","Dean Martin",28,24,20,7
+2019-12-28,"Panini","Lil Nas X",29,22,5,26
+2019-12-28,"The Christmas Song (Merry Christmas To You)","Nat King Cole",30,32,11,20
+2019-12-28,"Hot","Young Thug Featuring Gunna",31,33,11,18
+2019-12-28,"Truth Hurts","Lizzo",32,23,1,33
+2019-12-28,"Trampoline","SHAED",33,27,13,29
+2019-12-28,"everything i wanted","Billie Eilish",34,30,8,6
+2019-12-28,"Woah","Lil Baby",35,28,16,6
+2019-12-28,"Rudolph The Red-Nosed Reindeer","Gene Autry",36,38,16,7
+2019-12-28,"Sleigh Ride","The Ronettes",37,37,26,6
+2019-12-28,"Falling","Trevor Daniel",38,36,36,5
+2019-12-28,"Ran$om","Lil Tecca",39,31,4,29
+2019-12-28,"Happy Holiday / The Holiday Season","Andy Williams",40,43,40,3
+2019-12-28,"Old Town Road","Lil Nas X Featuring Billy Ray Cyrus",41,39,1,42
+2019-12-28,"Don't Start Now","Dua Lipa",42,42,30,7
+2019-12-28,"No Idea","Don Toliver",43,76,43,3
+2019-12-28,"One Man Band","Old Dominion",44,41,20,17
+2019-12-28,"Only Human","Jonas Brothers",45,44,18,27
+2019-12-28,"On Chill","Wale Featuring Jeremih",46,45,22,19
+2019-12-28,"Here Comes Santa Claus (Right Down Santa Claus Lane)","Gene Autry",47,0,28,5
+2019-12-28,"Lover","Taylor Swift",48,40,10,18
+2019-12-28,"Even Though I'm Leaving","Luke Combs",49,46,11,16
+2019-12-28,"It's Beginning To Look A Lot Like Christmas","Perry Como And The Fontane Sisters With Mitchell Ayres And His Orchestra",50,0,35,3
+2019-12-28,"Hot Girl Bummer","blackbear",51,51,41,14
+2019-12-28,"Graveyard","Halsey",52,48,34,14
+2019-12-28,"Like It's Christmas","Jonas Brothers",53,61,53,3
+2019-12-28,"Watermelon Sugar","Harry Styles",54,92,54,4
+2019-12-28,"The Bones","Maren Morris",55,54,48,13
+2019-12-28,"Playing Games","Summer Walker",56,53,16,16
+2019-12-28,"Juicy","Doja Cat & Tyga",57,57,47,8
+2019-12-28,"Suicidal","YNW Melly",58,74,58,4
+2019-12-28,"Heat","Chris Brown Featuring Gunna",59,56,36,16
+2019-12-28,"VIBEZ","DaBaby",60,62,21,12
+2019-12-28,"My Oh My","Camila Cabello Featuring DaBaby",61,82,61,2
+2019-12-28,"Falling","Harry Styles",62,0,62,1
+2019-12-28,"Blinding Lights","The Weeknd",63,52,11,3
+2019-12-28,"Lights Up","Harry Styles",64,0,17,5
+2019-12-28,"Into The Unknown","Idina Menzel & AURORA",65,55,46,4
+2019-12-28,"Ridin' Roads","Dustin Lynch",66,68,66,7
+2019-12-28,"Dirty Iyanna","YoungBoy Never Broke Again",67,0,67,1
+2019-12-28,"What If I Never Get Over You","Lady Antebellum",68,70,47,17
+2019-12-28,"Start Wit Me","Roddy Ricch & Gunna",69,58,58,5
+2019-12-28,"Heart On Ice","Rod Wave",70,65,54,6
+2019-12-28,"Camelot","NLE Choppa",71,66,37,14
+2019-12-28,"Heartache Medication","Jon Pardi",72,71,67,12
+2019-12-28,"Remember You Young","Thomas Rhett",73,63,53,14
+2019-12-28,"Death","Trippie Redd Featuring DaBaby",74,64,59,5
+2019-12-28,"Hate Me","Ellie Goulding & Juice WRLD",75,60,56,19
+2019-12-28,"Take What You Want","Post Malone Featuring Ozzy Osbourne & Travis Scott",76,67,8,15
+2019-12-28,"Leave Em Alone","Layton Greene, Lil Baby, City Girls & PnB Rock",77,69,60,11
+2019-12-28,"Let Me Know (I Wonder Why Freestyle)","Juice WRLD",78,0,78,1
+2019-12-28,"Nobody But You","Blake Shelton Duet With Gwen Stefani",79,0,79,1
+2019-12-28,"Tip Toe","Roddy Ricch Featuring A Boogie Wit da Hoodie",80,73,73,3
+2019-12-28,"Kinfolks","Sam Hunt",81,77,62,10
+2019-12-28,"Nice To Meet Ya","Niall Horan",82,91,63,10
+2019-12-28,"Famous Hoes","NLE Choppa",83,0,83,1
+2019-12-28,"Cherry","Harry Styles",84,0,84,1
+2019-12-28,"Vete","Bad Bunny",85,75,33,4
+2019-12-28,"Golden","Harry Styles",86,0,86,1
+2019-12-28,"Prayed For You","Matt Stell",87,79,36,20
+2019-12-28,"Slow Dancing In The Dark","Joji",88,81,69,11
+2019-12-28,"RITMO (Bad Boys For Life)","The Black Eyed Peas X J Balvin",89,96,89,4
+2019-12-28,"Peta","Roddy Ricch Featuring Meek Mill",90,72,72,2
+2019-12-28,"223's","YNW Melly & 9lokknine",91,80,34,15
+2019-12-28,"BEST ON EARTH","Russ & BIA",92,100,92,2
+2019-12-28,"Baby Sitter","DaBaby Featuring Offset",93,84,59,19
+2019-12-28,"Candy","Doja Cat",94,86,86,4
+2019-12-28,"Yellow Hearts","Ant Saunders",95,95,81,6
+2019-12-28,"Homesick","Kane Brown",96,90,88,5
+2019-12-28,"Easy","DaniLeigh Featuring Chris Brown",97,89,88,7
+2019-12-28,"Enemies","Post Malone Featuring DaBaby",98,83,16,15
+2019-12-28,"She","Harry Styles",99,0,99,1
+2019-12-28,"6 Kiss","Trippie Redd Featuring Juice WRLD & YNW Melly",100,78,60,4
+2019-12-21,"All I Want For Christmas Is You","Mariah Carey",1,3,1,35
+2019-12-21,"Circles","Post Malone",2,2,1,15
+2019-12-21,"Rockin' Around The Christmas Tree","Brenda Lee",3,8,3,30
+2019-12-21,"Someone You Loved","Lewis Capaldi",4,4,1,31
+2019-12-21,"Good As Hell","Lizzo",5,6,3,16
+2019-12-21,"Roxanne","Arizona Zervas",6,7,5,6
+2019-12-21,"Memories","Maroon 5",7,5,4,12
+2019-12-21,"Lucid Dreams","Juice WRLD",8,0,2,47
+2019-12-21,"Dance Monkey","Tones And I",9,13,9,10
+2019-12-21,"A Holly Jolly Christmas","Burl Ives",10,18,10,13
+2019-12-21,"BOP","DaBaby",11,12,11,11
+2019-12-21,"Bandit","Juice WRLD & YoungBoy Never Broke Again",12,40,10,10
+2019-12-21,"Lose You To Love Me","Selena Gomez",13,9,1,8
+2019-12-21,"10,000 Hours","Dan + Shay & Justin Bieber",14,10,4,10
+2019-12-21,"Jingle Bell Rock","Bobby Helms",15,23,8,28
+2019-12-21,"Senorita","Shawn Mendes & Camila Cabello",16,15,1,25
+2019-12-21,"Heartless","The Weeknd",17,1,1,3
+2019-12-21,"Ballin'","Mustard Featuring Roddy Ricch",18,16,16,21
+2019-12-21,"No Guidance","Chris Brown Featuring Drake",19,14,5,27
+2019-12-21,"It's The Most Wonderful Time Of The Year","Andy Williams",20,24,10,13
+2019-12-21,"Bad Guy","Billie Eilish",21,21,1,37
+2019-12-21,"Panini","Lil Nas X",22,17,5,25
+2019-12-21,"Truth Hurts","Lizzo",23,22,1,32
+2019-12-21,"Let It Snow, Let It Snow, Let It Snow","Dean Martin",24,28,20,6
+2019-12-21,"HIGHEST IN THE ROOM","Travis Scott",25,20,1,10
+2019-12-21,"Last Christmas","Wham!",26,27,25,12
+2019-12-21,"Trampoline","SHAED",27,19,13,28
+2019-12-21,"Woah","Lil Baby",28,29,16,5
+2019-12-21,"Legends","Juice WRLD",29,0,29,3
+2019-12-21,"everything i wanted","Billie Eilish",30,25,8,5
+2019-12-21,"Ran$om","Lil Tecca",31,37,4,28
+2019-12-21,"The Christmas Song (Merry Christmas To You)","Nat King Cole",32,33,11,19
+2019-12-21,"Hot","Young Thug Featuring Gunna",33,26,11,17
+2019-12-21,"Feliz Navidad","Jose Feliciano",34,39,29,7
+2019-12-21,"Adore You","Harry Styles",35,0,35,1
+2019-12-21,"Falling","Trevor Daniel",36,41,36,4
+2019-12-21,"Sleigh Ride","The Ronettes",37,43,26,5
+2019-12-21,"Rudolph The Red-Nosed Reindeer","Gene Autry",38,44,16,6
+2019-12-21,"Old Town Road","Lil Nas X Featuring Billy Ray Cyrus",39,31,1,41
+2019-12-21,"Lover","Taylor Swift",40,32,10,17
+2019-12-21,"One Man Band","Old Dominion",41,30,20,16
+2019-12-21,"Don't Start Now","Dua Lipa",42,42,30,6
+2019-12-21,"Happy Holiday / The Holiday Season","Andy Williams",43,47,43,2
+2019-12-21,"Only Human","Jonas Brothers",44,34,18,26
+2019-12-21,"On Chill","Wale Featuring Jeremih",45,35,22,18
+2019-12-21,"Even Though I'm Leaving","Luke Combs",46,38,11,15
+2019-12-21,"The Box","Roddy Ricch",47,0,47,1
+2019-12-21,"Graveyard","Halsey",48,45,34,13
+2019-12-21,"Robbery","Juice WRLD",49,0,27,19
+2019-12-21,"Beautiful People","Ed Sheeran Featuring Khalid",50,36,13,24
+2019-12-21,"Hot Girl Bummer","blackbear",51,53,41,13
+2019-12-21,"Blinding Lights","The Weeknd",52,11,11,2
+2019-12-21,"Playing Games","Summer Walker",53,52,16,15
+2019-12-21,"The Bones","Maren Morris",54,57,48,12
+2019-12-21,"Into The Unknown","Idina Menzel & AURORA",55,46,46,3
+2019-12-21,"Heat","Chris Brown Featuring Gunna",56,55,36,15
+2019-12-21,"Juicy","Doja Cat & Tyga",57,56,47,7
+2019-12-21,"Start Wit Me","Roddy Ricch & Gunna",58,0,58,4
+2019-12-21,"Christmas Tree Farm","Taylor Swift",59,0,59,1
+2019-12-21,"Hate Me","Ellie Goulding & Juice WRLD",60,89,56,18
+2019-12-21,"Like It's Christmas","Jonas Brothers",61,72,61,2
+2019-12-21,"VIBEZ","DaBaby",62,61,21,11
+2019-12-21,"Remember You Young","Thomas Rhett",63,62,53,13
+2019-12-21,"Death","Trippie Redd Featuring DaBaby",64,64,59,4
+2019-12-21,"Heart On Ice","Rod Wave",65,59,54,5
+2019-12-21,"Camelot","NLE Choppa",66,73,37,13
+2019-12-21,"Take What You Want","Post Malone Featuring Ozzy Osbourne & Travis Scott",67,60,8,14
+2019-12-21,"Ridin' Roads","Dustin Lynch",68,69,68,6
+2019-12-21,"Leave Em Alone","Layton Greene, Lil Baby, City Girls & PnB Rock",69,65,60,10
+2019-12-21,"What If I Never Get Over You","Lady Antebellum",70,67,47,16
+2019-12-21,"Heartache Medication","Jon Pardi",71,71,67,11
+2019-12-21,"Peta","Roddy Ricch Featuring Meek Mill",72,0,72,1
+2019-12-21,"Tip Toe","Roddy Ricch Featuring A Boogie Wit da Hoodie",73,83,73,2
+2019-12-21,"Suicidal","YNW Melly",74,86,64,3
+2019-12-21,"Vete","Bad Bunny",75,63,33,3
+2019-12-21,"No Idea","Don Toliver",76,68,68,2
+2019-12-21,"Kinfolks","Sam Hunt",77,77,62,9
+2019-12-21,"6 Kiss","Trippie Redd Featuring Juice WRLD & YNW Melly",78,80,60,3
+2019-12-21,"Prayed For You","Matt Stell",79,75,36,19
+2019-12-21,"223's","YNW Melly & 9lokknine",80,74,34,14
+2019-12-21,"Slow Dancing In The Dark","Joji",81,87,69,10
+2019-12-21,"My Oh My","Camila Cabello Featuring DaBaby",82,0,82,1
+2019-12-21,"Enemies","Post Malone Featuring DaBaby",83,76,16,14
+2019-12-21,"Baby Sitter","DaBaby Featuring Offset",84,78,59,18
+2019-12-21,"Bad Vibes Forever","XXXTENTACION Featuring PnB Rock & Trippie Redd",85,0,85,1
+2019-12-21,"Candy","Doja Cat",86,94,86,3
+2019-12-21,"Empty","Juice WRLD",87,0,41,4
+2019-12-21,"We Back","Jason Aldean",88,81,78,4
+2019-12-21,"Easy","DaniLeigh Featuring Chris Brown",89,90,88,6
+2019-12-21,"Homesick","Kane Brown",90,88,88,4
+2019-12-21,"Nice To Meet Ya","Niall Horan",91,85,63,9
+2019-12-21,"Watermelon Sugar","Harry Styles",92,0,60,3
+2019-12-21,"Show Yourself","Idina Menzel & Evan Rachel Wood",93,70,70,3
+2019-12-21,"We Were","Keith Urban",94,66,65,15
+2019-12-21,"Yellow Hearts","Ant Saunders",95,84,81,5
+2019-12-21,"RITMO (Bad Boys For Life)","The Black Eyed Peas X J Balvin",96,98,96,3
+2019-12-21,"Lord Above","Fat Joe & Dre Featuring Eminem & Mary J. Blige",97,0,97,1
+2019-12-21,"Big Stepper","Roddy Ricch",98,0,98,1
+2019-12-21,"Cuban Links","Rod Wave & Kevin Gates",99,92,92,3
+2019-12-21,"BEST ON EARTH","Russ & BIA",100,0,100,1
+2019-12-14,"Heartless","The Weeknd",1,32,1,2
+2019-12-14,"Circles","Post Malone",2,1,1,14
+2019-12-14,"All I Want For Christmas Is You","Mariah Carey",3,18,3,34
+2019-12-14,"Someone You Loved","Lewis Capaldi",4,2,1,30
+2019-12-14,"Memories","Maroon 5",5,4,4,11
+2019-12-14,"Good As Hell","Lizzo",6,3,3,15
+2019-12-14,"Roxanne","Arizona Zervas",7,5,5,5
+2019-12-14,"Rockin' Around The Christmas Tree","Brenda Lee",8,29,8,29
+2019-12-14,"Lose You To Love Me","Selena Gomez",9,6,1,7
+2019-12-14,"10,000 Hours","Dan + Shay & Justin Bieber",10,8,4,9
+2019-12-14,"Blinding Lights","The Weeknd",11,0,11,1
+2019-12-14,"BOP","DaBaby",12,12,12,10
+2019-12-14,"Dance Monkey","Tones And I",13,11,11,9
+2019-12-14,"No Guidance","Chris Brown Featuring Drake",14,10,5,26
+2019-12-14,"Senorita","Shawn Mendes & Camila Cabello",15,7,1,24
+2019-12-14,"Ballin'","Mustard Featuring Roddy Ricch",16,16,16,20
+2019-12-14,"Panini","Lil Nas X",17,13,5,24
+2019-12-14,"A Holly Jolly Christmas","Burl Ives",18,48,10,12
+2019-12-14,"Trampoline","SHAED",19,17,13,27
+2019-12-14,"HIGHEST IN THE ROOM","Travis Scott",20,15,1,9
+2019-12-14,"Bad Guy","Billie Eilish",21,14,1,36
+2019-12-14,"Truth Hurts","Lizzo",22,9,1,31
+2019-12-14,"Jingle Bell Rock","Bobby Helms",23,47,8,27
+2019-12-14,"It's The Most Wonderful Time Of The Year","Andy Williams",24,49,10,12
+2019-12-14,"everything i wanted","Billie Eilish",25,26,8,4
+2019-12-14,"Hot","Young Thug Featuring Gunna",26,21,11,16
+2019-12-14,"Last Christmas","Wham!",27,46,25,11
+2019-12-14,"Let It Snow, Let It Snow, Let It Snow","Dean Martin",28,0,20,5
+2019-12-14,"Woah","Lil Baby",29,23,16,4
+2019-12-14,"One Man Band","Old Dominion",30,22,20,15
+2019-12-14,"Old Town Road","Lil Nas X Featuring Billy Ray Cyrus",31,20,1,40
+2019-12-14,"Lover","Taylor Swift",32,19,10,16
+2019-12-14,"The Christmas Song (Merry Christmas To You)","Nat King Cole",33,0,11,18
+2019-12-14,"Only Human","Jonas Brothers",34,24,18,25
+2019-12-14,"On Chill","Wale Featuring Jeremih",35,31,22,17
+2019-12-14,"Beautiful People","Ed Sheeran Featuring Khalid",36,27,13,23
+2019-12-14,"Ran$om","Lil Tecca",37,25,4,27
+2019-12-14,"Even Though I'm Leaving","Luke Combs",38,28,11,14
+2019-12-14,"Feliz Navidad","Jose Feliciano",39,0,29,6
+2019-12-14,"Bandit","Juice WRLD & YoungBoy Never Broke Again",40,30,10,9
+2019-12-14,"Falling","Trevor Daniel",41,42,41,3
+2019-12-14,"Don't Start Now","Dua Lipa",42,37,30,5
+2019-12-14,"Sleigh Ride","The Ronettes",43,0,26,4
+2019-12-14,"Rudolph The Red-Nosed Reindeer","Gene Autry",44,0,16,5
+2019-12-14,"Graveyard","Halsey",45,34,34,12
+2019-12-14,"Into The Unknown","Idina Menzel & AURORA",46,55,46,2
+2019-12-14,"Happy Holiday / The Holiday Season","Andy Williams",47,0,47,1
+2019-12-14,"Here Comes Santa Claus (Right Down Santa Claus Lane)","Gene Autry",48,0,28,4
+2019-12-14,"Talk","Khalid",49,36,3,43
+2019-12-14,"I Don't Care","Ed Sheeran & Justin Bieber",50,35,2,30
+2019-12-14,"Baby","Lil Baby & DaBaby",51,39,21,20
+2019-12-14,"Playing Games","Summer Walker",52,43,16,14
+2019-12-14,"Hot Girl Bummer","blackbear",53,45,41,12
+2019-12-14,"How Do You Sleep?","Sam Smith",54,40,24,20
+2019-12-14,"Heat","Chris Brown Featuring Gunna",55,38,36,14
+2019-12-14,"Juicy","Doja Cat & Tyga",56,51,47,6
+2019-12-14,"The Bones","Maren Morris",57,53,48,11
+2019-12-14,"Time","NF",58,54,41,20
+2019-12-14,"Heart On Ice","Rod Wave",59,56,54,4
+2019-12-14,"Take What You Want","Post Malone Featuring Ozzy Osbourne & Travis Scott",60,50,8,13
+2019-12-14,"VIBEZ","DaBaby",61,66,21,10
+2019-12-14,"Remember You Young","Thomas Rhett",62,62,53,12
+2019-12-14,"Vete","Bad Bunny",63,33,33,2
+2019-12-14,"Death","Trippie Redd Featuring DaBaby",64,59,59,3
+2019-12-14,"Leave Em Alone","Layton Greene, Lil Baby, City Girls & PnB Rock",65,67,60,9
+2019-12-14,"We Were","Keith Urban",66,68,65,14
+2019-12-14,"What If I Never Get Over You","Lady Antebellum",67,61,47,15
+2019-12-14,"No Idea","Don Toliver",68,0,68,1
+2019-12-14,"Ridin' Roads","Dustin Lynch",69,72,69,5
+2019-12-14,"Show Yourself","Idina Menzel & Evan Rachel Wood",70,99,70,2
+2019-12-14,"Heartache Medication","Jon Pardi",71,74,67,10
+2019-12-14,"Like It's Christmas","Jonas Brothers",72,0,72,1
+2019-12-14,"Camelot","NLE Choppa",73,65,37,12
+2019-12-14,"223's","YNW Melly & 9lokknine",74,57,34,13
+2019-12-14,"Prayed For You","Matt Stell",75,69,36,18
+2019-12-14,"Enemies","Post Malone Featuring DaBaby",76,71,16,13
+2019-12-14,"Kinfolks","Sam Hunt",77,70,62,8
+2019-12-14,"Baby Sitter","DaBaby Featuring Offset",78,75,59,17
+2019-12-14,"All The Good Girls Go To Hell","Billie Eilish",79,76,46,7
+2019-12-14,"6 Kiss","Trippie Redd Featuring Juice WRLD & YNW Melly",80,60,60,2
+2019-12-14,"We Back","Jason Aldean",81,78,78,3
+2019-12-14,"Who Needs Love","Trippie Redd",82,58,58,2
+2019-12-14,"Tip Toe","Roddy Ricch Featuring A Boogie Wit da Hoodie",83,0,83,1
+2019-12-14,"Yellow Hearts","Ant Saunders",84,90,81,4
+2019-12-14,"Nice To Meet Ya","Niall Horan",85,82,63,8
+2019-12-14,"Suicidal","YNW Melly",86,64,64,2
+2019-12-14,"Slow Dancing In The Dark","Joji",87,88,69,9
+2019-12-14,"Homesick","Kane Brown",88,100,88,3
+2019-12-14,"Hate Me","Ellie Goulding & Juice WRLD",89,73,56,17
+2019-12-14,"Easy","DaniLeigh Featuring Chris Brown",90,94,88,5
+2019-12-14,"Follow God","Kanye West",91,79,7,6
+2019-12-14,"Cuban Links","Rod Wave & Kevin Gates",92,95,92,2
+2019-12-14,"F.N","Lil Tjay",93,0,56,14
+2019-12-14,"Candy","Doja Cat",94,87,87,2
+2019-12-14,"Tusa","Karol G & Nicki Minaj",95,0,78,3
+2019-12-14,"Make No Sense","YoungBoy Never Broke Again",96,91,57,8
+2019-12-14,"Jerry Sprunger","Tory Lanez & T-Pain",97,80,44,4
+2019-12-14,"RITMO (Bad Boys For Life)","The Black Eyed Peas X J Balvin",98,0,98,2
+2019-12-14,"Into The Unknown","Panic! At The Disco",99,98,98,2
+2019-12-14,"La Cancion","J Balvin & Bad Bunny",100,93,84,8
