@@ -1,6 +1,6 @@
 # rwd-py-billboard
 
-Fetches Billboard charts data using the [Billboard Charts](https://github.com/guoguo12/billboard-charts) python package.
+Fetches Billboard charts data using the [Billboard Charts](https://github.com/guoguo12/billboard-charts) python package. There are notebooks to build an archive going back in time, and one to update a current year. Also some other explorations.
 
 ## Requirements
 
