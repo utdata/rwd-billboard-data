@@ -1,0 +1,45 @@
+---
+title: "Combine Billboard 200"
+output: html_notebook
+---
+
+There are too many flaws in the data to do this.
+
+```{r setup, echo=T, results='hide', message=F, warning=F}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(fs)
+
+```
+
+## Import the files
+
+```{r}
+# set up data import
+data_dir <- "../data"
+bb200_files <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-201")
+
+# peek at the captured file list
+bb200_files
+```
+
+```{r}
+df <- sapply(
+    bb200_files,
+    read_csv,
+    simplify = FALSE,
+    col_types = cols(
+      .default = col_character(),
+      new = col_skip()
+    )
+  ) %>% 
+  bind_rows()
+
+df %>% head()
+```
+```{r}
+df %>% 
+  count(new)
+```
+
