@@ -3,43 +3,116 @@ title: "Combine Billboard 200"
 output: html_notebook
 ---
 
-There are too many flaws in the data to do this.
+> There are flaws in the downloaded data so I'm in the process of manually fixing them.
 
 ```{r setup, echo=T, results='hide', message=F, warning=F}
 library(tidyverse)
 library(janitor)
 library(lubridate)
 library(fs)
-
 ```
 
 ## Import the files
 
+Setting up the files by decade so I can clean them manually.
+
 ```{r}
 # set up data import
-data_dir <- "../data"
-bb200_files <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-201")
+data_dir <- "../billboard-200-clean/"
+bb200_files <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200[^_]+.csv")
+bb200_files_1960s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-196\\d.csv")
+bb200_files_1970s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-197\\d.csv")
+bb200_files_1980s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-198\\d.csv")
+bb200_files_1990s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-199\\d.csv")
+bb200_files_2000s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-200\\d.csv")
+bb200_files_2010s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-201\\d.csv")
+bb200_files_2020s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-202\\d.csv")
 
 # peek at the captured file list
-bb200_files
+bb200_files_1960s
 ```
 
-```{r}
-df <- sapply(
-    bb200_files,
+
+## Build decades
+
+I do this so I can manually clean the files as I go along.
+
+> I'm working backward through the decades, stopping in 1990s.
+
+
+```{r build_1990s}
+df_1990s <- sapply(
+    bb200_files_1990s,
     read_csv,
     simplify = FALSE,
     col_types = cols(
-      .default = col_character(),
-      new = col_skip()
+      .default = col_character()
     )
   ) %>% 
   bind_rows()
 
-df %>% head()
-```
-```{r}
-df %>% 
-  count(new)
+df_1990s %>% glimpse()
 ```
 
+```{r build_2000s}
+df_2000s <- sapply(
+    bb200_files_2000s,
+    read_csv,
+    simplify = FALSE,
+    col_types = cols(
+      .default = col_character()
+    )
+  ) %>% 
+  bind_rows()
+
+df_2000s %>% glimpse()
+```
+
+
+```{r build_2010s}
+df_2010s <- sapply(
+    bb200_files_2010s,
+    read_csv,
+    simplify = FALSE,
+    col_types = cols(
+      .default = col_character()
+    )
+  ) %>% 
+  bind_rows()
+
+df_2010s %>% glimpse()
+```
+
+```{r build_2020s}
+df_2020s <- read_csv("../billboard-200-clean/billboard-200-2020.csv")
+
+df_2020s %>% glimpse()
+```
+
+
+
+## Build the combined file
+
+Since I've made collections for each decade, I should rewrite this to combine those dfs.
+
+
+```{r build}
+# df <- sapply(
+#     bb200_files,
+#     read_csv,
+#     simplify = FALSE,
+#     col_types = cols(
+#       .default = col_character(),
+#       new = col_skip()
+#     )
+#   ) %>% 
+#   bind_rows()
+# 
+# df %>% head()
+```
+
+  
+  
+  
+  
+  

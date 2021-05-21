@@ -24,4 +24,9 @@ Idea is to use the billboard api using the python package to create and keep upd
 
 I'll start with the Billboard Hot 100 as I use that in lessons. Previously I've used a [data.world](https://data.world/kcmillersean/billboard-hot-100-1958-2017) set, but it isn't regularly updated.
 
+## Billboard 200
+
+I've downloaded the data, but now I'm manually cleaning up some poor use of quotes since I'm not smart enough to do programmatically.
+
+
 

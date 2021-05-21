@@ -1797,7 +1797,9 @@ summary {
 
 
 <!-- rnb-text-begin -->
-<p>There are too many flaws in the data to do this.</p>
+<blockquote>
+<p>There are flaws in the downloaded data so I’m in the process of manually fixing them.</p>
+</blockquote>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGphbml0b3IpXG5saWJyYXJ5KGx1YnJpZGF0ZSlcbmxpYnJhcnkoZnMpXG5cbmBgYCJ9 -->
@@ -1811,128 +1813,271 @@ library(fs)
 <!-- rnb-text-begin -->
 <div id="import-the-files" class="section level2">
 <h2>Import the files</h2>
+<p>Setting up the files by decade so I can clean them manually.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzZXQgdXAgZGF0YSBpbXBvcnRcbmRhdGFfZGlyIDwtIFwiLi4vZGF0YVwiXG5iYjIwMF9maWxlcyA8LSBkaXJfbHMoZGF0YV9kaXIsIHJlY3Vyc2UgPSBUUlVFLCByZWdleHAgPSBcImJpbGxib2FyZC0yMDAtMjAxXCIpXG5cbiMgcGVlayBhdCB0aGUgY2FwdHVyZWQgZmlsZSBsaXN0XG5iYjIwMF9maWxlc1xuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzZXQgdXAgZGF0YSBpbXBvcnRcbmRhdGFfZGlyIDwtIFwiLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9cIlxuYmIyMDBfZmlsZXMgPC0gZGlyX2xzKGRhdGFfZGlyLCByZWN1cnNlID0gVFJVRSwgcmVnZXhwID0gXCJiaWxsYm9hcmQtMjAwW15fXSsuY3N2XCIpXG5iYjIwMF9maWxlc18xOTYwcyA8LSBkaXJfbHMoZGF0YV9kaXIsIHJlY3Vyc2UgPSBUUlVFLCByZWdleHAgPSBcImJpbGxib2FyZC0yMDAtMTk2XFxcXGQuY3N2XCIpXG5iYjIwMF9maWxlc18xOTcwcyA8LSBkaXJfbHMoZGF0YV9kaXIsIHJlY3Vyc2UgPSBUUlVFLCByZWdleHAgPSBcImJpbGxib2FyZC0yMDAtMTk3XFxcXGQuY3N2XCIpXG5iYjIwMF9maWxlc18xOTgwcyA8LSBkaXJfbHMoZGF0YV9kaXIsIHJlY3Vyc2UgPSBUUlVFLCByZWdleHAgPSBcImJpbGxib2FyZC0yMDAtMTk4XFxcXGQuY3N2XCIpXG5iYjIwMF9maWxlc18xOTkwcyA8LSBkaXJfbHMoZGF0YV9kaXIsIHJlY3Vyc2UgPSBUUlVFLCByZWdleHAgPSBcImJpbGxib2FyZC0yMDAtMTk5XFxcXGQuY3N2XCIpXG5iYjIwMF9maWxlc18yMDAwcyA8LSBkaXJfbHMoZGF0YV9kaXIsIHJlY3Vyc2UgPSBUUlVFLCByZWdleHAgPSBcImJpbGxib2FyZC0yMDAtMjAwXFxcXGQuY3N2XCIpXG5iYjIwMF9maWxlc18yMDEwcyA8LSBkaXJfbHMoZGF0YV9kaXIsIHJlY3Vyc2UgPSBUUlVFLCByZWdleHAgPSBcImJpbGxib2FyZC0yMDAtMjAxXFxcXGQuY3N2XCIpXG5iYjIwMF9maWxlc18yMDIwcyA8LSBkaXJfbHMoZGF0YV9kaXIsIHJlY3Vyc2UgPSBUUlVFLCByZWdleHAgPSBcImJpbGxib2FyZC0yMDAtMjAyXFxcXGQuY3N2XCIpXG5cbiMgcGVlayBhdCB0aGUgY2FwdHVyZWQgZmlsZSBsaXN0XG5iYjIwMF9maWxlc18xOTYwc1xuYGBgIn0= -->
 <pre class="r"><code># set up data import
-data_dir &lt;- &quot;../data&quot;
-bb200_files &lt;- dir_ls(data_dir, recurse = TRUE, regexp = &quot;billboard-200-201&quot;)
+data_dir &lt;- &quot;../billboard-200-clean/&quot;
+bb200_files &lt;- dir_ls(data_dir, recurse = TRUE, regexp = &quot;billboard-200[^_]+.csv&quot;)
+bb200_files_1960s &lt;- dir_ls(data_dir, recurse = TRUE, regexp = &quot;billboard-200-196\\d.csv&quot;)
+bb200_files_1970s &lt;- dir_ls(data_dir, recurse = TRUE, regexp = &quot;billboard-200-197\\d.csv&quot;)
+bb200_files_1980s &lt;- dir_ls(data_dir, recurse = TRUE, regexp = &quot;billboard-200-198\\d.csv&quot;)
+bb200_files_1990s &lt;- dir_ls(data_dir, recurse = TRUE, regexp = &quot;billboard-200-199\\d.csv&quot;)
+bb200_files_2000s &lt;- dir_ls(data_dir, recurse = TRUE, regexp = &quot;billboard-200-200\\d.csv&quot;)
+bb200_files_2010s &lt;- dir_ls(data_dir, recurse = TRUE, regexp = &quot;billboard-200-201\\d.csv&quot;)
+bb200_files_2020s &lt;- dir_ls(data_dir, recurse = TRUE, regexp = &quot;billboard-200-202\\d.csv&quot;)
 
 # peek at the captured file list
-bb200_files</code></pre>
+bb200_files_1960s</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTAuY3N2IC4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDExLmNzdiAuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxMi5jc3YgXG4uLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxMy5jc3YgLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTQuY3N2IC4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDE1LmNzdiBcbi4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDE2LmNzdiAuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxNy5jc3YgLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTguY3N2IFxuLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTkuY3N2IFxuIn0= -->
-<pre><code>../data/billboard-200-2010.csv ../data/billboard-200-2011.csv ../data/billboard-200-2012.csv 
-../data/billboard-200-2013.csv ../data/billboard-200-2014.csv ../data/billboard-200-2015.csv 
-../data/billboard-200-2016.csv ../data/billboard-200-2017.csv ../data/billboard-200-2018.csv 
-../data/billboard-200-2019.csv </code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5NjcuY3N2XG4uLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMTk2OC5jc3Zcbi4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTY5LmNzdlxuIn0= -->
+<pre><code>../billboard-200-clean/billboard-200-1967.csv
+../billboard-200-clean/billboard-200-1968.csv
+../billboard-200-clean/billboard-200-1969.csv</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="build-decades" class="section level2">
+<h2>Build decades</h2>
+<p>I do this so I can manually clean the files as I go along.</p>
+<blockquote>
+<p>I’m working backward through the decades, stopping in 1990s.</p>
+</blockquote>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYgPC0gc2FwcGx5KFxuICAgIGJiMjAwX2ZpbGVzLFxuICAgIHJlYWRfY3N2LFxuICAgIHNpbXBsaWZ5ID0gRkFMU0UsXG4gICAgY29sX3R5cGVzID0gY29scyhcbiAgICAgIC5kZWZhdWx0ID0gY29sX2NoYXJhY3RlcigpLFxuICAgICAgbmV3ID0gY29sX3NraXAoKVxuICAgIClcbiAgKSAlPiUgXG4gIGJpbmRfcm93cygpXG5gYGAifQ== -->
-<pre class="r"><code>df &lt;- sapply(
-    bb200_files,
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGZfMTk5MHMgPC0gc2FwcGx5KFxuICAgIGJiMjAwX2ZpbGVzXzE5OTBzLFxuICAgIHJlYWRfY3N2LFxuICAgIHNpbXBsaWZ5ID0gRkFMU0UsXG4gICAgY29sX3R5cGVzID0gY29scyhcbiAgICAgIC5kZWZhdWx0ID0gY29sX2NoYXJhY3RlcigpXG4gICAgKVxuICApICU+JSBcbiAgYmluZF9yb3dzKClcbmBgYCJ9 -->
+<pre class="r"><code>df_1990s &lt;- sapply(
+    bb200_files_1990s,
     read_csv,
     simplify = FALSE,
     col_types = cols(
-      .default = col_character(),
-      new = col_skip()
+      .default = col_character()
     )
   ) %&gt;% 
   bind_rows()</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiMjAgcGFyc2luZyBmYWlsdXJlcy5cbiByb3cgICAgY29sICAgICAgICAgICBleHBlY3RlZCAgICBhY3R1YWwgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZpbGVcbjMzODYgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSBUICAgICAgICAgJy4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDExLmNzdidcbjMzODYgTkEgICAgIDggY29sdW1ucyAgICAgICAgICA5IGNvbHVtbnMgJy4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDExLmNzdidcbjM0ODkgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSBIICAgICAgICAgJy4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDExLmNzdidcbjM0ODkgTkEgICAgIDggY29sdW1ucyAgICAgICAgICA5IGNvbHVtbnMgJy4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDExLmNzdidcbjM2MjMgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSBUICAgICAgICAgJy4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDExLmNzdidcbi4uLi4gLi4uLi4uIC4uLi4uLi4uLi4uLi4uLi4uLiAuLi4uLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi5cblNlZSBwcm9ibGVtcyguLi4pIGZvciBtb3JlIGRldGFpbHMuXG4zIHBhcnNpbmcgZmFpbHVyZXMuXG4gcm93ICAgY29sICAgICAgICAgICBleHBlY3RlZCAgICBhY3R1YWwgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZpbGVcbjU5ODAgdGl0bGUgZGVsaW1pdGVyIG9yIHF1b3RlIC4gICAgICAgICAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTIuY3N2J1xuNTk4MCB0aXRsZSBkZWxpbWl0ZXIgb3IgcXVvdGUgSiAgICAgICAgICcuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxMi5jc3YnXG41OTgwIE5BICAgIDggY29sdW1ucyAgICAgICAgICA3IGNvbHVtbnMgJy4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDEyLmNzdidcbjI0IHBhcnNpbmcgZmFpbHVyZXMuXG4gcm93ICAgIGNvbCAgICAgICAgICAgZXhwZWN0ZWQgYWN0dWFsICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaWxlXG4yMTg2IGFydGlzdCBkZWxpbWl0ZXIgb3IgcXVvdGUgICAgICBXICcuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxNC5jc3YnXG4yMTg2IGFydGlzdCBkZWxpbWl0ZXIgb3IgcXVvdGUgICAgICAgICcuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxNC5jc3YnXG4yMjg1IGFydGlzdCBkZWxpbWl0ZXIgb3IgcXVvdGUgICAgICBXICcuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxNC5jc3YnXG4yMjg1IGFydGlzdCBkZWxpbWl0ZXIgb3IgcXVvdGUgICAgICAgICcuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxNC5jc3YnXG4yNTI5IGFydGlzdCBkZWxpbWl0ZXIgb3IgcXVvdGUgICAgICBXICcuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxNC5jc3YnXG4uLi4uIC4uLi4uLiAuLi4uLi4uLi4uLi4uLi4uLi4gLi4uLi4uIC4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uXG5TZWUgcHJvYmxlbXMoLi4uKSBmb3IgbW9yZSBkZXRhaWxzLlxuOSBwYXJzaW5nIGZhaWx1cmVzLlxuIHJvdyAgICBjb2wgICAgICAgICAgIGV4cGVjdGVkIGFjdHVhbCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmlsZVxuMTE2MSBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgQiAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTUuY3N2J1xuMTE2MSBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgICAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTUuY3N2J1xuNzg1MiBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgSyAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTUuY3N2J1xuNzg1MiBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgICAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTUuY3N2J1xuODg0MCBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgTSAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTUuY3N2J1xuLi4uLiAuLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uIC4uLi4uLiAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLlxuU2VlIHByb2JsZW1zKC4uLikgZm9yIG1vcmUgZGV0YWlscy5cbjE2IHBhcnNpbmcgZmFpbHVyZXMuXG5yb3cgICBjb2wgICAgICAgICAgIGV4cGVjdGVkICAgIGFjdHVhbCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmlsZVxuIDIwIHRpdGxlIGRlbGltaXRlciBvciBxdW90ZSBBICAgICAgICAgJy4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDE2LmNzdidcbiAyMCB0aXRsZSBkZWxpbWl0ZXIgb3IgcXVvdGUgQyAgICAgICAgICcuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxNi5jc3YnXG4gMjAgTkEgICAgOCBjb2x1bW5zICAgICAgICAgIDcgY29sdW1ucyAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTYuY3N2J1xuMjA1IHRpdGxlIGRlbGltaXRlciBvciBxdW90ZSBBICAgICAgICAgJy4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDE2LmNzdidcbjIwNSB0aXRsZSBkZWxpbWl0ZXIgb3IgcXVvdGUgQyAgICAgICAgICcuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxNi5jc3YnXG4uLi4gLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uIC4uLi4uLi4uLiAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLlxuU2VlIHByb2JsZW1zKC4uLikgZm9yIG1vcmUgZGV0YWlscy5cbjE2NiBwYXJzaW5nIGZhaWx1cmVzLlxucm93ICAgY29sICAgICAgICAgICBleHBlY3RlZCAgICBhY3R1YWwgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZpbGVcbjE4NSB0aXRsZSBkZWxpbWl0ZXIgb3IgcXVvdGUgQSAgICAgICAgICcuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxNy5jc3YnXG4xODUgdGl0bGUgZGVsaW1pdGVyIG9yIHF1b3RlIEMgICAgICAgICAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTcuY3N2J1xuMTg1IE5BICAgIDggY29sdW1ucyAgICAgICAgICA3IGNvbHVtbnMgJy4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDE3LmNzdidcbjM4MSB0aXRsZSBkZWxpbWl0ZXIgb3IgcXVvdGUgQSAgICAgICAgICcuLi9kYXRhL2JpbGxib2FyZC0yMDAtMjAxNy5jc3YnXG4zODEgdGl0bGUgZGVsaW1pdGVyIG9yIHF1b3RlIEMgICAgICAgICAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTcuY3N2J1xuLi4uIC4uLi4uIC4uLi4uLi4uLi4uLi4uLi4uLiAuLi4uLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi5cblNlZSBwcm9ibGVtcyguLi4pIGZvciBtb3JlIGRldGFpbHMuXG43OCBwYXJzaW5nIGZhaWx1cmVzLlxuIHJvdyAgICBjb2wgICAgICAgICAgIGV4cGVjdGVkICAgIGFjdHVhbCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmlsZVxuMTU0MiBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlIEIgICAgICAgICAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTguY3N2J1xuMTU0MiBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgICAgICAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTguY3N2J1xuMTc3MyB0aXRsZSAgZGVsaW1pdGVyIG9yIHF1b3RlIEEgICAgICAgICAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTguY3N2J1xuMTc3MyB0aXRsZSAgZGVsaW1pdGVyIG9yIHF1b3RlIFUgICAgICAgICAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTguY3N2J1xuMTc3MyBOQSAgICAgOCBjb2x1bW5zICAgICAgICAgIDcgY29sdW1ucyAnLi4vZGF0YS9iaWxsYm9hcmQtMjAwLTIwMTguY3N2J1xuLi4uLiAuLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uIC4uLi4uLi4uLiAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLlxuU2VlIHByb2JsZW1zKC4uLikgZm9yIG1vcmUgZGV0YWlscy5cbjIgcGFyc2luZyBmYWlsdXJlcy5cbiByb3cgICAgY29sICAgICAgICAgICBleHBlY3RlZCBhY3R1YWwgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZpbGVcbjE1OTEgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgIEIgJy4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDE5LmNzdidcbjE1OTEgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgICAgJy4uL2RhdGEvYmlsbGJvYXJkLTIwMC0yMDE5LmNzdidcbiJ9 -->
-<pre><code>20 parsing failures.
- row    col           expected    actual                             file
-3386 artist delimiter or quote T         &#39;../data/billboard-200-2011.csv&#39;
-3386 NA     8 columns          9 columns &#39;../data/billboard-200-2011.csv&#39;
-3489 artist delimiter or quote H         &#39;../data/billboard-200-2011.csv&#39;
-3489 NA     8 columns          9 columns &#39;../data/billboard-200-2011.csv&#39;
-3623 artist delimiter or quote T         &#39;../data/billboard-200-2011.csv&#39;
-.... ...... .................. ......... ................................
-See problems(...) for more details.
-3 parsing failures.
- row   col           expected    actual                             file
-5980 title delimiter or quote .         &#39;../data/billboard-200-2012.csv&#39;
-5980 title delimiter or quote J         &#39;../data/billboard-200-2012.csv&#39;
-5980 NA    8 columns          7 columns &#39;../data/billboard-200-2012.csv&#39;
-24 parsing failures.
- row    col           expected actual                             file
-2186 artist delimiter or quote      W &#39;../data/billboard-200-2014.csv&#39;
-2186 artist delimiter or quote        &#39;../data/billboard-200-2014.csv&#39;
-2285 artist delimiter or quote      W &#39;../data/billboard-200-2014.csv&#39;
-2285 artist delimiter or quote        &#39;../data/billboard-200-2014.csv&#39;
-2529 artist delimiter or quote      W &#39;../data/billboard-200-2014.csv&#39;
-.... ...... .................. ...... ................................
-See problems(...) for more details.
-9 parsing failures.
- row    col           expected actual                             file
-1161 artist delimiter or quote      B &#39;../data/billboard-200-2015.csv&#39;
-1161 artist delimiter or quote        &#39;../data/billboard-200-2015.csv&#39;
-7852 artist delimiter or quote      K &#39;../data/billboard-200-2015.csv&#39;
-7852 artist delimiter or quote        &#39;../data/billboard-200-2015.csv&#39;
-8840 artist delimiter or quote      M &#39;../data/billboard-200-2015.csv&#39;
-.... ...... .................. ...... ................................
-See problems(...) for more details.
-16 parsing failures.
-row   col           expected    actual                             file
- 20 title delimiter or quote A         &#39;../data/billboard-200-2016.csv&#39;
- 20 title delimiter or quote C         &#39;../data/billboard-200-2016.csv&#39;
- 20 NA    8 columns          7 columns &#39;../data/billboard-200-2016.csv&#39;
-205 title delimiter or quote A         &#39;../data/billboard-200-2016.csv&#39;
-205 title delimiter or quote C         &#39;../data/billboard-200-2016.csv&#39;
-... ..... .................. ......... ................................
-See problems(...) for more details.
-166 parsing failures.
-row   col           expected    actual                             file
-185 title delimiter or quote A         &#39;../data/billboard-200-2017.csv&#39;
-185 title delimiter or quote C         &#39;../data/billboard-200-2017.csv&#39;
-185 NA    8 columns          7 columns &#39;../data/billboard-200-2017.csv&#39;
-381 title delimiter or quote A         &#39;../data/billboard-200-2017.csv&#39;
-381 title delimiter or quote C         &#39;../data/billboard-200-2017.csv&#39;
-... ..... .................. ......... ................................
+<!-- rnb-output-begin eyJkYXRhIjoiNTYgcGFyc2luZyBmYWlsdXJlcy5cbiByb3cgICBjb2wgICAgICAgICAgIGV4cGVjdGVkICAgIGFjdHVhbCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmlsZVxuMTE4OSB0aXRsZSBkZWxpbWl0ZXIgb3IgcXVvdGUgTSAgICAgICAgICcuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMTk5MC5jc3YnXG4xMTg5IHRpdGxlIGRlbGltaXRlciBvciBxdW90ZSBCICAgICAgICAgJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTkwLmNzdidcbjExODkgTkEgICAgOCBjb2x1bW5zICAgICAgICAgIDcgY29sdW1ucyAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTAuY3N2J1xuMTM0OSB0aXRsZSBkZWxpbWl0ZXIgb3IgcXVvdGUgTSAgICAgICAgICcuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMTk5MC5jc3YnXG4xMzQ5IHRpdGxlIGRlbGltaXRlciBvciBxdW90ZSBCICAgICAgICAgJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTkwLmNzdidcbi4uLi4gLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uIC4uLi4uLi4uLiAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLlxuU2VlIHByb2JsZW1zKC4uLikgZm9yIG1vcmUgZGV0YWlscy5cbjc4IHBhcnNpbmcgZmFpbHVyZXMuXG5yb3cgICBjb2wgICAgICAgICAgIGV4cGVjdGVkICAgIGFjdHVhbCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmlsZVxuIDIyIHRpdGxlIGRlbGltaXRlciBvciBxdW90ZSBGICAgICAgICAgJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTkxLmNzdidcbiAyMiB0aXRsZSBkZWxpbWl0ZXIgb3IgcXVvdGUgQiAgICAgICAgICcuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMTk5MS5jc3YnXG4gMjIgTkEgICAgOCBjb2x1bW5zICAgICAgICAgIDcgY29sdW1ucyAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTEuY3N2J1xuMjIyIHRpdGxlIGRlbGltaXRlciBvciBxdW90ZSBGICAgICAgICAgJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTkxLmNzdidcbjIyMiB0aXRsZSBkZWxpbWl0ZXIgb3IgcXVvdGUgQiAgICAgICAgICcuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMTk5MS5jc3YnXG4uLi4gLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uIC4uLi4uLi4uLiAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLlxuU2VlIHByb2JsZW1zKC4uLikgZm9yIG1vcmUgZGV0YWlscy5cbjEyMCBwYXJzaW5nIGZhaWx1cmVzLlxuIHJvdyAgICBjb2wgICAgICAgICAgIGV4cGVjdGVkIGFjdHVhbCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmlsZVxuIDE5MCBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgVyAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTIuY3N2J1xuIDE5MCBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgICAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTIuY3N2J1xuIDQwMCBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgVyAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTIuY3N2J1xuIDQwMCBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgICAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTIuY3N2J1xuMjE5MiBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgVyAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTIuY3N2J1xuLi4uLiAuLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uIC4uLi4uLiAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLlxuU2VlIHByb2JsZW1zKC4uLikgZm9yIG1vcmUgZGV0YWlscy5cbjIwIHBhcnNpbmcgZmFpbHVyZXMuXG5yb3cgICAgY29sICAgICAgICAgICBleHBlY3RlZCBhY3R1YWwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZpbGVcbiA1OCBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgVyAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTMuY3N2J1xuIDU4IGFydGlzdCBkZWxpbWl0ZXIgb3IgcXVvdGUgICAgICAgICcuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMTk5My5jc3YnXG4yNTggYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgIFcgJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTkzLmNzdidcbjI1OCBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgICAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTMuY3N2J1xuNDU2IGFydGlzdCBkZWxpbWl0ZXIgb3IgcXVvdGUgICAgICBXICcuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMTk5My5jc3YnXG4uLi4gLi4uLi4uIC4uLi4uLi4uLi4uLi4uLi4uLiAuLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi5cblNlZSBwcm9ibGVtcyguLi4pIGZvciBtb3JlIGRldGFpbHMuXG40OSBwYXJzaW5nIGZhaWx1cmVzLlxuIHJvdyAgICBjb2wgICAgICAgICAgIGV4cGVjdGVkIGFjdHVhbCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmlsZVxuIDU5OCBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgVyAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTQuY3N2J1xuIDU5OCBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgICAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTQuY3N2J1xuNjU4MyBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgQyAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTQuY3N2J1xuNjU4MyBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgICAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTQuY3N2J1xuNjc0NyBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgQyAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTQuY3N2J1xuLi4uLiAuLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uIC4uLi4uLiAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLlxuU2VlIHByb2JsZW1zKC4uLikgZm9yIG1vcmUgZGV0YWlscy5cbjgwIHBhcnNpbmcgZmFpbHVyZXMuXG5yb3cgICAgY29sICAgICAgICAgICBleHBlY3RlZCBhY3R1YWwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZpbGVcbiA5NSBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgVyAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTYuY3N2J1xuIDk1IGFydGlzdCBkZWxpbWl0ZXIgb3IgcXVvdGUgICAgICAgICcuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMTk5Ni5jc3YnXG4yOTcgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgIFcgJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTk2LmNzdidcbjI5NyBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgICAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTYuY3N2J1xuNTE2IGFydGlzdCBkZWxpbWl0ZXIgb3IgcXVvdGUgICAgICBXICcuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMTk5Ni5jc3YnXG4uLi4gLi4uLi4uIC4uLi4uLi4uLi4uLi4uLi4uLiAuLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi5cblNlZSBwcm9ibGVtcyguLi4pIGZvciBtb3JlIGRldGFpbHMuXG44OCBwYXJzaW5nIGZhaWx1cmVzLlxucm93ICAgIGNvbCAgICAgICAgICAgZXhwZWN0ZWQgYWN0dWFsICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaWxlXG4xMzkgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgIE0gJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTk3LmNzdidcbjEzOSBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgICAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTcuY3N2J1xuMzM3IGFydGlzdCBkZWxpbWl0ZXIgb3IgcXVvdGUgICAgICBNICcuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMTk5Ny5jc3YnXG4zMzcgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgICAgJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTk3LmNzdidcbjUxOSBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgTSAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTcuY3N2J1xuLi4uIC4uLi4uLiAuLi4uLi4uLi4uLi4uLi4uLi4gLi4uLi4uIC4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uXG5TZWUgcHJvYmxlbXMoLi4uKSBmb3IgbW9yZSBkZXRhaWxzLlxuMzAgcGFyc2luZyBmYWlsdXJlcy5cbiByb3cgICAgY29sICAgICAgICAgICBleHBlY3RlZCBhY3R1YWwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZpbGVcbjc1OTYgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgIE0gJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTk4LmNzdidcbjc1OTYgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgICAgJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTk4LmNzdidcbjc3NzIgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgIE0gJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTk4LmNzdidcbjc3NzIgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgICAgJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTk4LmNzdidcbjc5NjMgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgIE0gJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTk4LmNzdidcbi4uLi4gLi4uLi4uIC4uLi4uLi4uLi4uLi4uLi4uLiAuLi4uLi4gLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi5cblNlZSBwcm9ibGVtcyguLi4pIGZvciBtb3JlIGRldGFpbHMuXG45OCBwYXJzaW5nIGZhaWx1cmVzLlxucm93ICAgIGNvbCAgICAgICAgICAgZXhwZWN0ZWQgYWN0dWFsICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaWxlXG4xMjUgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgIFcgJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTk5LmNzdidcbjEyNSBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgICAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTkuY3N2J1xuMTkzIGFydGlzdCBkZWxpbWl0ZXIgb3IgcXVvdGUgICAgICBNICcuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMTk5OS5jc3YnXG4xOTMgYXJ0aXN0IGRlbGltaXRlciBvciBxdW90ZSAgICAgICAgJy4uL2JpbGxib2FyZC0yMDAtY2xlYW4vYmlsbGJvYXJkLTIwMC0xOTk5LmNzdidcbjMyNCBhcnRpc3QgZGVsaW1pdGVyIG9yIHF1b3RlICAgICAgVyAnLi4vYmlsbGJvYXJkLTIwMC1jbGVhbi9iaWxsYm9hcmQtMjAwLTE5OTkuY3N2J1xuLi4uIC4uLi4uLiAuLi4uLi4uLi4uLi4uLi4uLi4gLi4uLi4uIC4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uXG5TZWUgcHJvYmxlbXMoLi4uKSBmb3IgbW9yZSBkZXRhaWxzLlxuIn0= -->
+<pre><code>56 parsing failures.
+ row   col           expected    actual                                            file
+1189 title delimiter or quote M         &#39;../billboard-200-clean/billboard-200-1990.csv&#39;
+1189 title delimiter or quote B         &#39;../billboard-200-clean/billboard-200-1990.csv&#39;
+1189 NA    8 columns          7 columns &#39;../billboard-200-clean/billboard-200-1990.csv&#39;
+1349 title delimiter or quote M         &#39;../billboard-200-clean/billboard-200-1990.csv&#39;
+1349 title delimiter or quote B         &#39;../billboard-200-clean/billboard-200-1990.csv&#39;
+.... ..... .................. ......... ...............................................
 See problems(...) for more details.
 78 parsing failures.
- row    col           expected    actual                             file
-1542 artist delimiter or quote B         &#39;../data/billboard-200-2018.csv&#39;
-1542 artist delimiter or quote           &#39;../data/billboard-200-2018.csv&#39;
-1773 title  delimiter or quote A         &#39;../data/billboard-200-2018.csv&#39;
-1773 title  delimiter or quote U         &#39;../data/billboard-200-2018.csv&#39;
-1773 NA     8 columns          7 columns &#39;../data/billboard-200-2018.csv&#39;
-.... ...... .................. ......... ................................
+row   col           expected    actual                                            file
+ 22 title delimiter or quote F         &#39;../billboard-200-clean/billboard-200-1991.csv&#39;
+ 22 title delimiter or quote B         &#39;../billboard-200-clean/billboard-200-1991.csv&#39;
+ 22 NA    8 columns          7 columns &#39;../billboard-200-clean/billboard-200-1991.csv&#39;
+222 title delimiter or quote F         &#39;../billboard-200-clean/billboard-200-1991.csv&#39;
+222 title delimiter or quote B         &#39;../billboard-200-clean/billboard-200-1991.csv&#39;
+... ..... .................. ......... ...............................................
 See problems(...) for more details.
-2 parsing failures.
- row    col           expected actual                             file
-1591 artist delimiter or quote      B &#39;../data/billboard-200-2019.csv&#39;
-1591 artist delimiter or quote        &#39;../data/billboard-200-2019.csv&#39;</code></pre>
+120 parsing failures.
+ row    col           expected actual                                            file
+ 190 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1992.csv&#39;
+ 190 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1992.csv&#39;
+ 400 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1992.csv&#39;
+ 400 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1992.csv&#39;
+2192 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1992.csv&#39;
+.... ...... .................. ...... ...............................................
+See problems(...) for more details.
+20 parsing failures.
+row    col           expected actual                                            file
+ 58 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1993.csv&#39;
+ 58 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1993.csv&#39;
+258 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1993.csv&#39;
+258 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1993.csv&#39;
+456 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1993.csv&#39;
+... ...... .................. ...... ...............................................
+See problems(...) for more details.
+49 parsing failures.
+ row    col           expected actual                                            file
+ 598 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1994.csv&#39;
+ 598 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1994.csv&#39;
+6583 artist delimiter or quote      C &#39;../billboard-200-clean/billboard-200-1994.csv&#39;
+6583 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1994.csv&#39;
+6747 artist delimiter or quote      C &#39;../billboard-200-clean/billboard-200-1994.csv&#39;
+.... ...... .................. ...... ...............................................
+See problems(...) for more details.
+80 parsing failures.
+row    col           expected actual                                            file
+ 95 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1996.csv&#39;
+ 95 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1996.csv&#39;
+297 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1996.csv&#39;
+297 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1996.csv&#39;
+516 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1996.csv&#39;
+... ...... .................. ...... ...............................................
+See problems(...) for more details.
+88 parsing failures.
+row    col           expected actual                                            file
+139 artist delimiter or quote      M &#39;../billboard-200-clean/billboard-200-1997.csv&#39;
+139 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1997.csv&#39;
+337 artist delimiter or quote      M &#39;../billboard-200-clean/billboard-200-1997.csv&#39;
+337 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1997.csv&#39;
+519 artist delimiter or quote      M &#39;../billboard-200-clean/billboard-200-1997.csv&#39;
+... ...... .................. ...... ...............................................
+See problems(...) for more details.
+30 parsing failures.
+ row    col           expected actual                                            file
+7596 artist delimiter or quote      M &#39;../billboard-200-clean/billboard-200-1998.csv&#39;
+7596 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1998.csv&#39;
+7772 artist delimiter or quote      M &#39;../billboard-200-clean/billboard-200-1998.csv&#39;
+7772 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1998.csv&#39;
+7963 artist delimiter or quote      M &#39;../billboard-200-clean/billboard-200-1998.csv&#39;
+.... ...... .................. ...... ...............................................
+See problems(...) for more details.
+98 parsing failures.
+row    col           expected actual                                            file
+125 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1999.csv&#39;
+125 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1999.csv&#39;
+193 artist delimiter or quote      M &#39;../billboard-200-clean/billboard-200-1999.csv&#39;
+193 artist delimiter or quote        &#39;../billboard-200-clean/billboard-200-1999.csv&#39;
+324 artist delimiter or quote      W &#39;../billboard-200-clean/billboard-200-1999.csv&#39;
+... ...... .................. ...... ...............................................
+See problems(...) for more details.</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYgJT4lIGhlYWQoKVxuYGBgIn0= -->
-<pre class="r"><code>df %&gt;% head()</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGZfMTk5MHMgJT4lIGdsaW1wc2UoKVxuYGBgIn0= -->
+<pre class="r"><code>df_1990s %&gt;% glimpse()</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6N30sInJkZiI6Ikg0c0lBQUFBQUFBQUE3VlRVVy9UTUJCMnVxWlpNNGFHK0FOKzJBTklKR3JTQVJOdk1MWUJVc3RFaTdSWEwvVVdMNmxkMmM1SzN2YTdlVmpuZEw0TVhFMDhFY25KZDkvNXV6dWZMejgrbncvRDh4QWh0SVc2eUVOYnZvSEkvems5aVE0UjZuYU00UmxIdi9uK01wdGVHaENZdFdkV3p6ckNkSkFNb2lTTjByZi9rZms3NS9ZMHAvaVVYV3ByOXljTFNnbzhGa3RMN0orV2xIN0F6YlpScFZqMlpnMlBjc21VbmhPRlA1WVgxUnlDalFVZVVablYxbjd4SFg4UlpZM0g3Q3JYK05YeDJXdnIyRGxqdk1BbmtzMUk3UlMwTTZrVTRmaVRxRXRxcVdkVFVwZEM0c255c2M1d0lpbyswNUpraFdXNjAvaHJiUEh6YjRabkZCL2ZFSjdsQWtLUG1XSHhpSEZ5N1dUMUVnQXBnQ0dBQXdEUVRlL2R2OVd0YUxBUjcvQkpkZkowN3ZRUk9PcTJxdmNib21TREdUcXo2SE15cDhxR0RLQ1RNNktoOTc1bXVyMklIcEhhWEx1MWdxeVNrbkl3dHhlUzNqQlJLWWpTREJKRVdWSmFLQ2QzWDRwbERQbDN6ZXJjbXRkcXRmcnRGcG1WUkVHUlFJYW1TQkpmU3FNMzFwMGpDY1JDTThHTnFOUDhhYjRqOXFSRDdGVzhxV1FXWlhuRmkyaDQwR1JZK3grZVhZdDdmK0RnSVdkblpXUDUwQ1hLcnhodkcxaVNDMXJDWEpvanIwOGNMeVJyT3hjYVZzVmFhQUw3d2t5VXdLd1BoKzd1QVNWbUJ0eGhCQUFBIn0= -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["date"],"name":[1],"type":["chr"],"align":["left"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["artist"],"name":[3],"type":["chr"],"align":["left"]},{"label":["current"],"name":[4],"type":["chr"],"align":["left"]},{"label":["previous"],"name":[5],"type":["chr"],"align":["left"]},{"label":["peak"],"name":[6],"type":["chr"],"align":["left"]},{"label":["weeks"],"name":[7],"type":["chr"],"align":["left"]}],"data":[{"1":"2010-12-25","2":"The Gift","3":"Susan Boyle","4":"1","5":"1","6":"1","7":"5"},{"1":"2010-12-25","2":"Speak Now","3":"Taylor Swift","4":"2","5":"2","6":"1","7":"7"},{"1":"2010-12-25","2":"Glee: The Music, The Christmas Album","3":"Soundtrack","4":"3","5":"4","6":"3","7":"4"},{"1":"2010-12-25","2":"No Mercy","3":"T.I.","4":"4","5":"0","6":"4","7":"1"},{"1":"2010-12-25","2":"O Holy Night (EP)","3":"Jackie Evancho","4":"5","5":"3","6":"2","7":"4"},{"1":"2010-12-25","2":"Pink Friday","3":"Nicki Minaj","4":"6","5":"8","6":"2","7":"3"}],"options":{"columns":{"min":{},"max":[10],"total":[7]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTA0LDIwMFxuQ29sdW1uczogOFxuJCBkYXRlICAgICA8Y2hyPiBcIjE5OTAtMTItMjlcIiwgXCIxOTkwLTEyLTI5XCIsIFwiMTk5MC0xMi0yOVwiLCBcIjE5OTAtMTItMjlcIiwgXCIxOTkwLTEyLTI5XCLigKZcbiQgdGl0bGUgICAgPGNocj4gXCJUbyBUaGUgRXh0cmVtZVwiLCBcIlBsZWFzZSBIYW1tZXIgRG9uJ3QgSHVydCAnRW1cIiwgXCJUaGUgSW1tYWN1bGF0ZSBDb+KAplxuJCBhcnRpc3QgICA8Y2hyPiBcIlZhbmlsbGEgSWNlXCIsIFwiTS5DLiBIYW1tZXJcIiwgXCJNYWRvbm5hXCIsIFwiV2hpdG5leSBIb3VzdG9uXCIsIFwiTWFyaWFoIOKAplxuJCBjdXJyZW50ICA8Y2hyPiBcIjFcIiwgXCIyXCIsIFwiM1wiLCBcIjRcIiwgXCI1XCIsIFwiNlwiLCBcIjdcIiwgXCI4XCIsIFwiOVwiLCBcIjEwXCIsIFwiMTFcIiwgXCIxMlwiLCBcIjEzXCIs4oCmXG4kIHByZXZpb3VzIDxjaHI+IFwiMVwiLCBcIjJcIiwgXCIzXCIsIFwiNFwiLCBcIjVcIiwgXCI2XCIsIFwiN1wiLCBcIjhcIiwgXCI5XCIsIFwiMTBcIiwgXCIxMVwiLCBcIjEyXCIsIFwiMTNcIizigKZcbiQgcGVhayAgICAgPGNocj4gXCIxXCIsIFwiMVwiLCBcIjNcIiwgXCIzXCIsIFwiM1wiLCBcIjRcIiwgXCI3XCIsIFwiMlwiLCBcIjJcIiwgXCIyXCIsIFwiMTFcIiwgXCIxMlwiLCBcIjZcIiwgXCLigKZcbiQgd2Vla3MgICAgPGNocj4gXCIxNVwiLCBcIjQzXCIsIFwiNVwiLCBcIjZcIiwgXCIyN1wiLCBcIjlcIiwgXCIxMlwiLCBcIjM4XCIsIFwiMTNcIiwgXCIxNFwiLCBcIjdcIiwgXCI2XCIsIFwi4oCmXG4kIG5ldyAgICAgIDxjaHI+IFwiRmFsc2VcIiwgXCJGYWxzZVwiLCBcIkZhbHNlXCIsIFwiRmFsc2VcIiwgXCJGYWxzZVwiLCBcIkZhbHNlXCIsIFwiRmFsc2VcIiwgXCJGYWxz4oCmXG4ifQ== -->
+<pre><code>Rows: 104,200
+Columns: 8
+$ date     &lt;chr&gt; &quot;1990-12-29&quot;, &quot;1990-12-29&quot;, &quot;1990-12-29&quot;, &quot;1990-12-29&quot;, &quot;1990-12-29&quot;…
+$ title    &lt;chr&gt; &quot;To The Extreme&quot;, &quot;Please Hammer Don&#39;t Hurt &#39;Em&quot;, &quot;The Immaculate Co…
+$ artist   &lt;chr&gt; &quot;Vanilla Ice&quot;, &quot;M.C. Hammer&quot;, &quot;Madonna&quot;, &quot;Whitney Houston&quot;, &quot;Mariah …
+$ current  &lt;chr&gt; &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;12&quot;, &quot;13&quot;,…
+$ previous &lt;chr&gt; &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;12&quot;, &quot;13&quot;,…
+$ peak     &lt;chr&gt; &quot;1&quot;, &quot;1&quot;, &quot;3&quot;, &quot;3&quot;, &quot;3&quot;, &quot;4&quot;, &quot;7&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;11&quot;, &quot;12&quot;, &quot;6&quot;, &quot;…
+$ weeks    &lt;chr&gt; &quot;15&quot;, &quot;43&quot;, &quot;5&quot;, &quot;6&quot;, &quot;27&quot;, &quot;9&quot;, &quot;12&quot;, &quot;38&quot;, &quot;13&quot;, &quot;14&quot;, &quot;7&quot;, &quot;6&quot;, &quot;…
+$ new      &lt;chr&gt; &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;Fals…</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJucm93IjozLCJuY29sIjoyfSwicmRmIjoiSDRzSUFBQUFBQUFBQSsyY1RXZ2NaUmpIWjcveXNURTFiYUt4ZnE2TkdyVmtHeXVTaUFlMWpXbUo5aElqaHRRU0o3c1RYWjNzcExPekpub3dFWHBRRkJUQmo0dFdCSzFnQmV0QkQ0SW9RcWhnVVp1RGlGSVJiMUo3c1Y2RUpyNlRlZCsrLzJ3b1J0MDJNNXYvd20vM25abmYvSjlubnV4bXd4SjJzRy80MXZSdzJqQ01oSkUwWWtZaUpaWkc2b0doL3E1ZXcwakd4VVpNSEdqMEg2ZUYxQ29XL3M0V2VZWi9JTlZ2MmlWTGJpU0gzTElsSGhzWHhVMDhOaStKc1ptSERLTTlLVUltSzFKVFJYUENLc25FdU55WktGcFRxbXF4NG9SRzE1bktxcFA4OVBpc3VCUEZ6bFFtNTJ5enBKTFZ6blRlOU16c3VDdk9yOUFiSmwxbnpMWW1TdklxVTBGODdIUHhPQXU4b29uZEMrelJ4SlBBWnVBcjRGZE40Z1hnUTAxeUdKZ0NEbXRTM1VBUDBBdnNCNzRCZnRIVUpZQm5nY1BBMTVyNkFhQU1mQUlzYWhwMkFFOUtab0NqbXFVZnMyS0g1QUR3SlhCS2swNUpCb0RuZ1RlQll3Rk45Y0F1WUM5d1NQSWU4QzF3Um5OUkU3QVRtSlc4RE13Qjg1cm1KaUFqR1FGbWdZUEFEOEJ2QVJ1MkFIM0FLUEFPOEpIa2Q4M0ZMY0ROd05PUzE0Q1BnZStBUHpRdHV5V2p3QXp3S3ZBcHNCQ3djVGV3RDNnWE9CNndxUTFvQjZhQkg0RVRtdGEzZ084MWJUY0JKbkFRbUplYzFGeXlGWGdNZUZ2eUFmQ241dEx0d0Y1SkdmaEMwNTRBMmlWOXdJdkFjZURuZ01zMkF2dUE5eVh6d0NuTjV0dUFBNUlqd0p6bThoZ3dMRG1tdWVKdXlVSE5sVzJTRWMxVkhjQnB6ZFY1WUU1elRRZndPbkJDazNrT2VFTno3VER3REhCYXMyVVFlQmo0RFBoTDA1RURqbXF1MndxOEJKelVYSDhIY0VSelF4M3dGUENUcHZOTzRKRG14bnBnV3VPL2c0cjNRZm0yNmhVODIxcStvZDd1YWRDZ0VSMkQ5VmsvM00vUVdyaUd0YTdQRHFOZm54MUd2Lzc2TWxpZjlhT2FYdHYxbzN6ZE5HalFDS3V4L0pQQ1RYbkxMa3dVUE12Tk9HNW1mOW54ckg4ODB0aWJ5VGwyZWFKWVlnaERHTUlRaGpDRUlXc1JFdTN1T1FLT2dDUGdDR293Sk5yZGh5Y2sydDJISnlUYTNZY25KTnJkY3dRaENvbDI5K0VKaVhiM0hBRkRHTUpuT1VmQUVYQUU2MlFFMGU2ZUk0ajRDTlpmWVlZd2hDRU1ZUWhER0ZKYkljdi9vekUycEJiOVN1MnBxQmU3djNLeFVxbE95Z1VyRk5XVW9mOVQ2RUcxdU9jODk3S0tRdFdaUzVnS1ZlZkpVSjFDOTZsRkpnU2xxNXg3N3FjZFN3ZUxQVlY1aFZhbnUxWDBzb2F6VzBWM0krd3VpdDJ0TEIybVYwWFV1bHNQcFMvWVh3R3JTTm1wRm4zbnVkREtlYk0wUy8rNzB2L3BOVnVEcFVOMVVuV1VzNzgyZDBVaUpXTHREcXJGd05vWFlrck5weXovM0MvVG1jMXU4Nzg1ZU50WXdiYkhITlBOZDIzdjd1NjY1ZmFlN215dTlFUW5QWHIwNk5HalI0OGVQWHIwNk5HalI0OGVQWHIwNk5HalI0OGVQWHIwNk5HalI0OGVQWHIwNk5HalI0OGVQWHIwNk5HalI0OGVQWHIwNk5HalI0OGVQWHIwNk5HalI0OGVQWHIwNk5HcnNtY2s0NFlSWHpTV3ZnL0dTTW56RXE0enBaWTV4NWJMQm10NjBzcDVWbDV1MTVrNXIyeXFvOG54Z20wRmVRay9yMWtRbnhWM2k0c0xkd1g3azZwT1FpVjRZL1pvZmx5VkVsdHltZmFiem82NzVvU0lOQllDL0FnakpvMTZaOUlyT1A0MzJjUmJsem9Qa3RYaG1GdXhvNlZjTElxMGZGZnUwWEx4Y1RFQnY4clM4ZURXTE5jSldNZlBNWjQ2cS9oSW9haStUVHRsbTJPV2FueURtSnhmcDVTZGRBdEZUMTJPMkZ2S2VvNTNkbHBwTVZhMVIxN2czMmdIMTBDcm9BQUEifQ== -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["new"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"False","2":"98140"},{"1":"True","2":"5892"},{"1":"NA","2":"368"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[3]},"pages":{}}}
-  </script>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGZfMjAwMHMgPC0gc2FwcGx5KFxuICAgIGJiMjAwX2ZpbGVzXzIwMDBzLFxuICAgIHJlYWRfY3N2LFxuICAgIHNpbXBsaWZ5ID0gRkFMU0UsXG4gICAgY29sX3R5cGVzID0gY29scyhcbiAgICAgIC5kZWZhdWx0ID0gY29sX2NoYXJhY3RlcigpXG4gICAgKVxuICApICU+JSBcbiAgYmluZF9yb3dzKClcblxuZGZfMjAwMHMgJT4lIGdsaW1wc2UoKVxuYGBgIn0= -->
+<pre class="r"><code>df_2000s &lt;- sapply(
+    bb200_files_2000s,
+    read_csv,
+    simplify = FALSE,
+    col_types = cols(
+      .default = col_character()
+    )
+  ) %&gt;% 
+  bind_rows()
+
+df_2000s %&gt;% glimpse()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTA0LDQwMFxuQ29sdW1uczogOFxuJCBkYXRlICAgICA8Y2hyPiBcIjIwMDAtMTItMzBcIiwgXCIyMDAwLTEyLTMwXCIsIFwiMjAwMC0xMi0zMFwiLCBcIjIwMDAtMTItMzBcIiwgXCIyMDAwLTEyLTMwXCLigKZcbiQgdGl0bGUgICAgPGNocj4gXCIxXCIsIFwiQmxhY2sgJiBCbHVlXCIsIFwiTm93IDVcIiwgXCJIdW1hbiBDbGF5XCIsIFwiT29wcyEuLi5JIERpZCBJdCBBZ2Fpblwi4oCmXG4kIGFydGlzdCAgIDxjaHI+IFwiVGhlIEJlYXRsZXNcIiwgXCJCYWNrc3RyZWV0IEJveXNcIiwgXCJWYXJpb3VzIEFydGlzdHNcIiwgXCJDcmVlZFwiLCBcIkJyaXRu4oCmXG4kIGN1cnJlbnQgIDxjaHI+IFwiMVwiLCBcIjJcIiwgXCIzXCIsIFwiNFwiLCBcIjVcIiwgXCI2XCIsIFwiN1wiLCBcIjhcIiwgXCI5XCIsIFwiMTBcIiwgXCIxMVwiLCBcIjEyXCIsIFwiMTNcIizigKZcbiQgcHJldmlvdXMgPGNocj4gXCIxXCIsIFwiMlwiLCBcIjNcIiwgXCI0XCIsIFwiNVwiLCBcIjZcIiwgXCIxMVwiLCBcIjhcIiwgXCIxMFwiLCBcIjdcIiwgXCI5XCIsIFwiMTJcIiwgXCIxOFwiLOKAplxuJCBwZWFrICAgICA8Y2hyPiBcIjFcIiwgXCIxXCIsIFwiMlwiLCBcIjFcIiwgXCIxXCIsIFwiNFwiLCBcIjdcIiwgXCIxXCIsIFwiMVwiLCBcIjdcIiwgXCI1XCIsIFwiM1wiLCBcIjFcIiwgXCIxNOKAplxuJCB3ZWVrcyAgICA8Y2hyPiBcIjVcIiwgXCI0XCIsIFwiNVwiLCBcIjY0XCIsIFwiMzFcIiwgXCI0XCIsIFwiMTlcIiwgXCI5XCIsIFwiMzlcIiwgXCI5XCIsIFwiMTlcIiwgXCI1XCIsIFwiNTjigKZcbiQgbmV3ICAgICAgPGNocj4gXCJGYWxzZVwiLCBcIkZhbHNlXCIsIFwiRmFsc2VcIiwgXCJGYWxzZVwiLCBcIkZhbHNlXCIsIFwiRmFsc2VcIiwgXCJGYWxzZVwiLCBcIkZhbHPigKZcbiJ9 -->
+<pre><code>Rows: 104,400
+Columns: 8
+$ date     &lt;chr&gt; &quot;2000-12-30&quot;, &quot;2000-12-30&quot;, &quot;2000-12-30&quot;, &quot;2000-12-30&quot;, &quot;2000-12-30&quot;…
+$ title    &lt;chr&gt; &quot;1&quot;, &quot;Black &amp; Blue&quot;, &quot;Now 5&quot;, &quot;Human Clay&quot;, &quot;Oops!...I Did It Again&quot;…
+$ artist   &lt;chr&gt; &quot;The Beatles&quot;, &quot;Backstreet Boys&quot;, &quot;Various Artists&quot;, &quot;Creed&quot;, &quot;Britn…
+$ current  &lt;chr&gt; &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;12&quot;, &quot;13&quot;,…
+$ previous &lt;chr&gt; &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;11&quot;, &quot;8&quot;, &quot;10&quot;, &quot;7&quot;, &quot;9&quot;, &quot;12&quot;, &quot;18&quot;,…
+$ peak     &lt;chr&gt; &quot;1&quot;, &quot;1&quot;, &quot;2&quot;, &quot;1&quot;, &quot;1&quot;, &quot;4&quot;, &quot;7&quot;, &quot;1&quot;, &quot;1&quot;, &quot;7&quot;, &quot;5&quot;, &quot;3&quot;, &quot;1&quot;, &quot;14…
+$ weeks    &lt;chr&gt; &quot;5&quot;, &quot;4&quot;, &quot;5&quot;, &quot;64&quot;, &quot;31&quot;, &quot;4&quot;, &quot;19&quot;, &quot;9&quot;, &quot;39&quot;, &quot;9&quot;, &quot;19&quot;, &quot;5&quot;, &quot;58…
+$ new      &lt;chr&gt; &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;Fals…</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGZfMjAxMHMgPC0gc2FwcGx5KFxuICAgIGJiMjAwX2ZpbGVzXzIwMTBzLFxuICAgIHJlYWRfY3N2LFxuICAgIHNpbXBsaWZ5ID0gRkFMU0UsXG4gICAgY29sX3R5cGVzID0gY29scyhcbiAgICAgIC5kZWZhdWx0ID0gY29sX2NoYXJhY3RlcigpXG4gICAgKVxuICApICU+JSBcbiAgYmluZF9yb3dzKClcblxuZGZfMjAxMHMgJT4lIGdsaW1wc2UoKVxuYGBgIn0= -->
+<pre class="r"><code>df_2010s &lt;- sapply(
+    bb200_files_2010s,
+    read_csv,
+    simplify = FALSE,
+    col_types = cols(
+      .default = col_character()
+    )
+  ) %&gt;% 
+  bind_rows()
+
+df_2010s %&gt;% glimpse()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTA0LDYwMFxuQ29sdW1uczogOFxuJCBkYXRlICAgICA8Y2hyPiBcIjIwMTAtMTItMjVcIiwgXCIyMDEwLTEyLTI1XCIsIFwiMjAxMC0xMi0yNVwiLCBcIjIwMTAtMTItMjVcIiwgXCIyMDEwLTEyLTI1XCLigKZcbiQgdGl0bGUgICAgPGNocj4gXCJUaGUgR2lmdFwiLCBcIlNwZWFrIE5vd1wiLCBcIkdsZWU6IFRoZSBNdXNpYywgVGhlIENocmlzdG1hcyBBbGJ1bVwiLCBcIk5v4oCmXG4kIGFydGlzdCAgIDxjaHI+IFwiU3VzYW4gQm95bGVcIiwgXCJUYXlsb3IgU3dpZnRcIiwgXCJTb3VuZHRyYWNrXCIsIFwiVC5JLlwiLCBcIkphY2tpZSBFdmFuY2hv4oCmXG4kIGN1cnJlbnQgIDxjaHI+IFwiMVwiLCBcIjJcIiwgXCIzXCIsIFwiNFwiLCBcIjVcIiwgXCI2XCIsIFwiN1wiLCBcIjhcIiwgXCI5XCIsIFwiMTBcIiwgXCIxMVwiLCBcIjEyXCIsIFwiMTNcIizigKZcbiQgcHJldmlvdXMgPGNocj4gXCIxXCIsIFwiMlwiLCBcIjRcIiwgXCIwXCIsIFwiM1wiLCBcIjhcIiwgXCI5XCIsIFwiNVwiLCBcIjEwXCIsIFwiMFwiLCBcIjE0XCIsIFwiMTFcIiwgXCIxNlwiLOKAplxuJCBwZWFrICAgICA8Y2hyPiBcIjFcIiwgXCIxXCIsIFwiM1wiLCBcIjRcIiwgXCIyXCIsIFwiMlwiLCBcIjRcIiwgXCI1XCIsIFwiM1wiLCBcIjEwXCIsIFwiMlwiLCBcIjdcIiwgXCI2XCIsIFwiMeKAplxuJCB3ZWVrcyAgICA8Y2hyPiBcIjVcIiwgXCI3XCIsIFwiNFwiLCBcIjFcIiwgXCI0XCIsIFwiM1wiLCBcIjRcIiwgXCIyXCIsIFwiNFwiLCBcIjFcIiwgXCIxNlwiLCBcIjNcIiwgXCI0XCIsIFwiM+KAplxuJCBuZXcgICAgICA8Y2hyPiBcIkZhbHNlXCIsIFwiRmFsc2VcIiwgXCJGYWxzZVwiLCBcIlRydWVcIiwgXCJGYWxzZVwiLCBcIkZhbHNlXCIsIFwiRmFsc2VcIiwgXCJGYWxzZeKAplxuIn0= -->
+<pre><code>Rows: 104,600
+Columns: 8
+$ date     &lt;chr&gt; &quot;2010-12-25&quot;, &quot;2010-12-25&quot;, &quot;2010-12-25&quot;, &quot;2010-12-25&quot;, &quot;2010-12-25&quot;…
+$ title    &lt;chr&gt; &quot;The Gift&quot;, &quot;Speak Now&quot;, &quot;Glee: The Music, The Christmas Album&quot;, &quot;No…
+$ artist   &lt;chr&gt; &quot;Susan Boyle&quot;, &quot;Taylor Swift&quot;, &quot;Soundtrack&quot;, &quot;T.I.&quot;, &quot;Jackie Evancho…
+$ current  &lt;chr&gt; &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;12&quot;, &quot;13&quot;,…
+$ previous &lt;chr&gt; &quot;1&quot;, &quot;2&quot;, &quot;4&quot;, &quot;0&quot;, &quot;3&quot;, &quot;8&quot;, &quot;9&quot;, &quot;5&quot;, &quot;10&quot;, &quot;0&quot;, &quot;14&quot;, &quot;11&quot;, &quot;16&quot;,…
+$ peak     &lt;chr&gt; &quot;1&quot;, &quot;1&quot;, &quot;3&quot;, &quot;4&quot;, &quot;2&quot;, &quot;2&quot;, &quot;4&quot;, &quot;5&quot;, &quot;3&quot;, &quot;10&quot;, &quot;2&quot;, &quot;7&quot;, &quot;6&quot;, &quot;1…
+$ weeks    &lt;chr&gt; &quot;5&quot;, &quot;7&quot;, &quot;4&quot;, &quot;1&quot;, &quot;4&quot;, &quot;3&quot;, &quot;4&quot;, &quot;2&quot;, &quot;4&quot;, &quot;1&quot;, &quot;16&quot;, &quot;3&quot;, &quot;4&quot;, &quot;3…
+$ new      &lt;chr&gt; &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;True&quot;, &quot;False&quot;, &quot;False&quot;, &quot;False&quot;, &quot;False…</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGZfMjAyMHMgPC0gcmVhZF9jc3YoXCIuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMjAyMC5jc3ZcIilcbmBgYCJ9 -->
+<pre class="r"><code>df_2020s &lt;- read_csv(&quot;../billboard-200-clean/billboard-200-2020.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG7ilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5jb2xzKFxuICBkYXRlID0gY29sX2RhdGUoZm9ybWF0ID0gXCJcIiksXG4gIHRpdGxlID0gY29sX2NoYXJhY3RlcigpLFxuICBhcnRpc3QgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGN1cnJlbnQgPSBjb2xfZG91YmxlKCksXG4gIHByZXZpb3VzID0gY29sX2RvdWJsZSgpLFxuICBwZWFrID0gY29sX2RvdWJsZSgpLFxuICB3ZWVrcyA9IGNvbF9kb3VibGUoKSxcbiAgbmV3ID0gY29sX2xvZ2ljYWwoKVxuKVxuIn0= -->
+<pre><code>
+── Column specification ────────────────────────────────────────────────────────────────
+cols(
+  date = col_date(format = &quot;&quot;),
+  title = col_character(),
+  artist = col_character(),
+  current = col_double(),
+  previous = col_double(),
+  peak = col_double(),
+  weeks = col_double(),
+  new = col_logical()
+)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGZfMjAyMHMgJT4lIGdsaW1wc2UoKVxuYGBgIn0= -->
+<pre class="r"><code>df_2020s %&gt;% glimpse()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTAsNDAwXG5Db2x1bW5zOiA4XG4kIGRhdGUgICAgIDxkYXRlPiAyMDIwLTEyLTI2LCAyMDIwLTEyLTI2LCAyMDIwLTEyLTI2LCAyMDIwLTEyLTI2LCAyMDIwLTEyLTI2LCAyMDIwLTEy4oCmXG4kIHRpdGxlICAgIDxjaHI+IFwiRXZlcm1vcmVcIiwgXCJNYW4gT24gVGhlIE1vb24gSUlJOiBUaGUgQ2hvc2VuXCIsIFwiRm9sa2xvcmVcIiwgXCJDaHJpc3RtYeKAplxuJCBhcnRpc3QgICA8Y2hyPiBcIlRheWxvciBTd2lmdFwiLCBcIktpZCBDdWRpXCIsIFwiVGF5bG9yIFN3aWZ0XCIsIFwiTWljaGFlbCBCdWJsZVwiLCBcIkphY2sgSOKAplxuJCBjdXJyZW50ICA8ZGJsPiAxLCAyLCAzLCA0LCA1LCA2LCA3LCA4LCA5LCAxMCwgMTEsIDEyLCAxMywgMTQsIDE1LCAxNiwgMTcsIDE4LCAxOSwgMuKAplxuJCBwcmV2aW91cyA8ZGJsPiAwLCAwLCAxMSwgNCwgMCwgNSwgNiwgNywgMiwgMTAsIDMsIDE0LCA4LCAxOSwgOSwgMTUsIDIwLCAxMywgMTgsIDEyLOKAplxuJCBwZWFrICAgICA8ZGJsPiAxLCAyLCAxLCAxLCA1LCA1LCAxLCA3LCAxLCAzLCAxLCAxMiwgNywgMSwgMiwgMSwgMTIsIDEsIDEsIDIsIDMsIDEsIOKAplxuJCB3ZWVrcyAgICA8ZGJsPiAxLCAxLCAyMSwgODksIDEsIDEyLCAyNCwgNTUsIDMsIDk4LCA3LCA4NywgMTcsIDUzLCA0LCA1OCwgMTQsIDIzLCA0LOKAplxuJCBuZXcgICAgICA8bGdsPiBUUlVFLCBUUlVFLCBGQUxTRSwgRkFMU0UsIFRSVUUsIEZBTFNFLCBGQUxTRSwgRkFMU0UsIEZBTFNFLCBGQUxTRSwgRuKAplxuIn0= -->
+<pre><code>Rows: 10,400
+Columns: 8
+$ date     &lt;date&gt; 2020-12-26, 2020-12-26, 2020-12-26, 2020-12-26, 2020-12-26, 2020-12…
+$ title    &lt;chr&gt; &quot;Evermore&quot;, &quot;Man On The Moon III: The Chosen&quot;, &quot;Folklore&quot;, &quot;Christma…
+$ artist   &lt;chr&gt; &quot;Taylor Swift&quot;, &quot;Kid Cudi&quot;, &quot;Taylor Swift&quot;, &quot;Michael Buble&quot;, &quot;Jack H…
+$ current  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2…
+$ previous &lt;dbl&gt; 0, 0, 11, 4, 0, 5, 6, 7, 2, 10, 3, 14, 8, 19, 9, 15, 20, 13, 18, 12,…
+$ peak     &lt;dbl&gt; 1, 2, 1, 1, 5, 5, 1, 7, 1, 3, 1, 12, 7, 1, 2, 1, 12, 1, 1, 2, 3, 1, …
+$ weeks    &lt;dbl&gt; 1, 1, 21, 89, 1, 12, 24, 55, 3, 98, 7, 87, 17, 53, 4, 58, 14, 23, 4,…
+$ new      &lt;lgl&gt; TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, F…</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<!-- rnb-frame-end -->
+<div id="build-the-combined-file" class="section level2">
+<h2>Build the combined file</h2>
+<p>Since I’ve made collections for each decade, I should rewrite this to combine those dfs.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBkZiA8LSBzYXBwbHkoXG4jICAgICBiYjIwMF9maWxlcyxcbiMgICAgIHJlYWRfY3N2LFxuIyAgICAgc2ltcGxpZnkgPSBGQUxTRSxcbiMgICAgIGNvbF90eXBlcyA9IGNvbHMoXG4jICAgICAgIC5kZWZhdWx0ID0gY29sX2NoYXJhY3RlcigpLFxuIyAgICAgICBuZXcgPSBjb2xfc2tpcCgpXG4jICAgICApXG4jICAgKSAlPiUgXG4jICAgYmluZF9yb3dzKClcbiMgXG4jIGRmICU+JSBoZWFkKClcbmBgYCJ9 -->
+<pre class="r"><code># df &lt;- sapply(
+#     bb200_files,
+#     read_csv,
+#     simplify = FALSE,
+#     col_types = cols(
+#       .default = col_character(),
+#       new = col_skip()
+#     )
+#   ) %&gt;% 
+#   bind_rows()
+# 
+# df %&gt;% head()</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29tYmluZSBCaWxsYm9hcmQgMjAwIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpUaGVyZSBhcmUgdG9vIG1hbnkgZmxhd3MgaW4gdGhlIGRhdGEgdG8gZG8gdGhpcy4KCmBgYHtyIHNldHVwLCBlY2hvPVQsIHJlc3VsdHM9J2hpZGUnLCBtZXNzYWdlPUYsIHdhcm5pbmc9Rn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoamFuaXRvcikKbGlicmFyeShsdWJyaWRhdGUpCmxpYnJhcnkoZnMpCgpgYGAKCiMjIEltcG9ydCB0aGUgZmlsZXMKCmBgYHtyfQojIHNldCB1cCBkYXRhIGltcG9ydApkYXRhX2RpciA8LSAiLi4vZGF0YSIKYmIyMDBfZmlsZXMgPC0gZGlyX2xzKGRhdGFfZGlyLCByZWN1cnNlID0gVFJVRSwgcmVnZXhwID0gImJpbGxib2FyZC0yMDAtMjAxIikKCiMgcGVlayBhdCB0aGUgY2FwdHVyZWQgZmlsZSBsaXN0CmJiMjAwX2ZpbGVzCmBgYAoKYGBge3J9CmRmIDwtIHNhcHBseSgKICAgIGJiMjAwX2ZpbGVzLAogICAgcmVhZF9jc3YsCiAgICBzaW1wbGlmeSA9IEZBTFNFLAogICAgY29sX3R5cGVzID0gY29scygKICAgICAgLmRlZmF1bHQgPSBjb2xfY2hhcmFjdGVyKCksCiAgICAgIG5ldyA9IGNvbF9za2lwKCkKICAgICkKICApICU+JSAKICBiaW5kX3Jvd3MoKQoKZGYgJT4lIGhlYWQoKQpgYGAKYGBge3J9CmRmICU+JSAKICBjb3VudChuZXcpCmBgYAoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29tYmluZSBCaWxsYm9hcmQgMjAwIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgo+IFRoZXJlIGFyZSBmbGF3cyBpbiB0aGUgZG93bmxvYWRlZCBkYXRhIHNvIEknbSBpbiB0aGUgcHJvY2VzcyBvZiBtYW51YWxseSBmaXhpbmcgdGhlbS4KCmBgYHtyIHNldHVwLCBlY2hvPVQsIHJlc3VsdHM9J2hpZGUnLCBtZXNzYWdlPUYsIHdhcm5pbmc9Rn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoamFuaXRvcikKbGlicmFyeShsdWJyaWRhdGUpCmxpYnJhcnkoZnMpCmBgYAoKIyMgSW1wb3J0IHRoZSBmaWxlcwoKU2V0dGluZyB1cCB0aGUgZmlsZXMgYnkgZGVjYWRlIHNvIEkgY2FuIGNsZWFuIHRoZW0gbWFudWFsbHkuCgpgYGB7cn0KIyBzZXQgdXAgZGF0YSBpbXBvcnQKZGF0YV9kaXIgPC0gIi4uL2JpbGxib2FyZC0yMDAtY2xlYW4vIgpiYjIwMF9maWxlcyA8LSBkaXJfbHMoZGF0YV9kaXIsIHJlY3Vyc2UgPSBUUlVFLCByZWdleHAgPSAiYmlsbGJvYXJkLTIwMFteX10rLmNzdiIpCmJiMjAwX2ZpbGVzXzE5NjBzIDwtIGRpcl9scyhkYXRhX2RpciwgcmVjdXJzZSA9IFRSVUUsIHJlZ2V4cCA9ICJiaWxsYm9hcmQtMjAwLTE5NlxcZC5jc3YiKQpiYjIwMF9maWxlc18xOTcwcyA8LSBkaXJfbHMoZGF0YV9kaXIsIHJlY3Vyc2UgPSBUUlVFLCByZWdleHAgPSAiYmlsbGJvYXJkLTIwMC0xOTdcXGQuY3N2IikKYmIyMDBfZmlsZXNfMTk4MHMgPC0gZGlyX2xzKGRhdGFfZGlyLCByZWN1cnNlID0gVFJVRSwgcmVnZXhwID0gImJpbGxib2FyZC0yMDAtMTk4XFxkLmNzdiIpCmJiMjAwX2ZpbGVzXzE5OTBzIDwtIGRpcl9scyhkYXRhX2RpciwgcmVjdXJzZSA9IFRSVUUsIHJlZ2V4cCA9ICJiaWxsYm9hcmQtMjAwLTE5OVxcZC5jc3YiKQpiYjIwMF9maWxlc18yMDAwcyA8LSBkaXJfbHMoZGF0YV9kaXIsIHJlY3Vyc2UgPSBUUlVFLCByZWdleHAgPSAiYmlsbGJvYXJkLTIwMC0yMDBcXGQuY3N2IikKYmIyMDBfZmlsZXNfMjAxMHMgPC0gZGlyX2xzKGRhdGFfZGlyLCByZWN1cnNlID0gVFJVRSwgcmVnZXhwID0gImJpbGxib2FyZC0yMDAtMjAxXFxkLmNzdiIpCmJiMjAwX2ZpbGVzXzIwMjBzIDwtIGRpcl9scyhkYXRhX2RpciwgcmVjdXJzZSA9IFRSVUUsIHJlZ2V4cCA9ICJiaWxsYm9hcmQtMjAwLTIwMlxcZC5jc3YiKQoKIyBwZWVrIGF0IHRoZSBjYXB0dXJlZCBmaWxlIGxpc3QKYmIyMDBfZmlsZXNfMTk2MHMKYGBgCgoKIyMgQnVpbGQgZGVjYWRlcwoKSSBkbyB0aGlzIHNvIEkgY2FuIG1hbnVhbGx5IGNsZWFuIHRoZSBmaWxlcyBhcyBJIGdvIGFsb25nLgoKPiBJJ20gd29ya2luZyBiYWNrd2FyZCB0aHJvdWdoIHRoZSBkZWNhZGVzLCBzdG9wcGluZyBpbiAxOTkwcy4KCgpgYGB7ciBidWlsZF8xOTkwc30KZGZfMTk5MHMgPC0gc2FwcGx5KAogICAgYmIyMDBfZmlsZXNfMTk5MHMsCiAgICByZWFkX2NzdiwKICAgIHNpbXBsaWZ5ID0gRkFMU0UsCiAgICBjb2xfdHlwZXMgPSBjb2xzKAogICAgICAuZGVmYXVsdCA9IGNvbF9jaGFyYWN0ZXIoKQogICAgKQogICkgJT4lIAogIGJpbmRfcm93cygpCgpkZl8xOTkwcyAlPiUgZ2xpbXBzZSgpCmBgYAoKYGBge3IgYnVpbGRfMjAwMHN9CmRmXzIwMDBzIDwtIHNhcHBseSgKICAgIGJiMjAwX2ZpbGVzXzIwMDBzLAogICAgcmVhZF9jc3YsCiAgICBzaW1wbGlmeSA9IEZBTFNFLAogICAgY29sX3R5cGVzID0gY29scygKICAgICAgLmRlZmF1bHQgPSBjb2xfY2hhcmFjdGVyKCkKICAgICkKICApICU+JSAKICBiaW5kX3Jvd3MoKQoKZGZfMjAwMHMgJT4lIGdsaW1wc2UoKQpgYGAKCgpgYGB7ciBidWlsZF8yMDEwc30KZGZfMjAxMHMgPC0gc2FwcGx5KAogICAgYmIyMDBfZmlsZXNfMjAxMHMsCiAgICByZWFkX2NzdiwKICAgIHNpbXBsaWZ5ID0gRkFMU0UsCiAgICBjb2xfdHlwZXMgPSBjb2xzKAogICAgICAuZGVmYXVsdCA9IGNvbF9jaGFyYWN0ZXIoKQogICAgKQogICkgJT4lIAogIGJpbmRfcm93cygpCgpkZl8yMDEwcyAlPiUgZ2xpbXBzZSgpCmBgYAoKYGBge3IgYnVpbGRfMjAyMHN9CmRmXzIwMjBzIDwtIHJlYWRfY3N2KCIuLi9iaWxsYm9hcmQtMjAwLWNsZWFuL2JpbGxib2FyZC0yMDAtMjAyMC5jc3YiKQoKZGZfMjAyMHMgJT4lIGdsaW1wc2UoKQpgYGAKCgoKIyMgQnVpbGQgdGhlIGNvbWJpbmVkIGZpbGUKClNpbmNlIEkndmUgbWFkZSBjb2xsZWN0aW9ucyBmb3IgZWFjaCBkZWNhZGUsIEkgc2hvdWxkIHJld3JpdGUgdGhpcyB0byBjb21iaW5lIHRob3NlIGRmcy4KCgpgYGB7ciBidWlsZH0KIyBkZiA8LSBzYXBwbHkoCiMgICAgIGJiMjAwX2ZpbGVzLAojICAgICByZWFkX2NzdiwKIyAgICAgc2ltcGxpZnkgPSBGQUxTRSwKIyAgICAgY29sX3R5cGVzID0gY29scygKIyAgICAgICAuZGVmYXVsdCA9IGNvbF9jaGFyYWN0ZXIoKSwKIyAgICAgICBuZXcgPSBjb2xfc2tpcCgpCiMgICAgICkKIyAgICkgJT4lIAojICAgYmluZF9yb3dzKCkKIyAKIyBkZiAlPiUgaGVhZCgpCmBgYAoKICAKICAKICAKICAKICA=</div>
 
 
 
