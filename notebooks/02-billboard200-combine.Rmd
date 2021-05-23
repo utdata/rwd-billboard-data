@@ -1,0 +1,162 @@
+---
+title: "Combine Billboard 200"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+---
+
+This notebook was used to manually clean and combine the Billboard 200 chart data downloaded using the python-based `01-build-archive-billboard200.ipynb` notebook.
+
+As I attempted to import the files, would find errors and the manually fix them in VS Code. The cleaned files are in the `data-process` directory to preserve the original downloaded files in `data`. The combined files is output to `data-out`.
+
+I recognize manually cleaning the data is not ideal. I did so because I couldn't think of a way to find the problem and then fix them without first pulling them into R or Pandas anyway when it was already too late to fix the dropped data. I'm also not skilled in that arena.
+
+(It might be possible to write a single regex that could clean most errors, and it is worth exploring that further to find a programattic way to solve.)
+
+```{r setup, echo=T, results='hide', message=F, warning=F}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(fs)
+library(purrr)
+```
+
+## Import the files
+
+Setting up lists of files by decade so I can clean them manually.
+
+```{r}
+# set up data import
+data_dir <- "../data-process/billboard-200/"
+bb200_files <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200[^_]+.csv")
+bb200_files_1960s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-196\\d.csv")
+bb200_files_1970s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-197\\d.csv")
+bb200_files_1980s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-198\\d.csv")
+bb200_files_1990s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-199\\d.csv")
+bb200_files_2000s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-200\\d.csv")
+bb200_files_2010s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-201\\d.csv")
+bb200_files_2020s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-202\\d.csv")
+
+# peek at the captured file list
+bb200_files_1960s
+```
+
+## Build decades
+
+For each decade imported the files then looked through error messages to then go and fix the files manually.  I organized by decade just to chunk the challenges. I had started changing only one file at a time, but realized that whatever problems I found needed to be applied to all the files in the directory, which I was able to do with VS Code. The results here show the cleaned dataframes since that was a one-time thing.
+
+```{r build_1960s, message=FALSE}
+df_1960s <- sapply(
+    bb200_files_1960s,
+    read_csv,
+    simplify = FALSE,
+    # col_types = cols(
+    #   .default = col_character()
+    # )
+  ) %>% 
+  bind_rows()
+
+df_1960s %>% glimpse()
+```
+
+```{r build_1970s, message=FALSE}
+df_1970s <- sapply(
+    bb200_files_1970s,
+    read_csv,
+    simplify = FALSE,
+  ) %>% 
+  bind_rows()
+
+df_1970s %>% glimpse()
+```
+
+```{r build_1980s, message=FALSE}
+df_1980s <- sapply(
+    bb200_files_1980s,
+    read_csv,
+    simplify = FALSE,
+  ) %>% 
+  bind_rows()
+
+df_1980s %>% glimpse()
+```
+
+```{r build_1990s, message=FALSE}
+df_1990s <- sapply(
+    bb200_files_1990s,
+    read_csv,
+    simplify = FALSE,
+  ) %>% 
+  bind_rows()
+
+df_1990s %>% glimpse()
+```
+
+```{r build_2000s, message=FALSE}
+df_2000s <- sapply(
+    bb200_files_2000s,
+    read_csv,
+    simplify = FALSE,
+  ) %>% 
+  bind_rows()
+
+df_2000s %>% glimpse()
+```
+
+```{r build_2010s, message=FALSE}
+df_2010s <- sapply(
+    bb200_files_2010s,
+    read_csv,
+    simplify = FALSE,
+  ) %>% 
+  bind_rows()
+
+df_2010s %>% glimpse()
+```
+
+### 2020 is a bit different
+
+At this writing I only have one 2020s year so it is a straight import.
+
+```{r build_2020s, message=TRUE}
+df_2020s <- read_csv("../data-process/billboard-200/billboard-200-2020.csv")
+
+df_2020s %>% glimpse()
+```
+
+## Build the combined file
+
+Since I have each decade it a dataframe through cleaning, I just combine those.
+
+```{r bind}
+df <- bind_rows(
+  df_1960s,
+  df_1970s,
+  df_1980s,
+  df_1990s,
+  df_2000s,
+  df_2010s,
+  df_2020s,
+)
+```
+
+## Export combined file
+
+```{r export}
+df %>% 
+  write_csv("../data-out/billboard200.csv")
+
+df %>% 
+  write_rds("../data-out/billboard200.rds")
+```
+
+  
+  
+  
+  
+  
