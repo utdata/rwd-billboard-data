@@ -28,15 +28,16 @@ Weekly Hot 100 singles chart between 8/2/1958 through 2020 as pulled from [data.
 This is commented once done.
 
 ```{r download}
-# df <- read.csv("https://query.data.world/s/zshes27odrcz75zgjts35bpyfwurnf", header=TRUE, stringsAsFactors=FALSE);
+df <- read.csv("https://query.data.world/s/zshes27odrcz75zgjts35bpyfwurnf", header=TRUE, stringsAsFactors=FALSE);
 
-# df %>% write_rds("../data-process/hot-100/hot100.rds")
+df %>% write_rds("../data-process/hot-100/hot100-orig.rds")
+df %>% write_csv("../data-process/hot-100/hot100-orig.csv")
 ```
 
 ### Import
 
 ```{r import}
-hot100 <- read_rds("../data-process/hot-100/hot100.rds") %>% clean_names()
+hot100 <- read_rds("../data-process/hot-100/hot100-orig.rds") %>% clean_names()
 
 hot100 %>% glimpse()
 ```
