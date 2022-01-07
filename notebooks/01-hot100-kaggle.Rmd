@@ -1,0 +1,59 @@
+---
+title: "Billboard Hot 100 from Kaggle"
+output:
+  html_document:
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+---
+
+## About this notebook
+
+My current source of Billboard Hot 100 data on data.world is has not been updating, but there is another archive on [Kaggle](https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs) that I'm now exploring.
+
+### Thoughts for further development
+
+Perhaps this [kaggler](https://github.com/mkearney/kaggler) package can help if I explore it.
+
+## Setup
+
+```{r setup, echo=T, results='hide', message=F, warning=F}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+```
+
+
+## Import
+
+I'd like to find a way to import directly from Kaggle but have not explored that yet. As such files have been manually downlaoded.
+
+```{r import}
+raw <- read_csv("../data-download/charts_kaggle_20220106.csv") %>% 
+  clean_names()
+
+raw %>% glimpse()
+```
+
+
+Descriptions of the columns:
+
+| column_name    | datatype | column_desc                          |
+|----------------|----------|--------------------------------------|
+| date           | date     | Date of chart                        |
+| rank           | int      | Rank of song                         |
+| song           | str      | Song title                           |
+| artist         | str      | Song artist                          |
+| last_week      | int      | Rank in previous week                |
+| peak_rank      | int      | Top rank achieved by the song        |
+| weeks_on_board | int      | Weeks the song appeared on the chart |
+
+
+The data is very clean ... not much to do here. It has all the things we use in class. In fact, it may be too clean as we don't have to mess with dates or anything.
+
+## Export
+
+```{r export}
+raw %>% write_rds("../data-process/hot-100/hot100-kaggle.rds")
+raw %>% write_csv("../data-process/hot-100/hot100-kaggle.csv")
+```
+

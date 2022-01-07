@@ -73,6 +73,13 @@ hot100_tight <- hot100_date %>%
 hot100_tight %>% glimpse()
 ```
 
+## Summary
+
+```{r}
+hot100_tight %>% summary()
+```
+
+
 ## Export the cleaned data
 
 ```{r}
