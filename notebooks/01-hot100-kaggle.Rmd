@@ -10,6 +10,10 @@ knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = e
 
 My current source of Billboard Hot 100 data on data.world is has not been updating, but there is another archive on [Kaggle](https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs) that I'm now exploring.
 
+As of 2022-01-08 the Kaggle data was missing the last several weeks of 2021. I've scrapped that data (See notebooks/01-hot100-dataminer for details) and we will append it here.
+
+We'll also rename the columns to match our existing exercises.
+
 ### Thoughts for further development
 
 Perhaps this [kaggler](https://github.com/mkearney/kaggler) package can help if I explore it.
@@ -25,13 +29,13 @@ library(lubridate)
 
 ## Import
 
-I'd like to find a way to import directly from Kaggle but have not explored that yet. As such files have been manually downlaoded.
+I'd like to find a way to import directly from Kaggle but have not explored that yet. As such files have been manually downloaded.
 
 ```{r import}
-raw <- read_csv("../data-download/charts_kaggle_20220106.csv") %>% 
+hot100_k_raw <- read_csv("../data-download/charts_kaggle_20220106.csv") %>% 
   clean_names()
 
-raw %>% glimpse()
+hot100_k_raw %>% glimpse()
 ```
 
 
@@ -50,10 +54,21 @@ Descriptions of the columns:
 
 The data is very clean ... not much to do here. It has all the things we use in class. In fact, it may be too clean as we don't have to mess with dates or anything.
 
+## Update with gap data
+
+```{r import-gap}
+gap <- read_rds("../data-process/hot-100/hot100-kaggle-gap2021.rds")
+```
+
+```{r bind}
+hot100_k <- hot100_k_raw %>% 
+  bind_rows(gap)
+```
+
 ## Export
 
 ```{r export}
-raw %>% write_rds("../data-process/hot-100/hot100-kaggle.rds")
-raw %>% write_csv("../data-process/hot-100/hot100-kaggle.csv")
+hot100_k %>% write_rds("../data-process/hot-100/hot100-kaggle.rds")
+hot100_k %>% write_csv("../data-process/hot-100/hot100-kaggle.csv")
 ```
 
