@@ -84,7 +84,7 @@ hot100_muck <- hot100_k %>%
     `CHART WEEK` = chart_week,
     `THIS WEEK` = rank,
     `SONG` = song,
-    `ARTIST` = artist,
+    `PERFORMER` = artist,
     `LAST WEEK` = last_week,
     `PEAK POS.` = peak_rank,
     `WKS ON CHART` = weeks_on_board
