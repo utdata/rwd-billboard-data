@@ -171,41 +171,42 @@ pre code {
 
 <div id="rwd-billboard-data" class="section level1">
 <h1>rwd-billboard-data</h1>
-<p>This project fetches Billboard charts data using the <a href="https://github.com/guoguo12/billboard-charts">Billboard Charts</a> python package. <strong>The resulting files are problematic. Quoted words within titles and songs are not escaped, breaking the csv conventions.</strong></p>
-<ul>
-<li>January 2022 update: New problems with the python package: Does not include previousDate so loops don’t work.</li>
-<li>I tried to pull my own Hot 100 data, but the API quit responding around 1997 and older and there was the quote problem, too.</li>
-<li>When the above failed, I downloaded from data.world and did come cleaning.</li>
-<li>I did pull the Billboard 200 data through the API as far back as possible, but then manually cleaned the quotes while building the R notebook <code>02-billboard-combine.Rmd</code>. There is a clean version of the combined files in <code>data-process</code>.</li>
-</ul>
+<p>This project deals with Billboard charts data in various ways.</p>
 <div id="notebooks" class="section level2">
 <h2>Notebooks</h2>
 <ul>
-<li><a href="https://utdata.github.io/rwd-billboard-data/01-hot100-clean.html">01-hot100-clean</a> is an R notebook that downloads Hot 100 data from data.world and cleans it for use in assignments. It is the data used since the following process did not work. This data has not been updated for 2021 (as of 2022-01-06) so it may be deprecated as well.</li>
-<li><a href="https://utdata.github.io/rwd-billboard-data/01-hot100-kaggle.html">01-hot100-kaggle</a> is an R notebook that uses data downloaded from Kaggle: <a href="https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs">Billboard “The Hot 100” Songs</a>. It imports cleanly with <code>read_csv()</code> so there is really no reason for this, but I do export into the <code>data-process</code> directory. So far, this is updated through November 2021 … so, one more month and it would be usable for Spring 2022.</li>
+<li><a href="https://utdata.github.io/rwd-billboard-data/01-hot100-clean.html">01-hot100-clean</a> downloads Hot 100 data from data.world and cleans it for use in assignments. As of 2022-01-10 this data hasn’t been updated since June 2021 so it may be deprecated.</li>
+<li><code>01-hot100-dataminer</code> downloads some manually scraped data to support this next notebook …</li>
+<li><a href="https://utdata.github.io/rwd-billboard-data/02-hot100-kaggle.html">02-hot100-kaggle</a> is an R notebook that uses data downloaded from Kaggle: <a href="https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs">Billboard “The Hot 100” Songs</a>. As of 2022-01-10 it was only updated through 2021-11-08 so I manually scraped the last six weeks and append it here. <strong>This makes the data current through 2021</strong>. See notebook for more details.</li>
 </ul>
-<div id="deprecated" class="section level3">
-<h3>Deprecated</h3>
+</div>
+<div id="deprecated" class="section level2">
+<h2>Deprecated</h2>
+<p>I tried to build my own week-by-week archive using the <a href="https://github.com/guoguo12/billboard-charts">Billboard Charts</a> python package. <strong>The resulting files are problematic. Quoted words within titles and songs are not escaped, breaking csv conventions.</strong></p>
+<blockquote>
+<p>January 2022 update: New problems with the python package: Does not include previousDate so loops don’t work. So basically this is all crap below.</p>
+</blockquote>
+<div id="hot-100-archive" class="section level3">
+<h3>Hot 100 Archive</h3>
 <ul>
-<li>01-build-archive-billboard200 is a python Jupyter Notebook that downloads the files one year at a time. The resulting files are saved in <code>data</code>.</li>
-<li><a href="https://utdata.github.io/rwd-billboard-data/02-billboard200-combine.html">02-billboard200-combine</a> is an R notebook used to combine the data. I used this notebook to find problems and then manually clean files, which are stored in <code>data-clean</code>. Combined data is in <code>data-out</code>.</li>
+<li>I tried to pull my own Hot 100 data, but the API quit responding around 1997 and older and there was the quote problem, too.</li>
 <li>01-build-archive-hot100 is a python Jupyter Notebook that downloads Hot 100 charts from Billboard in an attempt to build my own original data. It stopped working on older years and had other isseus, so I now use the data from 01-hott100-clean instead.</li>
 </ul>
 </div>
+<div id="billbaord-200-archive" class="section level3">
+<h3>Billbaord 200 Archive</h3>
+<ul>
+<li>I tried to build a Billboard 200 archive. 01-build-archive-billboard200 is a python Jupyter Notebook that downloads the files one year at a time. The resulting files are saved in <code>data</code>. <strong>I doubt this will work anymore because of the previousDate problem.</strong></li>
+<li><a href="https://utdata.github.io/rwd-billboard-data/02-billboard200-combine.html">02-billboard200-combine</a> is an R notebook used to combine the data. I used this notebook to find problems and then manually cleaned files, which are stored in <code>data-clean</code>. Combined data is in <code>data-out</code>.</li>
+</ul>
 </div>
-<div id="requirements-for-the-python-bits" class="section level2">
-<h2>Requirements for the Python bits</h2>
+<div id="requirements-for-the-python-bits" class="section level3">
+<h3>Requirements for the Python bits</h3>
 <ul>
 <li><a href="https://jupyterlab.readthedocs.io/en/stable/">Jupyter Lab</a> or maybe <a href="https://jupyter.org/documentation">Jupyter</a>.</li>
 <li><a href="https://github.com/guoguo12/billboard-charts">Billboard Charts</a></li>
 <li><a href="https://pandas.pydata.org/">Pandas</a></li>
 </ul>
-<div id="conda-environment" class="section level3">
-<h3>Conda environment</h3>
-<p>I use <a href="https://docs.conda.io/projects/conda/en/latest/index.html">conda</a> as a python environment manager. If you use conda, you can load my environment (which includes extra stuff beyond what’s needed in this repo), with this:</p>
-<p><code>conda env create -n billboard</code></p>
-<p>then:</p>
-<p><code>conda activate billboard</code></p>
 </div>
 </div>
 </div>
