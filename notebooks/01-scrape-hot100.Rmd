@@ -1,0 +1,155 @@
+---
+title: "Hot 100 Scrape"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+---
+
+## Goals
+
+1. I want to scrape the current [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) chart and save it as a separate file with the current date.
+2. I want to be able to target a specific date to pull that chart down
+
+Compilations of the files will likely be in a different script.
+
+### Future goals
+
+I'd like to set this to work as a CRON using Github actions. Some helpful things might be:
+
+- [Running R Scripts on a Schedule with GitHub Actions](https://blog--simonpcouch.netlify.app/blog/r-github-actions-commit/)
+- [Github Actions with R](https://orchid00.github.io/actions_sandbox/)
+- [r-lib/actions](https://github.com/r-lib/actions) package
+
+## Setup
+
+```{r setup}
+library(tidyverse)
+library(rvest)
+```
+
+
+## Date options
+
+I want to set up some flags to get a specific date or the current date.
+
+```{r flags}
+edition_request <- "1991-11-16/"
+edition_flag <- F
+
+edition_current <- ""
+if (edition_flag == T) edition_page <- edition_request else edition_page <- edition_current
+```
+
+## Get the page
+
+Get the content of the page:
+
+```{r urls-scrape}
+# gets the page
+scrape_url <- paste(
+  "https://www.billboard.com/charts/hot-100/",
+  edition_page,
+  sep = ""
+  )
+
+scrape_url
+
+first_scrape <- read_html(scrape_url)
+first_scrape
+```
+
+
+### Get page date element
+
+I get this date to match the real date of the data vs one that we may have asked above since pages will redirect.
+
+```{r get-}
+data_date <- first_scrape %>% 
+  html_element("div#chart-date-picker") %>% 
+  html_attr("data-date")
+
+data_date
+```
+
+
+
+```{r}
+# gets the billboard list
+second_scrape <- first_scrape %>% 
+  html_elements("ul.o-chart-results-list-row")
+
+# gets the text from within the list items
+all_lines <- second_scrape %>% 
+  html_text2()
+
+# converts that text from a list to a tibble
+lines_tibble <- all_lines %>% as.tibble()
+
+lines_tibble
+```
+
+## Separate the lines
+
+Each row in the tibble has all the results of the charts, but separated by `\n`.
+
+There is some trash in some of the entries when a song is "new" or "re-entry". There may be more. (I'm cleaning out that data for now, but some day perhaps that is worth noting in a new column. May be hard to get historical data on, though.)
+
+```{r}
+lines_cleaned <- lines_tibble %>% 
+  mutate(
+    data_cleaned = str_remove_all(value, " NEW\n|NEW"),
+    data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY")
+  ) %>% 
+  select(data_cleaned, value)
+```
+
+Separate the data into columns.
+
+```{r}
+lines_separated <- lines_cleaned %>% separate(
+  col = data_cleaned,
+  sep = "\n",
+  into = c(
+    "current_week",
+    "title",
+    "performer",
+    "last_week",
+    "peak_pos",
+    "wks_on_chart"
+    )
+  ) %>% 
+  select(-value)
+
+lines_separated
+```
+
+## Add a date
+
+```{r}
+dated_data <- lines_separated %>% 
+  mutate(chart_week = data_date) %>% 
+  select(chart_week, everything())
+
+dated_data
+```
+
+## Export
+
+```{r}
+folder_path <- "../data-download/hot100-scraped/"
+
+dated_data %>% write_csv(paste(folder_path, data_date, ".csv", sep = ""))
+#dated_data %>% write_rds(paste(folder_path, edition_date, ".rds", sep = ""))
+```
+
+## Testing files
+
+```{r}
+read_csv("../data-download/hot100-scraped/1991-11-16.csv")
+```
+
