@@ -1,0 +1,22 @@
+on:
+  push:
+    branches: main
+
+name: Billboard scrape
+
+jobs:
+  render:
+    name: Billboard scrape
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+      - name: Install dependencies
+        run: Rscript -e 'install.packages(c("rvest","dplyr"))'
+      - name: Scrape the data
+        run: Rscript scrape_billboard.R
+      - name: Commit results
+        run: |
+          git add -A
+          git commit -m 'Billboard - data updated!' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
