@@ -35,7 +35,11 @@ library(rvest)
 
 ## Date options
 
-I want to set up some flags to get a specific date or the current date.
+I set up some flags to get a specific date or the current date.
+
+- `F` pulls the current chart
+- `T` pulls the chart that is noted in the `edition_request` object
+
 
 ```{r flags}
 edition_request <- "1991-11-16/"
@@ -88,7 +92,7 @@ all_lines <- second_scrape %>%
   html_text2()
 
 # converts that text from a list to a tibble
-lines_tibble <- all_lines %>% as.tibble()
+lines_tibble <- all_lines %>% as_tibble()
 
 lines_tibble
 ```
