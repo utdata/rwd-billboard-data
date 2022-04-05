@@ -171,14 +171,47 @@ pre code {
 
 <div id="rwd-billboard-data" class="section level1">
 <h1>rwd-billboard-data</h1>
-<p>This project deals with Billboard charts data in various ways.</p>
-<div id="notebooks" class="section level2">
-<h2>Notebooks</h2>
+<p>This project archives Billboard charts data.</p>
+<p>If you are here looking for historical Billboard Hot 100 data, here are the files of interest:</p>
 <ul>
-<li><a href="https://utdata.github.io/rwd-billboard-data/01-hot100-clean.html">01-hot100-clean</a> downloads Hot 100 data from data.world and cleans it for use in assignments. As of 2022-01-10 this data hasn’t been updated since June 2021 so it may be deprecated.</li>
-<li><code>01-hot100-dataminer</code> downloads some manually scraped data to support this next notebook …</li>
-<li><a href="https://utdata.github.io/rwd-billboard-data/02-hot100-kaggle.html">02-hot100-kaggle</a> is an R notebook that uses data downloaded from Kaggle: <a href="https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs">Billboard “The Hot 100” Songs</a>. As of 2022-01-10 it was only updated through 2021-11-08 so I manually scraped the last six weeks and append it here. <strong>This makes the data current through 2021</strong>. See notebook for more details.</li>
+<li><a href="data-out/hot100_archive.csv">hot100_archive.csv</a> has data from the chart’s inception through the end of “last” year.</li>
+<li>Some day I’ll have “current” data.</li>
 </ul>
+<p>This project has been … an adventure. Details below.</p>
+<div id="the-hot-100-update" class="section level2">
+<h2>The Hot 100 Update</h2>
+<p>All Notebooks (Python or R) are stored in the <code>notebooks/</code> folder.</p>
+<p>Where the data comes from:</p>
+<ul>
+<li>We download this <a href="https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs">kaggle</a> data straight from the web page. It is saved as <code>hot100_kaggle_195808_20211106.csv</code>. It has charts into November 2021. There are some missing records (at least 13).</li>
+<li>Since kaggle data is stale, some gap data was collected with a Data Miner Chrome plugin and <a href="https://docs.google.com/spreadsheets/d/1in--HfDYfijzQha8PSP4ItaKND9_rzx8pFPVHaZi-hE/edit?usp=sharing">saved as a Google Sheet</a>. It’s possible this will replaced in the future.</li>
+<li>Another source of Billboard Hot 100 data is on <a href="https://data.world/kcmillersean/billboard-hot-100-1958-2017">data.world</a> and it is used to fill in the missing data. It only goes through June 2021 and also has gaps, but not the same gaps as the kaggle data.</li>
+<li><strong>notebooks/01-scrape-hot100</strong>: A single scrape notebook using rvest to pull current or specific data.</li>
+<li>To Come: A cron scrape notebook to use github actions to pull future charts.</li>
+</ul>
+<p>How it comes together:</p>
+<ul>
+<li><strong>notebooks/01-hot100-archive</strong>: Combines different data sources to create the complete archive.</li>
+</ul>
+<p>New folder structure:</p>
+<ul>
+<li>data-download: Where to download collected data from sources.</li>
+<li>data-out: This is “finished” data</li>
+<li>data-process: Where mid-process data is written.</li>
+</ul>
+</div>
+<div id="billboard-200" class="section level2">
+<h2>Billboard 200</h2>
+<blockquote>
+<p>Mothballed but perhaps could come back</p>
+</blockquote>
+<p>I’ve built a Billboard 200 archive through 2020?</p>
+<ul>
+<li>01-build-archive-billboard200 is a python Jupyter Notebook that downloads the files one year at a time. The resulting files are saved in <code>data</code>. <strong>This will no longer work because the python package is broken. It no longer understands previousDate.</strong></li>
+<li>The resulting data has been moved to <code>data-download/py-billboard-200</code>.</li>
+<li><a href="https://utdata.github.io/rwd-billboard-data/02-billboard200-combine.html">02-billboard200-combine</a> is an R notebook used to combine the data. I used this notebook to find problems and then manually cleaned files, which are stored in <code>data-process/billboard200/</code>. Combined data is in <code>data-out/billboard200.csv</code>.</li>
+</ul>
+<p>At some point I should use R to scrape the gap data, and then enhance to continue scraping through Github actions?</p>
 </div>
 <div id="deprecated" class="section level2">
 <h2>Deprecated</h2>
@@ -191,13 +224,6 @@ pre code {
 <ul>
 <li>I tried to pull my own Hot 100 data, but the API quit responding around 1997 and older and there was the quote problem, too.</li>
 <li>01-build-archive-hot100 is a python Jupyter Notebook that downloads Hot 100 charts from Billboard in an attempt to build my own original data. It stopped working on older years and had other isseus, so I now use the data from 01-hott100-clean instead.</li>
-</ul>
-</div>
-<div id="billbaord-200-archive" class="section level3">
-<h3>Billbaord 200 Archive</h3>
-<ul>
-<li>I tried to build a Billboard 200 archive. 01-build-archive-billboard200 is a python Jupyter Notebook that downloads the files one year at a time. The resulting files are saved in <code>data</code>. <strong>I doubt this will work anymore because of the previousDate problem.</strong></li>
-<li><a href="https://utdata.github.io/rwd-billboard-data/02-billboard200-combine.html">02-billboard200-combine</a> is an R notebook used to combine the data. I used this notebook to find problems and then manually cleaned files, which are stored in <code>data-clean</code>. Combined data is in <code>data-out</code>.</li>
 </ul>
 </div>
 <div id="requirements-for-the-python-bits" class="section level3">

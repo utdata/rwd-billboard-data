@@ -1,0 +1,285 @@
+---
+title: "Billboard Hot 100 Archive"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+---
+
+## About this notebook
+
+I'm developing a clean list of all Billboard Hot 100 charts through history, along with mechanisms to create a continuous archive as new charts are released.
+
+These are my sources:
+
+- I started this project with [Sean Miller's data.world archive](https://data.world/kcmillersean/billboard-hot-100-1958-2017). It has been updated through 2021-05-29 but it also has `5` weeks with missing records. It has more variables than the kaggle data below.
+- The base archive I use now is [Dhruvil Dave's Kaggle archive](https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs) which is current through 2021-11-06. It has `13` weeks with missing data. Thankfully not the same weeks as the data.world data.
+- I built a [Data Miner](https://dataminer.io/) recipe to scrape the chart to fill in the gap weeks for the rest of 2021. I stored it in a [Google Sheet](https://docs.google.com/spreadsheets/d/1in--HfDYfijzQha8PSP4ItaKND9_rzx8pFPVHaZi-hE/edit#gid=0) and I use that data in the archive. One thought is to recollect this data as individual weeks in the future.
+- I also use that Data Miner scraper to collect continuing data into [Billboard Hot 100 for 2022 Google Sheet](https://docs.google.com/spreadsheets/d/14BoDB4sF7ztE3G0TAru0JaAqu5Zgc6e_qzFPzgP7RUc/edit?usp=sharing). I hope that will be replaced with ...
+- At some point I may use R and rvest to collect some historical individual week files scraped myself. Exploration is already ongoing.
+
+Once the gap data is merged I create a muddy version for lesson purposes. Evil, I know.
+
+## Setup
+
+```{r setup, echo=T, results='hide', message=F, warning=F}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+```
+
+
+## Kaggle data
+
+[Dhruvil Dave's Kaggle archive](https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs) is downloaded directly as `hot100_kaggle_195808_20211106.csv`.
+
+The I'd like to find a way to import directly from Kaggle but have not explored that yet. As such files have been manually downloaded. Perhaps this [kaggler](https://github.com/mkearney/kaggler) package can help.
+
+> This dataset is missing records from weeks "1976-12-04" to "1977-03-05". I will drop those weeks and replace with data from data.world.
+
+```{r k-import}
+hot100_k_raw <- read_csv("../data-download/hot100_kaggle_195808_20211106.csv") %>% 
+  clean_names()
+
+hot100_k_raw %>% glimpse()
+```
+
+Descriptions of the columns:
+
+| column_name    | datatype | column_desc                          |
+|----------------|----------|--------------------------------------|
+| date           | date     | Date of chart                        |
+| rank           | dbl      | Rank of song                         |
+| song           | chr      | Song title                           |
+| artist         | chr      | Song artist                          |
+| last_week      | dbl      | Rank in previous week                |
+| peak_rank      | dbl      | Top rank achieved by the song        |
+| weeks_on_board | dbl      | Weeks the song appeared on the chart |
+
+### Rename to match data.world data
+
+```{r k-rename}
+hot100_k_renamed <- hot100_k_raw %>% 
+  rename(
+    chart_date = date,
+    current_position = rank,
+    title = song,
+    performer = artist,
+    previous_position = last_week,
+    peak_position = peak_rank,
+    weeks_on_chart = weeks_on_board
+  ) %>% 
+  arrange(chart_date, current_position)
+
+hot100_k_renamed %>% glimpse()
+```
+
+### Missing data
+
+This data has 13 missing songs from a range in 1976-1977. These are different than in data.world data below, so we that to fill in our missing data.
+
+```{r k-count-miss}
+hot100_k_renamed %>% 
+  count(chart_date) %>% 
+  filter(n != 100)
+```
+
+### Exploring missing data
+
+```{r k-explore}
+hot100_k_renamed %>% 
+  filter(chart_date == "1977-01-01")
+```
+
+### Dropping missing chart range
+
+I'm going to drop the charts with missing records and then restore then from data.world data. Fun fact: The missing song was "Somebody To Love" from Queen.
+
+```{r k-drop}
+hot100_k_dropped <- hot100_k_renamed %>%
+  filter(!(chart_date >= "1976-12-04" & chart_date <= "1977-03-05"))
+
+hot100_k_dropped %>% 
+  count(chart_date) %>% 
+  filter(n != 100)
+```
+
+## data.world data
+
+We use [this data.world archive](https://data.world/kcmillersean/billboard-hot-100-1958-2017) to fill in the charts missing from the kaggle data.
+
+### Download and import
+
+Downloading is commented out now that I have the data.
+
+```{r dw-import}
+# download.file("https://query.data.world/s/zshes27odrcz75zgjts35bpyfwurnf", "../data-download/hot100-dataworld-orig.csv")
+
+hot100_dw_raw <- read_csv("../data-download/hot100-dataworld-orig.csv") %>% clean_names()
+
+hot100_dw_raw %>% glimpse()
+```
+
+### Clean the data
+
+Makes read date, selects and renames columns of interest to match the kaggle data
+
+```{r dw-clean}
+hot100_dw_clean <- hot100_dw_raw %>% 
+  mutate(chart_date = mdy(week_id)) %>% 
+  select(
+    chart_date,
+    current_position = week_position,
+    title = song,
+    performer,
+    previous_position = previous_week_position,
+    peak_position = peak_position,
+    weeks_on_chart
+  ) %>% 
+  arrange(chart_date, current_position)
+
+hot100_dw_clean %>% head()
+```
+
+### Check for missing records
+
+This data is also missing records. There are at last five missing records and it ends in June 2021.
+
+```{r dw-count-miss}
+hot100_dw_clean %>% 
+  count(chart_date) %>% 
+  filter(n != 100)
+```
+
+- `1991-11-16` is missing #99
+- `1991-11-23` is missing #92
+- `1991-11-30` is missing #95
+- `1991-12-07` is missing #95
+- `1991-12-14` is missing #98
+
+### Various Record checks
+
+I used this to inspect various charts to discover missing songs.
+
+```{r dw-explore}
+hot100_dw_clean %>% 
+  filter(chart_date == "1977-01-01")
+```
+
+Checking Somebody to Love, which is the missing song from kaggle
+
+```{r dw-queen}
+hot100_dw_clean %>% 
+  filter(title == "Somebody To Love", performer == "Queen")
+```
+
+It's weird that it dropped some weeks and not others. 
+
+
+### Capture the missing weeks
+
+This captures the data that is missing from kaggle.
+
+```{r dw-capture-missing}
+hot100_dw_missing <- hot100_dw_clean %>% 
+  filter((chart_date >= "1976-12-04" & chart_date <= "1977-03-05"))
+
+```
+
+
+## Gap data for 2021
+
+So I built a [Data Miner](https://dataminer.io/) recipe to scrape the chart and manually did so to fill in the gap weeks through the rest of 2021. I stored it in a [Google Sheet](https://docs.google.com/spreadsheets/d/1in--HfDYfijzQha8PSP4ItaKND9_rzx8pFPVHaZi-hE/edit#gid=0) and I download that data here to clean and store it in this repo.
+
+This download has been commented out since the data is now in this repo and won't update
+
+```{r gap-download}
+# download.file("https://docs.google.com/spreadsheets/d/e/2PACX-1vS51nRQBDdnfTEDznKm-1Vfo7MGdWNXblPuG1yPtjwcuxdf_JoM2v1P5vh67rdfvDHW_o1tckafU3Rb/pub?gid=0&single=true&output=csv", "../data-download/hot100_late2021_dataminer.csv")
+
+```
+
+Import the gap data:
+
+```{r gap-import}
+gap_raw <- read_csv("../data-download/hot100_late2021_dataminer.csv") %>% 
+  mutate(previous_position = as.numeric(previous_position))
+
+gap_raw %>% glimpse()
+```
+
+## Build the archive
+
+We need to:
+
+- Start with kaggle data
+- Add the missing records (that we got from data.world data)
+- Add the gap data that was scraped from Data Miner
+
+We're checking all the column names here:
+
+```{r check-names}
+hot100_k_dropped %>% names()
+hot100_dw_missing %>% names()
+gap_raw %>% names()
+```
+
+We build the data here:
+
+```{r bind-data}
+hot100_archive <- hot100_k_dropped %>% 
+  bind_rows(hot100_dw_missing) %>% 
+  bind_rows(gap_raw)
+
+hot100_archive %>% summary()
+hot100_archive %>% glimpse()
+```
+
+## Muck up data
+
+In some cases I may want to use this data as a lesson in cleaning headers and data types. This may or may not be used.
+
+```{r muck}
+hot100_assignment <- hot100_archive %>%
+  # muck a date
+  mutate(
+    yr = year(chart_date) %>% as.character(),
+    mo = month(chart_date) %>% as.character(),
+    dy = day(chart_date) %>% as.character(),
+    chart_week = paste(mo, dy, yr, sep = "-")
+  ) %>% 
+  # muck the names
+  select(
+    `CHART WEEK` = chart_date,
+    `THIS WEEK` = current_position,
+    `SONG` = title,
+    `PERFORMER` = performer,
+    `LAST WEEK` = previous_position,
+    `PEAK POS.` = peak_position,
+    `WKS ON CHART` = weeks_on_chart
+  )
+
+hot100_assignment %>% glimpse()
+```
+
+## Export
+
+Here we print out the nice Kaggle data to `data-process` folder, and then verisons to the `data-out` folder for consuming into lessons later.
+
+```{r export}
+hot100_archive %>% write_csv("../data-out/hot100_archive_1958_2021.csv")
+hot100_archive %>% write_csv("../data-out/hot100_archive.csv")
+hot100_assignment %>% write.csv("../data-out/hot100_assignment.csv")
+```
+
+## Test assignment data
+
+Since I'm mucking up the data on purpose, I'd like to make sure it _worked_.
+
+```{r test-muck}
+read_csv("../data-out/hot100_assignment.csv")
+```
+

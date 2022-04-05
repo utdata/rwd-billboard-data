@@ -1,4 +1,4 @@
-date,rank,song,artist,last_week,peak_rank,weeks_on_board
+chart_date,current_position,title,performer,previous_position,peak_position,weeks_on_chart
 2021-12-25,1,All I Want For Christmas Is You,Mariah Carey,2,1,49
 2021-12-25,2,Rockin' Around The Christmas Tree,Brenda Lee,3,2,43
 2021-12-25,3,Easy On Me,Adele,1,1,10

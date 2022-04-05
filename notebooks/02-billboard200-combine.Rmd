@@ -32,7 +32,7 @@ Setting up lists of files by decade so I can clean them manually.
 
 ```{r}
 # set up data import
-data_dir <- "../data-process/billboard-200/"
+data_dir <- "../data-process/billboard200/"
 bb200_files <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200[^_]+.csv")
 bb200_files_1960s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-196\\d.csv")
 bb200_files_1970s <- dir_ls(data_dir, recurse = TRUE, regexp = "billboard-200-197\\d.csv")
@@ -124,7 +124,7 @@ df_2010s %>% glimpse()
 At this writing I only have one 2020s year so it is a straight import.
 
 ```{r build_2020s, message=TRUE}
-df_2020s <- read_csv("../data-process/billboard-200/billboard-200-2020.csv")
+df_2020s <- read_csv("../data-process/billboard200/billboard-200-2020.csv")
 
 df_2020s %>% glimpse()
 ```
