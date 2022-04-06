@@ -21,7 +21,17 @@ If you are here looking for historical Billboard Hot 100 data, here are the file
 
 This project has been ... an adventure. Details below.
 
-## The Hot 100 Update
+## Current Hot 100 data
+
+> IN ALPHA
+
+There is a Github Action in place to download the most current chart. As of this writing (April 5, 2020) it runs every morning to check for a new chart and theoretically saves it is there is a new one. We'll see if this actually works.
+
+The data is saved into `data-download/hot100-scraped` based on the chart date.
+
+At some point I hope to add a github action to roll all the data together into a current archive.
+
+## Historical Hot 100 data
 
 All Notebooks (Python or R) are stored in the `notebooks/` folder.
 

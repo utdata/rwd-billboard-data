@@ -3,6 +3,8 @@
 # Setup
 library(tidyverse)
 library(rvest)
+library(lubridate)
+library(here)
 
 # Scraping
 scrape_url <- "https://www.billboard.com/charts/hot-100/"
@@ -14,6 +16,9 @@ first_scrape <- read_html(scrape_url)
 data_date <- first_scrape %>% 
   html_element("div#chart-date-picker") %>% 
   html_attr("data-date")
+
+# Get the chart year for write directory
+chart_year <- ymd(data_date) %>% year()
 
 # gets the billboard list
 second_scrape <- first_scrape %>% 
@@ -56,5 +61,8 @@ dated_data <- lines_separated %>%
   select(chart_week, everything())
 
 # Export the data
-folder_path <- "data-download/hot100-scraped/"
+folder_path <- paste("data-download/hot100-scraped/", chart_year, "/", sep = "")
+# Make sure write path exists
+if (!dir.exists(here(folder_path))) {dir.create(here(folder_path))}
+# Write the data
 dated_data %>% write_csv(paste(folder_path, data_date, ".csv", sep = ""))
