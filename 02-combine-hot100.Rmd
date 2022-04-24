@@ -1,0 +1,96 @@
+---
+title: "Combine for current charts"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+---
+
+## Goals of this notebook
+
+I want to figure out how I can keep a "to date" listing of billboard hits. I have historical data and scrape the new chart each week. I'll figure it out manually and then try to set up a github action to do it.
+
+## Setup
+
+```{r setup}
+library(tidyverse)
+library(fs)
+```
+
+## Import archive data
+
+We are pulling in a specific year archive since the "current" year might be hard coded at this point. Some day, perhaps a script would recognize the current year and make adjustments as necessary.
+
+We rename some columns to match our newer data.
+
+```{r import-archive}
+charts_archive <- read_csv("data-out/hot100_archive_1958_2021.csv") %>%
+  rename(
+    chart_week = chart_date,
+    current_week = current_position,
+    last_week = previous_position,
+    peak_pos = peak_position,
+    wks_on_chart = weeks_on_chart
+  )
+
+charts_archive %>% glimpse()
+```
+
+## Get recent years
+
+This reads in and combines all the data that I've scraped recently.
+
+### Build a list of files to combine
+
+Right now this would get everything inside `hot100-scraped`, including other yearly folders.
+
+```{r files-list}
+#### This requires the fs package
+files_list <-  dir_ls("data-download/hot100-scraped/", recurse = TRUE, regexp = ".csv")
+
+#### A base R version
+# files <- list.files(path = "data-download/hot100-scraped/2022/", pattern = "*.csv", full.names = T)
+
+#### Peek at the list
+files_list
+```
+
+### Combine files in the files_list
+
+Of the many ways to do this, this is the sparsest code. Not sure what I would do if read_csv needed arguments. This uses the tidyverse purrr [map](https://purrr.tidyverse.org/reference/map.html) function.
+
+```{r read-combine-recent}
+# uses files_list from above
+charts_recent <- map_dfr(files_list, read_csv, col_types = cols("last_week" = col_integer()))
+```
+
+Glimpse at the data
+
+```{r recent-glimpse}
+charts_recent %>% glimpse()
+```
+
+## Bind data sets together
+
+Now to put the archives and recent charts together.
+
+```{r combine-all}
+charts_current <- charts_archive %>% 
+  bind_rows(charts_recent)
+
+charts_current %>% glimpse()
+```
+
+
+## Export
+
+We'll export these combined files for public use?
+
+```{r export}
+charts_current %>% write_csv("data-out/hot100_current_test.csv")
+```
+

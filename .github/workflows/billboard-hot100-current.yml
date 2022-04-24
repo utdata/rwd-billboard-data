@@ -1,0 +1,24 @@
+on:
+  schedule:
+    - cron: '5 15 * * 4'
+  push:
+    branches: main
+
+name: Billboard Hot100 combine
+
+jobs:
+  render:
+    name: Billboard Hot100 scrape
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+      - name: Install dependencies
+        run: Rscript -e 'install.packages(c("tidyverse", "fs"))'
+      - name: Combine archive with recent
+        run: Rscript action_hot100_current.R
+      - name: Commit results
+        run: |
+          git add -A
+          git commit -m 'Billboard Hot 100 current archive updated!' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
