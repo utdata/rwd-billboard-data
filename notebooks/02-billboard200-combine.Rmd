@@ -12,7 +12,7 @@ knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = e
 
 This notebook was used to manually clean and combine the Billboard 200 chart data downloaded using the python-based `01-build-archive-billboard200.ipynb` notebook.
 
-As I attempted to import the files, would find errors and the manually fix them in VS Code. The cleaned files are in the `data-process` directory to preserve the original downloaded files in `data`. The combined files is output to `data-out`.
+As I attempted to import the files, I would find errors and the manually fix them with a text editor. The cleaned files are in the `data-process` directory to preserve the original downloaded files in `data`. The combined files is output to `data-out`.
 
 I recognize manually cleaning the data is not ideal. I did so because I couldn't think of a way to find the problem and then fix them without first pulling them into R or Pandas anyway when it was already too late to fix the dropped data. I'm also not skilled in that arena.
 
