@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
       - name: Install dependencies
-        run: Rscript -e 'install.packages(c("tidyverse", "fs"))'
+        run: Rscript -e 'install.packages(c("broom", "tidyverse", "fs"))'
       - name: Combine archive with recent
         run: Rscript action_hot100_current.R
       - name: Commit results
