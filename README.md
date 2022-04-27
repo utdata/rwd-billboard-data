@@ -17,19 +17,19 @@ This project archives Billboard charts data.
 If you are here looking for historical Billboard Hot 100 data, here are the files of interest:
 
 - [hot100_archive.csv](data-out/hot100_archive.csv) has data from the chart's inception through the end of "last" year.
-- Some day I'll have "current" data.
+- [hot100_current.csv](data-out/hot100_current.csv) has data to the current week (more or less).
 
 This project has been ... an adventure. Details below.
 
 ## Current Hot 100 data
 
-> IN ALPHA
-
-There is a Github Action in place to download the most current chart. As of this writing (April 5, 2020) it runs every morning to check for a new chart and theoretically saves it is there is a new one. We'll see if this actually works.
+There is a Github Action in place to download the most current chart. As of this writing (April 26, 2020) it runs after midnight every morning to check for a new chart and theoretically saves it is there is a new one. The chart comes out some time on Tuesday, so it is really only updated on Wednesdays.
 
 The data is saved into `data-download/hot100-scraped` based on the chart date.
 
-At some point I hope to add a github action to roll all the data together into a current archive.
+There is another Github Action that combines "recent" scraped data with saved archive data to update the "current" data file listed above. This new as of 4/24/2022 and therefor unproven. It scheduled to kick off on Thursdays.
+
+Charts are released some time on Tuesday but despite me setting crons up for later in the day, they tend to run after midnight. This means the new chart gets added on Wednesday morning (if it doesn't crash) so I have the combine script set for Thursday (if it doesn't fail.)
 
 ## Historical Hot 100 data
 
@@ -40,14 +40,15 @@ Where the data comes from:
 - We download this [kaggle](https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs) data straight from the web page. It is saved as `hot100_kaggle_195808_20211106.csv`. It has charts into November 2021. There are some missing records (at least 13).
 - Since kaggle data is stale, some gap data was collected with a Data Miner Chrome plugin and [saved as a Google Sheet](https://docs.google.com/spreadsheets/d/1in--HfDYfijzQha8PSP4ItaKND9_rzx8pFPVHaZi-hE/edit?usp=sharing). It's possible this will replaced in the future.
 - Another source of Billboard Hot 100 data is on  [data.world](https://data.world/kcmillersean/billboard-hot-100-1958-2017) and it is used to fill in the missing data. It only goes through June 2021 and also has gaps, but not the same gaps as the kaggle data.
-- **notebooks/01-scrape-hot100**: A single scrape notebook using rvest to pull current or specific data.
-- To Come: A cron scrape notebook to use github actions to pull future charts.
+- **notebooks/01-scrape-hot100**: A single scrape notebook using rvest to pull current or specific data. This is a manual thing. For automation, see ...
+- **action_hot100_scrape.R** is a script that is set to run on a cron through Github actions. It's more-or-less the same at **01-scrape-hot100** but an R script instead of a notebook. It is set to run daily, but only commits when new data is released, once a week.
 
 How it comes together:
 
 - **notebooks/01-hot100-archive**: Combines different data sources to create the complete archive.
+- **action_hot100_combine.R** is a script that run on an cron once a week on Thursdays. It combines the archive data with all the "scraped" data in `data-download/hot100-scraped/`. Those files start in 2022.
 
-New folder structure:
+### Folder structure
 
 - data-download: Where to download collected data from sources.
 - data-out: This is "finished" data
@@ -55,15 +56,15 @@ New folder structure:
 
 ## Billboard 200
 
-> Mothballed but perhaps could come back
+> Mothballed but perhaps could come back. Since the data was kinda trash, it would be nice to re-scrape this in R to create a new, more accurate archive.
 
 I've built a Billboard 200 archive through 2020?
 
--  01-build-archive-billboard200 is a python Jupyter Notebook that downloads the files one year at a time. The resulting files are saved in `data`. **This will no longer work because the python package is broken. It no longer understands previousDate.**
-  - The resulting data has been moved to `data-download/py-billboard-200`.
+-  01-build-archive-billboard200 is a python Jupyter Notebook that downloads the files one year at a time. The resulting files are saved in `data`. 
+There are two significant issues to be aware of:
+  - The downloaded data had errors dealing with quote escaping (I don't recall exactly). Errors were manually fixed in a text editor as they were discovered.
+  - **This process will no longer work because the python package is broken.** It no longer understands previousDate. The original data has been moved to `data-download/py-billboard-200` and the fixed data is in `data-process/billboard200`.
 - [02-billboard200-combine](https://utdata.github.io/rwd-billboard-data/02-billboard200-combine.html) is an R notebook used to combine the data. I used this notebook to find problems and then manually cleaned files, which are stored in `data-process/billboard200/`. Combined data is in `data-out/billboard200.csv`.
-
-At some point I should use R to scrape the gap data, and then enhance to continue scraping through Github actions?
 
 ## Deprecated
 
