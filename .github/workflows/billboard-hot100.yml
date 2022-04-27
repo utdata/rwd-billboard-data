@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '15 5 * * *'
+    - cron: '12 0 * * *'
   push:
     branches: main
 
@@ -14,11 +14,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
       - name: Install dependencies
-        run: Rscript -e 'install.packages(c("broom", "rvest", "tidyverse", "lubridate", "here"))'
+        run: Rscript -e 'install.packages(c("rvest","tidyverse", "lubridate", "here"))'
       - name: Scrape the data
-        run: Rscript action_hot100_scrape.R
+        run: Rscript scrape_hot100.R
       - name: Commit results
         run: |
           git add -A
-          git commit -m 'Billboard Hot 100 chart added!' || echo "No changes to commit"
+          git commit -m 'Billboard Hot 100 - data updated!' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
