@@ -91,6 +91,6 @@ charts_current %>% glimpse()
 We'll export these combined files for public use?
 
 ```{r export}
-charts_current %>% write_csv("data-out/hot100_current_test.csv")
+charts_current %>% write_csv("data-out/hot100_current.csv")
 ```
 
