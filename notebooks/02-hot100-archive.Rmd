@@ -249,11 +249,11 @@ hot100_assignment <- hot100_archive %>%
     yr = year(chart_date) %>% as.character(),
     mo = month(chart_date) %>% as.character(),
     dy = day(chart_date) %>% as.character(),
-    chart_week = paste(mo, dy, yr, sep = "-")
+    chart_week = paste(mo, dy, yr, sep = "/")
   ) %>% 
   # muck the names
   select(
-    `CHART WEEK` = chart_date,
+    `CHART WEEK` = chart_week,
     `THIS WEEK` = current_position,
     `SONG` = title,
     `PERFORMER` = performer,
@@ -272,7 +272,7 @@ Here we print out the nice Kaggle data to `data-process` folder, and then veriso
 ```{r export}
 hot100_archive %>% write_csv("../data-out/hot100_archive_1958_2021.csv")
 hot100_archive %>% write_csv("../data-out/hot100_archive.csv")
-hot100_assignment %>% write.csv("../data-out/hot100_assignment.csv")
+hot100_assignment %>% write_csv("../data-out/hot100_assignment.csv")
 ```
 
 ## Test assignment data
