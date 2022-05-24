@@ -16,37 +16,37 @@ This project archives Billboard charts data.
 
 If you are here looking for historical Billboard Hot 100 data, here are the files of interest:
 
-- [hot100_archive.csv](data-out/hot100_archive.csv) has data from the chart's inception through the end of "last" year.
-- [hot100_current.csv](data-out/hot100_current.csv) has data to the current week (more or less).
+- [data-out/hot100_archive.csv](data-out/hot100_archive.csv) has data from the chart's inception through the end of "last" year.
+- [data-out/hot100_current.csv](data-out/hot100_current.csv) has data to the current week (more or less).
 
 This project has been ... an adventure. Details below.
 
 ## Current Hot 100 data
 
-There is a Github Action in place to download the most current chart. As of this writing (April 26, 2020) it runs after midnight every morning to check for a new chart and theoretically saves it is there is a new one. The chart comes out some time on Tuesday, so it is really only updated on Wednesdays.
+There is a Github Action in place to download the most current chart. As of this writing (April 26, 2020) it runs each day to check for a new chart and commits it if there is a new one. The chart typically releases Tuesday mornings, but I'm still adjusting the best time to scrape.
 
 The data is saved into `data-download/hot100-scraped` based on the chart date.
 
-There is another Github Action that combines "recent" scraped data with saved archive data to update the "current" data file listed above. This new as of 4/24/2022 and therefor unproven. It scheduled to kick off on Thursdays.
+There is another Github Action that combines "recent" scraped data with saved archive data to update the "current" data file listed above. It scheduled to kick off on Tuesday afternoon.
 
-Charts are released some time on Tuesday but despite me setting crons up for later in the day, they tend to run after midnight. This means the new chart gets added on Wednesday morning (if it doesn't crash) so I have the combine script set for Thursday (if it doesn't fail.)
+Github Actions sometimes fail, so results may vary.
 
 ## Historical Hot 100 data
 
-All Notebooks (Python or R) are stored in the `notebooks/` folder.
+Some (but not all) notebooks are stored in the `notebooks/` folder.
 
 Where the data comes from:
 
 - We download this [kaggle](https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs) data straight from the web page. It is saved as `hot100_kaggle_195808_20211106.csv`. It has charts into November 2021. There are some missing records (at least 13).
 - Since kaggle data is stale, some gap data was collected with a Data Miner Chrome plugin and [saved as a Google Sheet](https://docs.google.com/spreadsheets/d/1in--HfDYfijzQha8PSP4ItaKND9_rzx8pFPVHaZi-hE/edit?usp=sharing). It's possible this will replaced in the future.
-- Another source of Billboard Hot 100 data is on  [data.world](https://data.world/kcmillersean/billboard-hot-100-1958-2017) and it is used to fill in the missing data. It only goes through June 2021 and also has gaps, but not the same gaps as the kaggle data.
-- **notebooks/01-scrape-hot100**: A single scrape notebook using rvest to pull current or specific data. This is a manual thing. For automation, see ...
+- Another source of Billboard Hot 100 data is on  [data.world](https://data.world/kcmillersean/billboard-hot-100-1958-2017) and it is used to fill in the data missing from kaggle. It only goes through June 2021 and also has gaps, but not the same gaps as the kaggle data.
+- **01-scrape-hot100**: A single scrape notebook using rvest to pull current or specific data. This is a manual thing. For automation, see ...
 - **action_hot100_scrape.R** is a script that is set to run on a cron through Github actions. It's more-or-less the same at **01-scrape-hot100** but an R script instead of a notebook. It is set to run daily, but only commits when new data is released, once a week.
 
 How it comes together:
 
-- **notebooks/01-hot100-archive**: Combines different data sources to create the complete archive.
-- **action_hot100_combine.R** is a script that run on an cron once a week on Thursdays. It combines the archive data with all the "scraped" data in `data-download/hot100-scraped/`. Those files start in 2022.
+- **notebooks/01-hot100-archive**: Combines different data sources to create the complete archive, saved into the `data-out` folder. This includes a version of the data for Reporting with Data in R, which is purposely mucked up.
+- **action_hot100_combine.R** is a script that run on an cron once a week on Tuesday afternoon. It combines the archive data with all the "scraped" data in `data-download/hot100-scraped/`. Those files start in 2022.
 
 ### Folder structure
 
