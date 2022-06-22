@@ -3,6 +3,7 @@ on:
     - cron: '5 18 * * 2'
   push:
     branches: main
+  workflow_dispatch:
 
 name: Billboard Hot100 combine
 
