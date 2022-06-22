@@ -1,0 +1,167 @@
+---
+title: "Billboard 200 scrape explore"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+---
+
+The goal here is to build an archive of the Billboard 200 using rvest.
+
+- Check the the date
+- Is it the right year?
+- Scrape the chart
+- add it to the store
+- check if 200 rows. note if note.
+- add to the data
+- Date minus 7 days
+- Get new chart
+
+
+
+
+
+
+
+```{r}
+library(tidyverse)
+library(rvest)
+library(lubridate)
+library(here)
+```
+
+## Date options
+
+I set up some flags to get a specific date or the current date.
+
+- `F` pulls the current chart
+- `T` pulls the chart that is noted in the `edition_request` object
+
+```{r flags}
+edition_request <- "2022-02-26"
+edition_flag <- F
+
+edition_current <- ""
+if (edition_flag == T) edition_page <- edition_request else edition_page <- edition_current
+```
+
+## Get the page
+
+Get the content of the page:
+
+```{r urls-scrape}
+# gets the page
+scrape_url <- paste(
+  "https://www.billboard.com/charts/billboard-200/",
+  edition_page,
+  sep = ""
+  )
+
+scrape_url
+
+first_scrape <- read_html(scrape_url)
+first_scrape
+```
+
+### Get page date element
+
+I get this date to match the real date of the data vs one that we may have asked above since pages will redirect.
+
+```{r get-}
+data_date <- first_scrape %>% 
+  html_element("div#chart-date-picker") %>% 
+  html_attr("data-date")
+
+data_date
+```
+
+Create year variable for directory structure.
+
+```{r}
+chart_year <- ymd(data_date) %>% year()
+
+# peek at it
+chart_year
+```
+
+
+```{r}
+# gets the billboard list
+second_scrape <- first_scrape %>% 
+  html_elements("ul.o-chart-results-list-row")
+
+# gets the text from within the list items
+all_lines <- second_scrape %>% 
+  html_text2()
+
+# converts that text from a list to a tibble
+lines_tibble <- all_lines %>% as_tibble()
+
+lines_tibble
+```
+
+## Separate the lines
+
+Each row in the tibble has all the results of the charts, but separated by `\n`.
+
+There is some trash in some of the entries when a song is "new" or "re-entry". There may be more. (I'm cleaning out that data for now, but some day perhaps that is worth noting in a new column. May be hard to get historical data on, though.)
+
+```{r}
+lines_cleaned <- lines_tibble %>% 
+  mutate(
+    data_cleaned = str_remove_all(value, " NEW\n|NEW"),
+    data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY")
+  ) %>% 
+  select(data_cleaned, value)
+```
+
+
+```{r}
+lines_cleaned
+```
+
+
+Separate the data into columns.
+
+```{r}
+lines_separated <- lines_cleaned %>% separate(
+  col = data_cleaned,
+  sep = "\n",
+  into = c(
+    "current_week",
+    "title",
+    "performer",
+    "last_week",
+    "peak_pos",
+    "wks_on_chart"
+    )
+  ) %>% 
+  select(-value)
+
+lines_separated
+```
+
+## Add a date
+
+```{r}
+dated_data <- lines_separated %>% 
+  mutate(chart_week = data_date) %>% 
+  select(chart_week, everything())
+
+dated_data
+```
+
+## Testing files
+
+Testing this concept: I need to throw an error somehow if there are not 200 rows. Preferably I would get a message to slack or email. This has not been implemented in the scraping script.
+
+```{r}
+if (dated_data %>% nrow == 200) {"yes"} else {"no"}
+```
+
+
+
