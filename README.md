@@ -19,6 +19,8 @@ If you are here looking for historical Billboard Hot 100 data, here are the file
 - [data-out/hot100_archive.csv](data-out/hot100_archive.csv) has data from the chart's inception through the end of "last" year.
 - [data-out/hot100_current.csv](data-out/hot100_current.csv) has data to the current week (more or less).
 
+NEW: I'm also working on [data-out/billboard200-current.csv](data-out/hot100_current.csv) but there are clearly some issues with the older data that need to be worked out.
+
 This project has been ... an adventure. Details below.
 
 ## Current Hot 100 data
