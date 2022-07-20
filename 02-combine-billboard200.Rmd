@@ -21,6 +21,7 @@ This notebook informs action scripts that will be built in the future. I need to
 ```{r setup, echo=T, results='hide', message=F, warning=F}
 library(tidyverse)
 library(fs)
+library(lubridate)
 ```
 
 ## Import archive data
@@ -108,6 +109,8 @@ charts_current %>% write_csv("data-out/billboard200_current.csv")
 
 ## Data smells
 
+### Check for 200 records
+
 There are clearly some problems as the number of records is not divisible by 200. The problem is with the older data, but looking into where here.
 
 ```{r}
@@ -116,4 +119,18 @@ charts_current |>
   filter(n != 200)
 ```
 
+The first five that are 175 records seem to match what is online.
+
+- 1967-09-16 is a problem as there are really supposed to be 200. Perhaps we just fix the file?
+
+### Check charts per year
+
+With none below 52 except the first year and current year, I think we are good here. 53 can be OK depending on how the calendar falls.
+
+```{r}
+charts_current |> 
+  distinct(chart_week) |> 
+  count(year(chart_week)) |> 
+  filter(n != 52)
+```
 
