@@ -1,0 +1,83 @@
+---
+title: "Various data checks"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+---
+
+
+## Goals
+
+Check for problems in the combined current archives
+
+## Setup
+
+```{r setup, echo=T, results='hide', message=F, warning=F}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+```
+
+## Hot 100
+
+Import
+
+```{r}
+hot100 <- read_csv("data-out/hot-100-current.csv")
+
+hot100 %>%  glimpse()
+```
+
+Check most recent chart
+
+```{r check}
+counts_hot100 <- hot100 %>% 
+  group_by(chart_week) %>% 
+  summarise(cnt = n()) %>% 
+  arrange(chart_week %>% desc())
+
+counts_hot100 %>% head()
+```
+
+Look for short counts
+
+```{r short-counts}
+counts_hot100 %>% 
+  filter(cnt != 100)
+```
+
+### Billboard 200
+
+Import
+
+```{r bb200-import}
+bb200 <- read_csv("data-out/billboard-200-current.csv")
+
+bb200 |> glimpse()
+```
+
+See most recent charts
+
+```{r}
+bb200 |> 
+  count(chart_week) |> 
+  arrange(chart_week |> desc()) |> 
+  head()
+```
+
+Check counts less than 200
+
+```{r}
+bb200 |> 
+  count(chart_week) |> 
+  filter(n != 200)
+```
+
+
+- The 175 weeks are how they appear online today. Could be that was all there were as that was the chart's birth.
+- The `1967-09-16` data is an error in my collected data that needs to be fixed, but I haven't decided how yet.

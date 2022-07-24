@@ -1,0 +1,23 @@
+on:
+  schedule:
+    - cron: '10 15 * * 2,3'
+  workflow_dispatch:
+
+name: Billboard charts scrape
+
+jobs:
+  render:
+    name: Billboard charts scrape
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v2
+      - name: Install dependencies
+        run: Rscript -e 'install.packages(c("rvest", "tidyverse", "lubridate", "here"))'
+      - name: Scrape the data
+        run: Rscript action_scrape_charts.R
+      - name: Commit results
+        run: |
+          git add -A
+          git commit -m 'At least one chart scraped and saved!' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
