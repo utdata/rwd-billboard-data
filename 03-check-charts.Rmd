@@ -7,7 +7,7 @@ output:
     toc_depth: 3
     toc_float: true
     df_print: paged
-knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
 ---
 
 
@@ -51,7 +51,7 @@ counts_hot100 %>%
   filter(cnt != 100)
 ```
 
-### Billboard 200
+## Billboard 200
 
 Import
 
