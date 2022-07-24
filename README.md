@@ -12,7 +12,7 @@ knit: (function(inputFile, encoding) { rmarkdown::render(
 
 # rwd-billboard-data
 
-> **July 23 2020 UPDATE**: A bunch of scripts have been refactored to process both the Hot 100 and Billboard 200 charts. Some obsolete files will be removed soon which may cause breaking changes if you rely on them. Notes below have been updated.
+> **July 23 2020 UPDATE**: the project was refactored to process both the Hot 100 and Billboard 200 charts. There could be breaking changes: Some obsolete files were removed; the "current" chart files were renamed.
 
 This project archives [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) and [Billboard 200](https://www.billboard.com/charts/billboard-200/) charts data.
 
@@ -36,7 +36,7 @@ As of this writing (July 23, 2022) they run each Tuesday and Wednesday. (Wednesd
 
 ### Exploration and maintenance
 
-There are two notebooks that are used to explore and maintain those scripts: `01-scrape-charts.Rmd` and `02-combine-charts.Rmd`.
+There are some RMarkdown notebooks used to explore and maintain those scripts: `01-scrape-charts.Rmd`, `02-combine-charts.Rmd` and `03-check-charts.Rmd`.
 
 ## Hot 100
 
@@ -49,7 +49,7 @@ The Github Action script saves data into `data-scraped/hot-100` based on the cha
 Where the data comes from:
 
 - We downloaded this [kaggle](https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs) data straight from the web page. It is saved as `data-download/hot100_kaggle_195808_20211106.csv`. It has charts into November 2021. There are some missing records (at least 13).
-- Since kaggle data is stale, some gap data was collected with a Data Miner Chrome plugin and [saved as a Google Sheet](https://docs.google.com/spreadsheets/d/1in--HfDYfijzQha8PSP4ItaKND9_rzx8pFPVHaZi-hE/edit?usp=sharing). It's possible this will replaced in the future.
+- Since the kaggle data is stale, some gap data was collected with a Data Miner Chrome plugin and [saved as a Google Sheet](https://docs.google.com/spreadsheets/d/1in--HfDYfijzQha8PSP4ItaKND9_rzx8pFPVHaZi-hE/edit?usp=sharing). It's possible this will replaced in the future.
 - Another source of Billboard Hot 100 data is on  [data.world](https://data.world/kcmillersean/billboard-hot-100-1958-2017) and it is used to fill in the data missing from kaggle. It only goes through June 2021 and also has gaps, but not the same gaps as the kaggle data.
 
 How it comes together:
@@ -65,9 +65,9 @@ TLDR: My data matches what is currently online.
 
 ## Billboard 200
 
-The chart scraping script also collects the [Billboard 200](https://www.billboard.com/charts/billboard-200/) each week, and the chart combine script builds a current archive saved as [data-out/billboard-200-current.csv](data-out/billboard-200-current.csv).
+The chart scraping script also collects the [Billboard 200](https://www.billboard.com/charts/billboard-200/) each week in to `data-scraped/billboard-200` stored by date, and the chart combine script builds a current archive saved as [data-out/billboard-200-current.csv](data-out/billboard-200-current.csv).
 
-The combine script taps a processed archive file for charts pre-2020, explained below
+The combine script taps a processed archive file for charts pre-2020, explained below.
 
 > The following scripts won't work anymore. It would be nice to build the pre-2020 archive from my own R scrapes, but I haven't done that as yet.
 
@@ -80,5 +80,5 @@ There are two significant issues to be aware of:
 ### Known Billboard 200 data errors
 
 - The first five weeks in the history have only 175 rows but that matches what is online. This is not really an error, but of note.
-- The **1967-09-16 has only 191 records so is incorrect**. The chart is correct online, but I haven't decided how to fix my archive yet.
+- There are **only 191 records for 1967-09-16 and that is incorrect**. The chart is correct online, but I haven't decided how to fix my archive yet.
 

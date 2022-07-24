@@ -1639,10 +1639,10 @@ pre code {
 <div id="rwd-billboard-data" class="section level1">
 <h1>rwd-billboard-data</h1>
 <blockquote>
-<p><strong>July 23 2020 UPDATE</strong>: A bunch of scripts have been
-refactored to process both the Hot 100 and Billboard 200 charts. Some
-obsolete files will be removed soon which may cause breaking changes if
-you rely on them. Notes below have been updated.</p>
+<p><strong>July 23 2020 UPDATE</strong>: the project was refactored to
+process both the Hot 100 and Billboard 200 charts. There could be
+breaking changes: Some obsolete files were removed; the “current” chart
+files were renamed.</p>
 </blockquote>
 <p>This project archives <a href="https://www.billboard.com/charts/hot-100/">Billboard Hot 100</a>
 and <a href="https://www.billboard.com/charts/billboard-200/">Billboard
@@ -1680,9 +1680,10 @@ files, if any.</li>
 Wednesday. (Wednesday allows for holiday delays or other errors.)</p>
 <div id="exploration-and-maintenance" class="section level3">
 <h3>Exploration and maintenance</h3>
-<p>There are two notebooks that are used to explore and maintain those
-scripts: <code>01-scrape-charts.Rmd</code> and
-<code>02-combine-charts.Rmd</code>.</p>
+<p>There are some RMarkdown notebooks used to explore and maintain those
+scripts: <code>01-scrape-charts.Rmd</code>,
+<code>02-combine-charts.Rmd</code> and
+<code>03-check-charts.Rmd</code>.</p>
 </div>
 </div>
 <div id="hot-100" class="section level2">
@@ -1702,8 +1703,8 @@ data straight from the web page. It is saved as
 <code>data-download/hot100_kaggle_195808_20211106.csv</code>. It has
 charts into November 2021. There are some missing records (at least
 13).</li>
-<li>Since kaggle data is stale, some gap data was collected with a Data
-Miner Chrome plugin and <a href="https://docs.google.com/spreadsheets/d/1in--HfDYfijzQha8PSP4ItaKND9_rzx8pFPVHaZi-hE/edit?usp=sharing">saved
+<li>Since the kaggle data is stale, some gap data was collected with a
+Data Miner Chrome plugin and <a href="https://docs.google.com/spreadsheets/d/1in--HfDYfijzQha8PSP4ItaKND9_rzx8pFPVHaZi-hE/edit?usp=sharing">saved
 as a Google Sheet</a>. It’s possible this will replaced in the
 future.</li>
 <li>Another source of Billboard Hot 100 data is on <a href="https://data.world/kcmillersean/billboard-hot-100-1958-2017">data.world</a>
@@ -1745,10 +1746,10 @@ reasons why.</li>
 <div id="billboard-200" class="section level2">
 <h2>Billboard 200</h2>
 <p>The chart scraping script also collects the <a href="https://www.billboard.com/charts/billboard-200/">Billboard 200</a>
-each week, and the chart combine script builds a current archive saved
-as <a href="data-out/billboard-200-current.csv">data-out/billboard-200-current.csv</a>.</p>
+each week in to <code>data-scraped/billboard-200</code> stored by date,
+and the chart combine script builds a current archive saved as <a href="data-out/billboard-200-current.csv">data-out/billboard-200-current.csv</a>.</p>
 <p>The combine script taps a processed archive file for charts pre-2020,
-explained below</p>
+explained below.</p>
 <blockquote>
 <p>The following scripts won’t work anymore. It would be nice to build
 the pre-2020 archive from my own R scrapes, but I haven’t done that as
@@ -1776,7 +1777,7 @@ problems and then manually cleaned files, which are stored in
 <ul>
 <li>The first five weeks in the history have only 175 rows but that
 matches what is online. This is not really an error, but of note.</li>
-<li>The <strong>1967-09-16 has only 191 records so is
+<li>There are <strong>only 191 records for 1967-09-16 and that is
 incorrect</strong>. The chart is correct online, but I haven’t decided
 how to fix my archive yet.</li>
 </ul>
