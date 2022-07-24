@@ -7,7 +7,7 @@ output:
     toc_depth: 3
     toc_float: true
     df_print: paged
-knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
 ---
 
 ## Goals
