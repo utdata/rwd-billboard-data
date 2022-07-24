@@ -1,0 +1,88 @@
+---
+title: "Combine for current charts"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+---
+
+## Goals of this notebook
+
+To combine scraped Billboard chart files with a previous-processed archive to create a "current" archive. See `01-scrape-charts.Rmd` for more info on scraping, and the README for more about the archives.
+
+## Setup
+
+```{r setup, echo=T, results='hide', message=F, warning=F}
+library(tidyverse)
+library(fs)
+library(lubridate)
+```
+
+## Chart list
+
+Based on url slug.
+
+```{r charts-list}
+charts_list <- c("hot-100", "billboard-200")
+```
+
+## One-time processing
+
+This combination script does require some **one-time** processing of some previously-worked files (see readme).
+
+The code is **commented** because it doesn't need to run again.
+
+```{r archive-process}
+# archive_process_hot100 <- read_csv("data-out/hot100_archive_1958_2021.csv") |> 
+#   rename(
+#     chart_week = chart_date,
+#     current_week = current_position,
+#     last_week = previous_position,
+#     peak_pos = peak_position,
+#     wks_on_chart = weeks_on_chart
+#   )
+# 
+# archive_process_bb200 <- read_csv("data-out/billboard200.csv") |> 
+#     select(
+#       chart_week = date,
+#       current_week = current,
+#       title,
+#       performer = artist,
+#       last_week = previous,
+#       peak_pos = peak,
+#       wks_on_chart = weeks
+#     )
+# 
+# archive_process_hot100 |> write_csv("data-scraped/hot-100/previous_archive.csv")
+# archive_process_bb200 |> write_csv("data-scraped/billboard-200/previous_archive.csv")
+```
+
+
+## The loop
+
+Here we combine all the files for each chart and (in the darkness) bind them.
+
+Of the many ways to do this, this is the sparsest binding code. Not sure what I would do if read_csv needed arguments. This uses the tidyverse purrr [map](https://purrr.tidyverse.org/reference/map.html) function.
+
+
+```{r combine-loop}
+
+for (chart in charts_list) {
+
+  # compile a list of files to scrape
+  files_list <-  dir_ls(paste("data-scraped", chart, sep = "/"), recurse = TRUE, regexp = ".csv")
+
+  # combine all the files
+  charts_recent <- map_dfr(files_list, read_csv, col_types = cols("last_week" = col_integer()))
+  
+  # write the combined file
+  charts_recent |> write_csv(paste("data-out/", chart, "-current.csv", sep = ""))
+  
+}
+
+```
+

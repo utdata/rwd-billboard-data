@@ -1,0 +1,127 @@
+---
+title: "Billboard Charts Scraping"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+---
+
+## Goals
+
+> This supercedes `01-scrape-billboard200` and `01-scrape-hot100` and a bunch of stuff related to them, which I will remove at some point once this logic is reliable.
+
+Given a Billboard chart slug name (from it's URL) and date (default to current), scrape the chart and save the file.
+
+Charts I'm using this on are [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) and [Billboard 200](https://www.billboard.com/charts/billboard-200/).
+
+A compilation of the resulting files are handled in a different script.
+
+> This same concept is used with the Github Action version that scrapes only the current chart: `action_scrape_charts.R`.
+
+## Setup
+
+```{r setup}
+library(tidyverse)
+library(rvest)
+library(lubridate)
+library(here)
+```
+
+
+## Set up the list of charts
+
+This comes from the url of the chart, like "hot-100" from `https://www.billboard.com/charts/hot-100/`.
+
+```{r charts-list}
+# If you add to this list, you need to add a corresponding folder at `data-scraped`.
+charts_list <- c("hot-100", "billboard-200")
+```
+
+## Date options
+
+I set up some flags to get a specific date or the current date. I won't need this with the final Github Action
+
+- `F` pulls the current chart
+- `T` pulls the chart that is noted in the `edition_request` object
+
+```{r flags}
+edition_request <- "2022-02-26"
+edition_flag <- F
+```
+
+## Scraper function starts here
+
+```{r}
+for (chart in charts_list) {
+
+  # Sets edition flag
+  edition_current <- ""
+  if (edition_flag == T) edition_page <- edition_request else edition_page <- edition_current
+
+  # make the url
+  scrape_url <- paste(
+  "https://www.billboard.com/charts/",
+  chart,
+  "/",
+  edition_page,
+  sep = ""
+  )
+  
+  # get initial scrape
+  scrape_first <- read_html(scrape_url)
+  
+  # pull date from scrape
+  chart_date <- scrape_first |> 
+    html_element("div#chart-date-picker") |> 
+    html_attr("data-date")
+  
+  # pull year from scrape
+  chart_year <- year(chart_date)
+  
+  # process results into a tibble
+  scrape_tibble <- scrape_first |> 
+    html_elements("ul.o-chart-results-list-row") |> 
+    html_text2() |> 
+    as_tibble()
+  
+  # clean up the tibble
+  scrape_clean <- scrape_tibble |> 
+    mutate(
+      data_cleaned = str_remove_all(value, " NEW\n|NEW"),
+      data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY")
+    ) |> 
+    select(data_cleaned, value) |> 
+    separate(
+      col = data_cleaned,
+      sep = "\n",
+      into = c(
+        "current_week",
+        "title",
+        "performer",
+        "last_week",
+        "peak_pos",
+        "wks_on_chart"
+      )
+    ) |> 
+    select(-value) |> 
+    mutate(chart_week = chart_date) |> 
+    select(chart_week, everything())
+  
+  # name path to save file
+  folder_path <- paste("data-scraped/", chart, "/", chart_year, "/", sep = "")
+  
+  # create the directory if it doesn't exist
+  if (!dir.exists(here(folder_path))) {dir.create(here(folder_path), recursive = TRUE)}
+  
+  # write the file
+  scrape_clean |> write_csv(paste(folder_path, chart_date, ".csv", sep = ""))
+
+}
+```
+
+
+

@@ -10,6 +10,10 @@ output:
 knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
 ---
 
+
+> THIS IS DEPRECATED. Instead use 01-scrape-charts.
+
+
 The current goal here is to pull charts from 2021 and 2022 to add to build a complete archive from my previous work on The [Billboard 200](https://www.billboard.com/charts/billboard-200/). This notebook allows you to pull the current chart, or select a date and pull that chart.
 
 ## Future development

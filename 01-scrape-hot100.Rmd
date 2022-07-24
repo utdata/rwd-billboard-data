@@ -10,6 +10,11 @@ output:
 knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
 ---
 
+
+> THIS IS DEPRECATED. Instead use 01-scrape-charts.
+
+
+
 ## Goals
 
 1. I want to scrape the current [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) chart and save it as a separate file with the current date.

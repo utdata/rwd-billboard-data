@@ -1,0 +1,23 @@
+on:
+  schedule:
+    - cron: '10 16 * * 2,3'
+  workflow_dispatch:
+
+name: Billboard charts combine
+
+jobs:
+  render:
+    name: Billboard Hot100 scrape
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+      - name: Install dependencies
+        run: Rscript -e 'install.packages(c("tidyverse", "fs"))'
+      - name: Combine archive with recent
+        run: Rscript action_combine_charts.R
+      - name: Commit results
+        run: |
+          git add -A
+          git commit -m 'At least one Billboard chart archive updated!' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"

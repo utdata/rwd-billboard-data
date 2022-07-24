@@ -19,7 +19,7 @@ library(lubridate)
 ## Import
 
 ```{r}
-raw <- read_csv("data-out/hot100_current.csv")
+raw <- read_csv("data-out/hot-100-current.csv")
 
 raw %>%  glimpse()
 ```

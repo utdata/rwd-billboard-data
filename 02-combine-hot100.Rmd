@@ -12,7 +12,11 @@ knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = e
 
 ## Goals of this notebook
 
+> **IMPORTANT**: This is superceded by 02-combine-charts.
+
+
 I want to figure out how I can keep a "to date" listing of billboard hits. I have historical data and scrape the new chart each week. I'll figure it out manually and then try to set up a github action to do it.
+
 
 This notebook informs the script `action_hot100_current.R` which runs each week based on a Github Action.
 
@@ -40,6 +44,9 @@ charts_archive <- read_csv("data-out/hot100_archive_1958_2021.csv") %>%
   )
 
 charts_archive %>% glimpse()
+
+## This was a one-time write to 02-combine-charts scripts
+# charts_archive |> write_csv("data-scraped/hot-100/previous_archive.csv")
 ```
 
 ## Get recent years

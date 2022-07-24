@@ -12,60 +12,64 @@ knit: (function(inputFile, encoding) { rmarkdown::render(
 
 # rwd-billboard-data
 
-This project archives Billboard charts data.
+> **July 23 2020 UPDATE**: A bunch of scripts have been refactored to process both the Hot 100 and Billboard 200 charts. Some obsolete files will be removed soon which may cause breaking changes if you rely on them. Notes below have been updated.
 
-If you are here looking for historical Billboard Hot 100 data, here are the files of interest:
+This project archives [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) and [Billboard 200](https://www.billboard.com/charts/billboard-200/) charts data.
 
-- [data-out/hot100_archive.csv](data-out/hot100_archive.csv) has data from the chart's inception through the end of "last" year.
-- [data-out/hot100_current.csv](data-out/hot100_current.csv) has data to the current week (more or less).
+If you are here looking for a current archive, here are the files of interest:
 
-**NEW:** I'm also working on [data-out/billboard200-current.csv](data-out/hot100_current.csv). The first five records have only 175 listings but that matches what is online. 1967-09-16 at 191 is incorrect, but I haven't decided how to fix.
+- [data-out/hot-100-current.csv](data-out/hot-100-current.csv) has the [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) back to its inception in 1958.
+- [data-out/billboard-200-current.csv](data-out/billboard-200-current.csv) is the [Billboard 200](https://www.billboard.com/charts/billboard-200/) from its inception in 1967.
+
+> There are minor data errors in both archives. See details below.
 
 This project has been ... an adventure. Details below.
 
-## Current Hot 100 data
+## Charts scraping and combining
 
-There is a Github Action in place to download the most current chart. As of this writing (April 26, 2020) it runs each day to check for a new chart and commits it if there is a new one. The chart typically releases Tuesday mornings, but I'm still adjusting the best time to scrape.
+There are two Github Actions that call scripts to scrape a list of charts each week and then combine each chart's files with some processed archives from other sources. I currently collect for the Hot 100 and Billboard 200 charts.
 
-The data is saved into `data-download/hot100-scraped` based on the chart date.
+- `.github/workflows/scrap_charts.yml` is a Github Action that is scheduled on a cron to run `action_scrape_charts.R`. That scrapes the current chart and saves it.
+- `.github/workflows/combine_charts.yml` is a Github Action that is scheduled on a cron to run `action_combine_charts.R`. This combines scraped charts with any `previous_archives` files, if any.
 
-There is another Github Action that combines "recent" scraped data with saved archive data to update the "current" data file listed above. It scheduled to kick off on Tuesday afternoon.
+As of this writing (July 23, 2022) they run each Tuesday and Wednesday. (Wednesday allows for holiday delays or other errors.)
 
-Github Actions sometimes fail, so results may vary.
+### Exploration and maintenance
 
-## Historical Hot 100 data
+There are two notebooks that are used to explore and maintain those scripts: `01-scrape-charts.Rmd` and `02-combine-charts.Rmd`.
 
-Some (but not all) notebooks are stored in the `notebooks/` folder.
+## Hot 100
+
+### 2022 to current
+
+The Github Action script saves data into `data-scraped/hot-100` based on the chart date. These files cover 2022 and forward.
+
+### Archive from before 2022
 
 Where the data comes from:
 
-- We download this [kaggle](https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs) data straight from the web page. It is saved as `hot100_kaggle_195808_20211106.csv`. It has charts into November 2021. There are some missing records (at least 13).
+- We downloaded this [kaggle](https://www.kaggle.com/dhruvildave/billboard-the-hot-100-songs) data straight from the web page. It is saved as `data-download/hot100_kaggle_195808_20211106.csv`. It has charts into November 2021. There are some missing records (at least 13).
 - Since kaggle data is stale, some gap data was collected with a Data Miner Chrome plugin and [saved as a Google Sheet](https://docs.google.com/spreadsheets/d/1in--HfDYfijzQha8PSP4ItaKND9_rzx8pFPVHaZi-hE/edit?usp=sharing). It's possible this will replaced in the future.
 - Another source of Billboard Hot 100 data is on  [data.world](https://data.world/kcmillersean/billboard-hot-100-1958-2017) and it is used to fill in the data missing from kaggle. It only goes through June 2021 and also has gaps, but not the same gaps as the kaggle data.
-- **01-scrape-hot100**: A single scrape notebook using rvest to pull current or specific data. This is a manual thing. For automation, see ...
-- **action_hot100_scrape.R** is a script that is set to run on a cron through Github actions. It's more-or-less the same at **01-scrape-hot100** but an R script instead of a notebook. It is set to run daily, but only commits when new data is released, once a week.
 
 How it comes together:
 
-- **notebooks/01-hot100-archive**: Combines different data sources to create the complete archive, saved into the `data-out` folder. This includes a version of the data for Reporting with Data in R, which is purposely mucked up.
-- **action_hot100_combine.R** is a script that run on an cron once a week on Tuesday afternoon. It combines the archive data with all the "scraped" data in `data-download/hot100-scraped/`. Those files start in 2022.
+- **notebooks/02-hot100-archive**: Combines different data sources to create the complete archive, saved into the `data-out` folder. This includes a version of the data for Reporting with Data in R, which is purposely mucked up.
 
-### Folder structure
+### Known Hot 100 data errors
 
-- data-download: Where to download collected data from sources.
-- data-out: This is "finished" data
-- data-process: Where mid-process data is written.
+TLDR: My data matches what is currently online.
 
-### Known data errors
-
+- There are a couple of records for "Rainy Night In Georgia/Rubberneckin'" by Brook Benton, which [some think](https://data.world/kcmillersean/billboard-hot-100-1958-2017/discuss/billboard-hot-100-1958-2017/me2tkmbx#kex5mx5n) is a mistake. Elvis' "Rubberneckin'" appears higher in these same weeks. As of 2022-07-23 the data appears this way online for [1970-01-10](https://www.billboard.com/charts/hot-100/1970-01-10/) and [1970-01-17](https://www.billboard.com/charts/hot-100/1970-01-17/) charts.
 - [This comment](https://data.world/kcmillersean/billboard-hot-100-1958-2017/discuss/billboard-hot-100-1958-2017/me2tkmbx#emfy2p2n) on the data.world collection: "Just another heads up for anyone using this dataset. The charts for 1961 contain another error. The Pips "Every Beat Of My Heart" is duplicated twice in some of the weekly charts, except the duplicates are credited to Gladys Knight & The Pips. The original 1961 release was credited to only Pips or The Pips, later re-releases of the song in the 70s reflect the band's change of name." I have confirmed the double entries in this data set and currently online at Billboard, but have not researched the possible reasons why.
-- There are a couple of records for "Rainy Night In Georgia/Rubberneckin'" by Brook Benton, which [some think](https://data.world/kcmillersean/billboard-hot-100-1958-2017/discuss/billboard-hot-100-1958-2017/me2tkmbx#kex5mx5n) is a mistake. Elvis' "Rubberneckin'" appears higher in these same weeks. It appears this way currently (2022-06-09) online for [1970-01-10](https://www.billboard.com/charts/hot-100/1970-01-10/) and [1970-01-17](https://www.billboard.com/charts/hot-100/1970-01-17/).
 
 ## Billboard 200
 
-> Mothballed but perhaps could come back. Since the data was kinda trash, it would be nice to re-scrape this in R to create a new, more accurate archive.
+The chart scraping script also collects the [Billboard 200](https://www.billboard.com/charts/billboard-200/) each week, and the chart combine script builds a current archive saved as [data-out/billboard-200-current.csv](data-out/billboard-200-current.csv).
 
-I've built a Billboard 200 archive through 2020?
+The combine script taps a processed archive file for charts pre-2020, explained below
+
+> The following scripts won't work anymore. It would be nice to build the pre-2020 archive from my own R scrapes, but I haven't done that as yet.
 
 -  01-build-archive-billboard200 is a python Jupyter Notebook that downloads the files one year at a time. The resulting files are saved in `data`. 
 There are two significant issues to be aware of:
@@ -73,19 +77,8 @@ There are two significant issues to be aware of:
   - **This process will no longer work because the python package is broken.** It no longer understands previousDate. The original data has been moved to `data-download/py-billboard-200` and the fixed data is in `data-process/billboard200`.
 - [02-billboard200-combine](https://utdata.github.io/rwd-billboard-data/02-billboard200-combine.html) is an R notebook used to combine the data. I used this notebook to find problems and then manually cleaned files, which are stored in `data-process/billboard200/`. Combined data is in `data-out/billboard200.csv`.
 
-## Deprecated
+### Known Billboard 200 data errors
 
-I tried to build my own week-by-week archive using the [Billboard Charts](https://github.com/guoguo12/billboard-charts) python package. **The resulting files are problematic. Quoted words within titles and songs are not escaped, breaking csv conventions.**
+- The first five weeks in the history have only 175 rows but that matches what is online. This is not really an error, but of note.
+- The **1967-09-16 has only 191 records so is incorrect**. The chart is correct online, but I haven't decided how to fix my archive yet.
 
-> January 2022 update: New problems with the python package: Does not include previousDate so loops don't work. So basically this is all crap below.
-
-### Hot 100 Archive
-
-- I tried to pull my own Hot 100 data, but the API quit responding around 1997 and older and there was the quote problem, too.
-- 01-build-archive-hot100 is a python Jupyter Notebook that downloads Hot 100 charts from Billboard in an attempt to build my own original data. It stopped working on older years and had other isseus, so I now use the data from 01-hott100-clean instead.
-
-### Requirements for the Python bits
-
-- [Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/) or maybe [Jupyter](https://jupyter.org/documentation).
-- [Billboard Charts](https://github.com/guoguo12/billboard-charts)
-- [Pandas](https://pandas.pydata.org/)

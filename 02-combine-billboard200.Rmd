@@ -12,6 +12,8 @@ knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = e
 
 ## Goals of this notebook
 
+> IMPORTANT: This is superceded by 02-combine-charts.
+
 This notebook builds an archive of [billboard 200]() charts going back in history. Weeks through the end of 2020 were build through a python script and manually updated. 2021 forward is done in an R scrape that should be automated at some ponit.
 
 This notebook informs action scripts that will be built in the future. I need to decide if I should use the same Github Action scripts to do both Hot 100 and Billboard 200
@@ -31,26 +33,21 @@ We are pulling in the previous Billboard 200 data and preparing it to meld with 
 We rename some columns to match our newer data.
 
 ```{r import-archive}
-charts_archive <- read_csv("data-out/billboard200.csv") %>%
-  rename(
-    chart_week = date,
-    current_week = current,
-    performer = artist,
-    last_week = previous,
-    peak_pos = peak,
-    wks_on_chart = weeks
-  ) |> 
-  select(
-    chart_week,
-    current_week,
-    title,
-    performer,
-    last_week,
-    peak_pos,
-    wks_on_chart
-  )
+charts_archive <- read_csv("data-out/billboard200.csv") |> 
+    select(
+      chart_week = date,
+      current_week = current,
+      title,
+      performer = artist,
+      last_week = previous,
+      peak_pos = peak,
+      wks_on_chart = weeks
+    )
 
 charts_archive %>% glimpse()
+
+## A one-time write for 02-combine-charts
+# charts_archive |> write_csv("data-scraped/billboard-200/previous_archive.csv")
 ```
 
 ## Get recent years
