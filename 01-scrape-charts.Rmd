@@ -12,8 +12,6 @@ knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = e
 
 ## Goals
 
-> This supercedes `01-scrape-billboard200` and `01-scrape-hot100` and a bunch of stuff related to them, which I will remove at some point once this logic is reliable.
-
 Given a Billboard chart slug name (from it's URL) and date (default to current), scrape the chart and save the file.
 
 Charts I'm using this on are [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) and [Billboard 200](https://www.billboard.com/charts/billboard-200/).
@@ -24,7 +22,7 @@ A compilation of the resulting files are handled in a different script.
 
 ## Setup
 
-```{r setup}
+```{r setup, echo=T, results='hide', message=F, warning=F}
 library(tidyverse)
 library(rvest)
 library(lubridate)
@@ -37,7 +35,6 @@ library(here)
 This comes from the url of the chart, like "hot-100" from `https://www.billboard.com/charts/hot-100/`.
 
 ```{r charts-list}
-# If you add to this list, you need to add a corresponding folder at `data-scraped`.
 charts_list <- c("hot-100", "billboard-200")
 ```
 

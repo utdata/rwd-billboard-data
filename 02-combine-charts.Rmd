@@ -32,7 +32,7 @@ charts_list <- c("hot-100", "billboard-200")
 
 ## One-time processing
 
-This combination script does require some **one-time** processing of some previously-worked files (see readme).
+This combination script does require some **one-time** processing of some previously-worked files (see README).
 
 The code is **commented** because it doesn't need to run again.
 
@@ -66,7 +66,7 @@ The code is **commented** because it doesn't need to run again.
 
 Here we combine all the files for each chart and (in the darkness) bind them.
 
-Of the many ways to do this, this is the sparsest binding code. Not sure what I would do if read_csv needed arguments. This uses the tidyverse purrr [map](https://purrr.tidyverse.org/reference/map.html) function.
+Of the many ways to do this, this is the sparsest binding code. Not sure what I would do it this way if read_csv needed arguments. This uses the tidyverse purrr [map](https://purrr.tidyverse.org/reference/map.html) function.
 
 
 ```{r combine-loop}
