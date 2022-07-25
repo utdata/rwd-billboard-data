@@ -36,7 +36,7 @@ As of this writing (July 23, 2022) they run each Tuesday and Wednesday. (Wednesd
 
 ### Exploration and maintenance
 
-There are some RMarkdown notebooks used to explore and maintain those scripts: `01-scrape-charts.Rmd`, `02-combine-charts.Rmd` and `03-check-charts.Rmd`.
+There are some RMarkdown notebooks used to explore and maintain those scripts: `01-scrape-charts.Rmd`, `02-combine-charts.Rmd` and `03-check-charts.Rmd`. There are some details recorded there that can help explain what is happening in the scrap/combine charts scripts.
 
 ## Hot 100
 
