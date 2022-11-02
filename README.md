@@ -80,5 +80,4 @@ There are two significant issues to be aware of:
 ### Known Billboard 200 data errors
 
 - The first five weeks in the history have only 175 rows but that matches what is online. This is not really an error, but of note.
-- There are **only 191 records for 1967-09-16 and that is incorrect**. The chart is correct online, but I haven't decided how to fix my archive yet.
-
+- There are **only 191 records for 1967-09-16**. The chart is also incorrect online, missing records 153, 154, 182, 184, 192, 193, 195, 196 and 197.
