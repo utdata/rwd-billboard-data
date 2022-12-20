@@ -61,7 +61,7 @@ hot100_assignment <- hot100_clipped %>%
   ) |>   
   # muck the names
   select(
-    `CHART DATE` = chart_week,
+    `CHART WEEK` = chart_week,
     `THIS WEEK` = current_week,
     `TITLE` = title,
     `PERFORMER` = performer,
