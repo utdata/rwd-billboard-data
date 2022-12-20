@@ -2785,19 +2785,8 @@ border-radius: 0px;
 
 <div id="goal-of-this-notebook" class="section level2">
 <h2>Goal of this notebook</h2>
-<p>The goal here is to create Billboard Hot 100 data for the Reporting
-with Data in R book. It is purposely mucked up for the assignment.</p>
-<div id="to-do" class="section level3">
-<h3>To do</h3>
-<ul>
-<li>Since this is my first attempt at Quarto, I need to figure out how
-to publish the html to <code>docs/</code>. <a href="https://quarto.org/docs/publishing/github-pages.html">This</a>
-should help, but I don’t have time to figure it out now.</li>
-<li>Instead of manually setting the clip year, I should sniff the data
-to determine if there are 52 or 53 weeks in the most current year’s data
-and then clip it based on that.</li>
-</ul>
-</div>
+<p>The goal here is to create Billboard Hot 100 data for the <a href="https://utdata.github.io/rwdir/">Reporting with Data in R
+book</a>. It is purposely mucked up for the assignment.</p>
 </div>
 <div id="setup" class="section level2">
 <h2>Setup</h2>
@@ -2818,15 +2807,14 @@ library(lubridate)</code></pre>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>The <code>echo: false</code> option disables the printing of code
-(only output is displayed).</p>
 </div>
 <div id="clip-the-year" class="section level2">
 <h2>Clip the year</h2>
-<p>For the book assignment, we want to remove the most recent year if
-incomplete. For now, we’ll do this manually.</p>
-<pre class="r"><code>hot100_clipped &lt;- hot100_current |&gt; 
-  filter(year(chart_week) &lt; 2022)
+<p>For the book assignment, we want only full years so we remove rows
+from the most recent year.</p>
+<pre class="r"><code># This gets the current year.
+hot100_clipped &lt;- hot100_current |&gt; 
+  filter(year(chart_week) &lt; year(Sys.Date()))
 
 hot100_clipped$chart_week |&gt; summary()</code></pre>
 <pre><code>##         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
@@ -2834,8 +2822,9 @@ hot100_clipped$chart_week |&gt; summary()</code></pre>
 </div>
 <div id="muck-the-data" class="section level2">
 <h2>Muck the data</h2>
-<p>In some cases I may want to use this data as a lesson in cleaning
-headers and data types. This may or may not be used.</p>
+<p>We change the names of the column headers and muck up the data to
+force students to deal with that in <a href="https://utdata.github.io/rwdir/counts-import.html#cleaning-data">Reporting
+with Data in R Chapter 3</a>.</p>
 <pre class="r"><code>hot100_assignment &lt;- hot100_clipped %&gt;%
   # muck the date
   mutate(
