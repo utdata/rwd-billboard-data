@@ -1,0 +1,86 @@
+---
+title: "RWDIR Hot 100 data"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    df_print: paged
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
+---
+
+## Goal of this notebook
+
+The goal here is to create Billboard Hot 100 data for the [Reporting with Data in R book](https://utdata.github.io/rwdir/). It is purposely mucked up for the assignment.
+
+### To do
+
+- Instead of manually setting the clip year, I should sniff the data to determine if there are 52 or 53 weeks in the most current year's data and then clip it based on that.
+
+## Setup
+
+```{r setup, echo=T, results='hide', message=F, warning=F}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+```
+
+## Import data
+
+Import the most current Billboard Hot 100 data.
+
+```{r import}
+hot100_current <- read_csv("data-out/hot-100-current.csv")
+```
+
+## Clip the year
+
+For the book assignment, we want to remove the most recent year if incomplete. For now, we'll do this manually.
+
+```{r clip_year}
+hot100_clipped <- hot100_current |> 
+  filter(year(chart_week) < 2022)
+
+hot100_clipped$chart_week |> summary()
+```
+
+
+## Muck the data
+
+We change the names of the column headers and muck up the data to force students to deal with that in [Reporting with Data in R Chapter 3](https://utdata.github.io/rwdir/counts-import.html#cleaning-data).
+
+
+```{r muck}
+hot100_assignment <- hot100_clipped %>%
+  # muck the date
+  mutate(
+    chart_week = paste(
+      month(chart_week) %>% as.character(),
+      day(chart_week) %>% as.character(),
+      year(chart_week) %>% as.character(),
+      sep = "/"
+      )
+  ) |>   
+  # muck the names
+  select(
+    `CHART DATE` = chart_week,
+    `THIS WEEK` = current_week,
+    `TITLE` = title,
+    `PERFORMER` = performer,
+    `LAST WEEK` = last_week,
+    `PEAK POS.` = peak_pos,
+    `WKS ON CHART` = wks_on_chart
+  )
+
+hot100_assignment %>% glimpse()
+```
+
+## Export
+
+Here we export the data for the assignment.
+
+```{r export}
+hot100_assignment |> write_csv("data-out/hot100_assignment.csv")
+```
+

@@ -34,6 +34,8 @@ There are two Github Actions that call scripts to scrape a list of charts each w
 
 As of this writing (July 23, 2022) they run each Tuesday and Wednesday. (Wednesday allows for holiday delays or other errors.)
 
+There are notebooks at the root level that explore how to do the functions necessary in the Github Actions. There are a couple of others as well
+
 ### Exploration and maintenance
 
 There are some RMarkdown notebooks used to explore and maintain those scripts: `01-scrape-charts.Rmd`, `02-combine-charts.Rmd` and `03-check-charts.Rmd`. There are some details recorded there that can help explain what is happening in the scrap/combine charts scripts.
@@ -54,7 +56,7 @@ Where the data comes from:
 
 How it comes together:
 
-- **notebooks/02-hot100-archive**: Combines different data sources to create the complete archive, saved into the `data-out` folder. This includes a version of the data for Reporting with Data in R, which is purposely mucked up.
+- **notebooks/02-hot100-archive**: Combines different data sources to create the complete archive, saved into the `data-out` folder.
 
 ### Known Hot 100 data errors
 

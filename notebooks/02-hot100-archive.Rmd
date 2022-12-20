@@ -12,6 +12,8 @@ knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = e
 
 ## About this notebook
 
+> This has been kept for posterity, but it shouldn't be run again. Outputs have been commented.
+
 I'm developing a clean list of all Billboard Hot 100 charts through history, along with mechanisms to create a continuous archive as new charts are released.
 
 These are my sources:
@@ -238,48 +240,15 @@ hot100_archive %>% summary()
 hot100_archive %>% glimpse()
 ```
 
-## Muck up data
-
-In some cases I may want to use this data as a lesson in cleaning headers and data types. This may or may not be used.
-
-```{r muck}
-hot100_assignment <- hot100_archive %>%
-  # muck a date
-  mutate(
-    yr = year(chart_date) %>% as.character(),
-    mo = month(chart_date) %>% as.character(),
-    dy = day(chart_date) %>% as.character(),
-    chart_week = paste(mo, dy, yr, sep = "/")
-  ) %>% 
-  # muck the names
-  select(
-    `CHART WEEK` = chart_week,
-    `THIS WEEK` = current_position,
-    `SONG` = title,
-    `PERFORMER` = performer,
-    `LAST WEEK` = previous_position,
-    `PEAK POS.` = peak_position,
-    `WKS ON CHART` = weeks_on_chart
-  )
-
-hot100_assignment %>% glimpse()
-```
-
 ## Export
 
 Here we print out the nice Kaggle data to `data-process` folder, and then verisons to the `data-out` folder for consuming into lessons later.
 
+> exports commented to preserve archived output.
+
 ```{r export}
-hot100_archive %>% write_csv("../data-out/hot100_archive_1958_2021.csv")
-hot100_archive %>% write_csv("../data-out/hot100_archive.csv")
-hot100_assignment %>% write_csv("../data-out/hot100_assignment.csv")
-```
-
-## Test assignment data
-
-Since I'm mucking up the data on purpose, I'd like to make sure it _worked_.
-
-```{r test-muck}
-read_csv("../data-out/hot100_assignment.csv")
+# hot100_archive %>% write_csv("../data-out/hot100_archive_1958_2021.csv")
+# hot100_archive %>% write_csv("../data-out/hot100_archive.csv")
+# hot100_assignment %>% write_csv("../data-out/hot100_assignment.csv")
 ```
 
