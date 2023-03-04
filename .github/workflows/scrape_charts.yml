@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: Rscript -e 'install.packages(c("rvest", "tidyverse", "lubridate", "here"))'
       - name: Scrape the data
-        run: xRscript action_scrape_charts.R
+        run: Rscript action_scrape_charts.R
       - name: Commit results
         run: |
           git add -A
