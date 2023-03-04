@@ -5,10 +5,10 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  #push:
+  #  branches: [ "main" ]
+  #pull_request:
+  #  branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -35,13 +35,21 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
 
+      - name: Slack Notification on SUCCESS
+        if: success()
+        uses: tokorom/action-slack-incoming-webhook@main
+        env:
+            INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+        with:
+            text: A successful run
+            
       - name: Slack Notification on FAILURE
         if: failure()
         uses: tokorom/action-slack-incoming-webhook@main
         env:
             INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
         with:
-            text: Yo @crit ... something went wrong with the test.
+            text: Something went wrong.
             attachments: |
               [
                   {
@@ -56,29 +64,3 @@ jobs:
                   ]
                   }
               ] 
- 
-      - name: Slack Notification with new commits
-        if: success()
-        uses: tokorom/action-slack-incoming-webhook@main
-        env:
-          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-        with:
-          text: Hi @crit. This test worked.
-          attachments: |
-            [
-                {
-                "color": "good",
-                "author_name": "${{ github.actor }}",
-                "author_icon": "${{ github.event.sender.avatar_url }}",
-                "fields": [
-                    {
-                    "title": "GitHub Actions URL",
-                    "value": "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}"
-                    },
-                    {
-                    "title": "Commit URL",
-                    "value": "https://github.com/${{github.repository}}/commits"
-                    }
-                ]
-                }
-            ] 
