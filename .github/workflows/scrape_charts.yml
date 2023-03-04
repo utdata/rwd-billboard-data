@@ -15,20 +15,12 @@ jobs:
       - name: Install dependencies
         run: Rscript -e 'install.packages(c("rvest", "tidyverse", "lubridate", "here"))'
       - name: Scrape the data
-        run: Rscript action_scrape_charts.R
+        run: xRscript action_scrape_charts.R
       - name: Commit results
         run: |
           git add -A
           git commit -m 'At least one chart scraped and saved!' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
-
-      - name: Slack Notification on run but no commit
-        if: (success() && steps.add_commit.outputs.committed=='false')
-        uses: tokorom/action-slack-incoming-webhook@main
-        env:
-            INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-        with:
-            text: Hi @crit. There was a successful run of Billboard Scrape, but nada.
 
       - name: Slack Notification on FAILURE
         if: failure()
@@ -51,8 +43,9 @@ jobs:
                   ]
                   }
               ] 
+ 
       - name: Slack Notification with new commits
-        if: (success() && steps.add_commit.outputs.committed=='true')
+        if: success()
         uses: tokorom/action-slack-incoming-webhook@main
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
