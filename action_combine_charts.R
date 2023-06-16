@@ -21,3 +21,28 @@ for (chart in charts_list) {
   charts_recent |> write_csv(paste("data-out/", chart, "-current.csv", sep = ""))
   
 }
+
+# Create assignment data
+
+hot100_assignment <- charts_recent %>%
+  # muck the date
+  mutate(
+    chart_week = paste(
+      month(chart_week) %>% as.character(),
+      day(chart_week) %>% as.character(),
+      year(chart_week) %>% as.character(),
+      sep = "/"
+    )
+  ) |>   
+  # muck the names
+  select(
+    `CHART WEEK` = chart_week,
+    `THIS WEEK` = current_week,
+    `TITLE` = title,
+    `PERFORMER` = performer,
+    `LAST WEEK` = last_week,
+    `PEAK POS.` = peak_pos,
+    `WKS ON CHART` = wks_on_chart
+  )
+
+hot100_assignment |> write_csv("data-out/hot100_assignment.csv")
