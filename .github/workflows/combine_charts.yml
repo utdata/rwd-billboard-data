@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '10 16 * * 2,3'
+    - cron: '10 16 * * 2-5'
   workflow_dispatch:
 
 name: Billboard charts combine

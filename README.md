@@ -12,7 +12,7 @@ knit: (function(inputFile, encoding) { rmarkdown::render(
 
 # rwd-billboard-data
 
-> **July 23 2020 UPDATE**: the project was refactored to process both the Hot 100 and Billboard 200 charts. There could be breaking changes: Some obsolete files were removed; the "current" chart files were renamed.
+> **June 2023**: The combine action was updated to create a modified version of Hot 100 for an assignment.
 
 This project archives [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) and [Billboard 200](https://www.billboard.com/charts/billboard-200/) charts data.
 
@@ -32,9 +32,7 @@ There are two Github Actions that call scripts to scrape a list of charts each w
 - `.github/workflows/scrap_charts.yml` is a Github Action that is scheduled on a cron to run `action_scrape_charts.R`. That scrapes the current chart and saves it.
 - `.github/workflows/combine_charts.yml` is a Github Action that is scheduled on a cron to run `action_combine_charts.R`. This combines scraped charts with any `previous_archives` files, if any.
 
-As of this writing (July 23, 2022) they run each Tuesday and Wednesday. (Wednesday allows for holiday delays or other errors.)
-
-There are notebooks at the root level that explore how to do the functions necessary in the Github Actions. There are a couple of others as well
+The actions run Tuesday through Friday, though the charts usually update on Tuesdays (or Wednesdays on weeks with a Monday holiday.) There are also sometimes corrections.
 
 ### Exploration and maintenance
 
