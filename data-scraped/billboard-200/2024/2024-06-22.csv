@@ -18,20 +18,20 @@ chart_week,current_week,title,performer,last_week,peak_pos,wks_on_chart
 2024-06-22,17,The Diamond Collection,Post Malone,28,12,30
 2024-06-22,18,Lover,Taylor Swift,16,1,251
 2024-06-22,19,Eternal Sunshine,Ariana Grande,19,1,14
-2024-06-22,20,Timeless,Meghan Trainor,-,20,1
-2024-06-22,21,Curtain Call: The Hits,Eminem,26,1,688
-2024-06-22,22,This One's For You,Luke Combs,20,4,367
-2024-06-22,23,Guts,Olivia Rodrigo,21,1,40
-2024-06-22,24,1989 (Taylor's Version),Taylor Swift,22,1,33
+2024-06-22,20,Curtain Call: The Hits,Eminem,26,1,688
+2024-06-22,21,This One's For You,Luke Combs,20,4,367
+2024-06-22,22,Guts,Olivia Rodrigo,21,1,40
+2024-06-22,23,1989 (Taylor's Version),Taylor Swift,22,1,33
+2024-06-22,24,I've Tried Everything But Therapy (Part I),Teddy Swims,24,17,36
 2024-06-22,25,Un Verano Sin Ti,Bad Bunny,27,1,110
-2024-06-22,26,I've Tried Everything But Therapy (Part I),Teddy Swims,24,17,36
-2024-06-22,27,Midnights,Taylor Swift,25,1,86
+2024-06-22,26,Midnights,Taylor Swift,25,1,86
+2024-06-22,27,Timeless,Meghan Trainor,-,27,1
 2024-06-22,28,Timeless,KAYTRANADA,-,28,1
 2024-06-22,29,Papercuts,Linkin Park,30,6,9
 2024-06-22,30,Cowboy Carter,Beyonce,18,1,11
 2024-06-22,31,Gettin' Old,Luke Combs,31,4,64
-2024-06-22,32,Nadie Sabe Lo Que Va A Pasar Manana,Bad Bunny,62,1,35
-2024-06-22,33,Utopia,Travis Scott,29,1,46
+2024-06-22,32,Utopia,Travis Scott,29,1,46
+2024-06-22,33,Nadie Sabe Lo Que Va A Pasar Manana,Bad Bunny,62,1,35
 2024-06-22,34,Emails I Can't Send,Sabrina Carpenter,66,23,38
 2024-06-22,35,Clancy,Twenty One Pilots,15,3,3
 2024-06-22,36,DAMN.,Kendrick Lamar,32,1,374
@@ -79,9 +79,9 @@ chart_week,current_week,title,performer,last_week,peak_pos,wks_on_chart
 2024-06-22,78,11:11,Chris Brown,95,9,30
 2024-06-22,79,The Best Of Nickelback: Volume 1,Nickelback,75,21,192
 2024-06-22,80,Hozier,Hozier,73,2,322
-2024-06-22,81,Starting Over,Chris Stapleton,85,3,187
-2024-06-22,82,Greatest Hits,Tom Petty And The Heartbreakers,79,2,570
-2024-06-22,83,Radical Optimism,Dua Lipa,64,2,6
+2024-06-22,81,Radical Optimism,Dua Lipa,64,2,6
+2024-06-22,82,Starting Over,Chris Stapleton,85,3,187
+2024-06-22,83,Greatest Hits,Tom Petty And The Heartbreakers,79,2,570
 2024-06-22,84,Elisabeth,Zach Bryan,80,80,53
 2024-06-22,85,Greatest Hits,Pitbull,77,77,161
 2024-06-22,86,ASTROWORLD,Travis Scott,76,1,306
@@ -97,13 +97,13 @@ chart_week,current_week,title,performer,last_week,peak_pos,wks_on_chart
 2024-06-22,96,Submarine,The Marias,17,17,2
 2024-06-22,97,Purgatory,Tyler Childers,123,71,202
 2024-06-22,98,20 Number Ones,Thomas Rhett,99,22,37
-2024-06-22,99,Why Lawd?,NxWorries,-,99,1
-2024-06-22,100,Summertime Blues,Zach Bryan,108,34,65
-2024-06-22,101,Certified Lover Boy,Drake,91,1,145
-2024-06-22,102,Views,Drake,92,1,422
-2024-06-22,103,Bewitched,Laufey,117,18,16
-2024-06-22,104,The Mockingbird & The Crow,HARDY,115,4,73
-2024-06-22,105,Greatest Hits,2Pac,98,3,526
+2024-06-22,99,Summertime Blues,Zach Bryan,108,34,65
+2024-06-22,100,Certified Lover Boy,Drake,91,1,145
+2024-06-22,101,Views,Drake,92,1,422
+2024-06-22,102,The Mockingbird & The Crow,HARDY,115,4,73
+2024-06-22,103,Greatest Hits,2Pac,98,3,526
+2024-06-22,104,Why Lawd?,NxWorries,-,104,1
+2024-06-22,105,Bewitched,Laufey,117,18,16
 2024-06-22,106,Greatest Hits,Guns N' Roses,103,3,680
 2024-06-22,107,Teenage Dream,Katy Perry,94,1,377
 2024-06-22,108,After Hours,The Weeknd,97,1,145
@@ -170,17 +170,17 @@ chart_week,current_week,title,performer,last_week,peak_pos,wks_on_chart
 2024-06-22,169,Beauty Behind The Madness,The Weeknd,160,1,306
 2024-06-22,170,Growin' Up,Luke Combs,184,2,76
 2024-06-22,171,The GB,Gabito Ballesteros,129,65,3
-2024-06-22,172,Currents,Tame Impala,177,4,164
-2024-06-22,173,El Comienzo,Grupo Frontera,180,34,45
-2024-06-22,174,Greatest Hits,Fleetwood Mac,181,14,294
-2024-06-22,175,Greatest Hits,Creed,166,15,98
+2024-06-22,172,El Comienzo,Grupo Frontera,180,34,45
+2024-06-22,173,Greatest Hits,Fleetwood Mac,181,14,294
+2024-06-22,174,Greatest Hits,Creed,166,15,98
+2024-06-22,175,Currents,Tame Impala,177,4,164
 2024-06-22,176,Luv Is Rage 2,Lil Uzi Vert,168,1,355
 2024-06-22,177,Happier Than Ever,Billie Eilish,162,1,150
 2024-06-22,178,Elv1s: 30 #1 Hits,Elvis Presley,182,1,199
 2024-06-22,179,Curtain Call 2,Eminem,83,6,57
-2024-06-22,180,K-12 (Soundtrack),Melanie Martinez,175,3,23
-2024-06-22,181,1,The Beatles,-,1,545
-2024-06-22,182,Flower Boy,"Tyler, The Creator",173,2,192
+2024-06-22,180,1,The Beatles,-,1,545
+2024-06-22,181,Flower Boy,"Tyler, The Creator",173,2,192
+2024-06-22,182,K-12 (Soundtrack),Melanie Martinez,175,3,23
 2024-06-22,183,Over It,Summer Walker,179,2,245
 2024-06-22,184,California Sunrise,Jon Pardi,186,11,223
 2024-06-22,185,17,XXXTENTACION,176,2,280
@@ -188,9 +188,9 @@ chart_week,current_week,title,performer,last_week,peak_pos,wks_on_chart
 2024-06-22,187,Valedictorian,ian,151,54,3
 2024-06-22,188,Piano Man,Billy Joel,198,27,43
 2024-06-22,189,Good Girl Gone Bad,Rihanna,189,2,147
-2024-06-22,190,To Pimp A Butterfly,Kendrick Lamar,187,1,149
-2024-06-22,191,Legends Never Die,Juice WRLD,192,1,205
-2024-06-22,192,Dr. Dre -- 2001,Dr. Dre,185,2,239
+2024-06-22,190,Legends Never Die,Juice WRLD,192,1,205
+2024-06-22,191,Dr. Dre -- 2001,Dr. Dre,185,2,239
+2024-06-22,192,To Pimp A Butterfly,Kendrick Lamar,187,1,149
 2024-06-22,193,Boys Of Faith (EP),Zach Bryan,200,8,16
 2024-06-22,194,Take Me Back To Eden,Sleep Token,183,16,11
 2024-06-22,195,Californication,Red Hot Chili Peppers,-,3,103
