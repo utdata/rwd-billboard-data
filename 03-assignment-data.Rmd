@@ -18,7 +18,6 @@ The goal here is to create Billboard Hot 100 data for the [Reporting with Data i
 
 ```{r setup, echo=T, results='hide', message=F, warning=F}
 library(tidyverse)
-library(janitor)
 library(lubridate)
 ```
 
