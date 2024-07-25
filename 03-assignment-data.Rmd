@@ -14,6 +14,8 @@ knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = e
 
 The goal here is to create Billboard Hot 100 data for the [Reporting with Data in R book](https://utdata.github.io/rwdir/). It is purposely mucked up for the assignment.
 
+> In June 2023 the script `action_combine_charts.R` was updated to create assignment data from "current" data. So this isn't really needed anymore except for posterity.
+
 ## Setup
 
 ```{r setup, echo=T, results='hide', message=F, warning=F}
@@ -32,6 +34,8 @@ hot100_current <- read_csv("data-out/hot-100-current.csv")
 ## Clip the year
 
 For the book assignment, we want only full years so we remove rows from the most recent year.
+
+> This is bad ... we don't clip the year anymore
 
 ```{r clip_year}
 # This gets the current year.
@@ -76,7 +80,9 @@ hot100_assignment %>% glimpse()
 
 Here we export the data for the assignment.
 
+This is commented out so I don't overwrite "current" data.
+
 ```{r export}
-hot100_assignment |> write_csv("data-out/hot100_assignment.csv")
+# hot100_assignment |> write_csv("data-out/hot100_assignment.csv")
 ```
 
