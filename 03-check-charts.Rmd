@@ -81,3 +81,19 @@ bb200 |>
 
 - The 175 weeks are how they appear online today. Could be that was all there were as that was the chart's birth.
 - The `1967-09-16` data is an error in my collected data that needs to be fixed, but I haven't decided how yet.
+
+## Assignment file
+
+```{r}
+assign_hot100 <- read_csv("data-out/hot100_assignment.csv")
+```
+
+Check the date:
+
+```{r}
+assign_hot100 |> 
+  clean_names() |> 
+  mutate(chart_week = mdy(chart_week)) |> 
+  summary()
+```
+
