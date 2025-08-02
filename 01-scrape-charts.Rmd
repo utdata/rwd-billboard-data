@@ -88,8 +88,8 @@ for (chart in charts_list) {
   # clean up the tibble
   scrape_clean <- scrape_tibble |> 
     mutate(
-      data_cleaned = str_remove_all(value, " NEW\n|NEW"),
-      data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY")
+      data_cleaned = str_remove_all(value, " NEW\nNEW|LW\n|PEAK\n|WEEKS\n"),
+      data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY|RE-ENTRY")
     ) |> 
     select(data_cleaned, value) |> 
     separate(
@@ -105,8 +105,7 @@ for (chart in charts_list) {
       )
     ) |> 
     select(-value) |> 
-    mutate(chart_week = chart_date) |> 
-    select(chart_week, everything())
+    mutate(chart_week = chart_date, .before = current_week)
   
   # name path to save file
   folder_path <- paste("data-scraped/", chart, "/", chart_year, "/", sep = "")
