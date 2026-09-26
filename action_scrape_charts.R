@@ -39,13 +39,15 @@ for (chart in charts_list) {
     html_text2() |> 
     as_tibble()
   
-  # clean up the tibble
-  scrape_clean <- scrape_tibble |> 
+  # process first row
+  scrape_toprow <- scrape_tibble |>
+    slice(1) |> 
     mutate(
-      data_cleaned = str_remove_all(value, " NEW\nNEW|LW\n|PEAK\n|WEEKS\n"),
-      data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY|RE-ENTRY")
+      data_cleaned = str_remove_all(value, " NEW\nNEW|LW\n|PEAK\n|WEEKS ON CHART\n|WEEKS AT NO. 1\n|WEEKS\n"),
+      data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY|RE-ENTRY"),
+      data_cleaned = str_extract(data_cleaned, "^((?:[^\n]*\n){6}[^\n]*)") # sevens
     ) |> 
-    select(data_cleaned, value) |> 
+    select(data_cleaned, value) |>
     separate(
       col = data_cleaned,
       sep = "\n",
@@ -55,11 +57,41 @@ for (chart in charts_list) {
         "performer",
         "last_week",
         "peak_pos",
+        "wks_at_no1",
         "wks_on_chart"
       )
-    ) |> 
-    select(-value) |> 
+    ) |>
+    select(-value) |>
     mutate(chart_week = chart_date, .before = current_week)
+  
+  # process rest of rows
+  scrape_rest <- scrape_tibble |>
+    slice(2:100) |> 
+    mutate(
+      data_cleaned = str_remove_all(value, " NEW\nNEW|LW\n|PEAK\n|WEEKS ON CHART\n|WEEKS AT NO. 1\n|WEEKS\n"),
+      data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY|RE-ENTRY"),
+      data_cleaned = str_extract(data_cleaned, "^((?:[^\n]*\n){5}[^\n]*)") # sevens
+    ) |> 
+    select(data_cleaned, value) |>
+    separate(
+      col = data_cleaned,
+      sep = "\n",
+      into = c(
+        "current_week",
+        "title",
+        "performer",
+        "last_week",
+        "peak_pos",
+        # "wks_at_no1",
+        "wks_on_chart"
+      )
+    ) |>
+    select(-value) |>
+    mutate(chart_week = chart_date, .before = current_week)
+  
+  # bind them
+  scrape_clean <- scrape_toprow |> 
+    bind_rows(scrape_rest)
   
   # name path to save file
   folder_path <- paste("data-scraped/", chart, "/", chart_year, "/", sep = "")
