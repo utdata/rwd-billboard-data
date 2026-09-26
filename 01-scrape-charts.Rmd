@@ -46,9 +46,105 @@ I set up some flags to get a specific date or the current date. I won't need thi
 - `T` pulls the chart that is noted in the `edition_request` object
 
 ```{r flags}
-edition_request <- "2022-02-26"
+edition_request <- "2026-09-19"
 edition_flag <- F
 ```
+
+
+## Scrape a single file
+
+```{r}
+main_url <- "https://www.billboard.com/charts/hot-100/"
+
+# get initial scrape
+scrape_first <- read_html(main_url)
+
+# pull date from scrape
+chart_date <- scrape_first |> 
+  html_element("div#chart-date-picker") |> 
+  html_attr("data-date")
+
+# pull year from scrape
+chart_year <- year(chart_date)
+
+# process results into a tibble
+scrape_tibble <- scrape_first |> 
+  html_elements("ul.o-chart-results-list-row") |> 
+  html_text2() |> 
+  as_tibble()
+```
+
+Each line has some extra columns repeated ... LW, PEAK, WEEKS ON CHART. On the first line for the number 1 song, there is also WEEKS AT NO. 1. This was added the chart week of Sept. 19th when the top song tied for the longest. I'm not sure if it will remain a part of the chart, but I'd like to deal with it.
+
+### Process first row
+
+Here we grab the first row, then check if the term "NO. 1" exists, and if so process it as a 7-variable table. If not, then we process as a 6-variable table.
+
+```{r}
+scrape_toprow <- scrape_tibble |>
+  slice(1) |> 
+  mutate(
+    data_cleaned = str_remove_all(value, " NEW\nNEW|LW\n|PEAK\n|WEEKS ON CHART\n|WEEKS AT NO. 1\n|WEEKS\n"),
+    data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY|RE-ENTRY"),
+    data_cleaned = str_extract(data_cleaned, "^((?:[^\n]*\n){6}[^\n]*)") # sevens
+  ) |> 
+  select(data_cleaned, value) |>
+  separate(
+    col = data_cleaned,
+    sep = "\n",
+    into = c(
+      "current_week",
+      "title",
+      "performer",
+      "last_week",
+      "peak_pos",
+      "wks_at_no1",
+      "wks_on_chart"
+    )
+  ) |>
+  select(-value) |>
+  mutate(chart_week = chart_date, .before = current_week)
+```
+
+Writing
+
+### Process other rows
+
+```{r}
+scrape_rest <- scrape_tibble |>
+  slice(2:100) |> 
+  mutate(
+    data_cleaned = str_remove_all(value, " NEW\nNEW|LW\n|PEAK\n|WEEKS ON CHART\n|WEEKS AT NO. 1\n|WEEKS\n"),
+    data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY|RE-ENTRY"),
+    data_cleaned = str_extract(data_cleaned, "^((?:[^\n]*\n){5}[^\n]*)") # sevens
+  ) |> 
+  select(data_cleaned, value) |>
+  separate(
+    col = data_cleaned,
+    sep = "\n",
+    into = c(
+      "current_week",
+      "title",
+      "performer",
+      "last_week",
+      "peak_pos",
+      # "wks_at_no1",
+      "wks_on_chart"
+    )
+  ) |>
+  select(-value) |>
+  mutate(chart_week = chart_date, .before = current_week)
+```
+
+### Bind them together
+
+```{r}
+scrape_clean <- scrape_toprow |> 
+  bind_rows(scrape_rest)
+
+scrape_clean
+```
+
 
 ## Scraper function starts here
 
@@ -84,11 +180,80 @@ for (chart in charts_list) {
     html_elements("ul.o-chart-results-list-row") |> 
     html_text2() |> 
     as_tibble()
+
+  # process first row
+  scrape_toprow <- scrape_tibble |>
+    slice(1) |> 
+    mutate(
+      data_cleaned = str_remove_all(value, " NEW\nNEW|LW\n|PEAK\n|WEEKS ON CHART\n|WEEKS AT NO. 1\n|WEEKS\n"),
+      data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY|RE-ENTRY"),
+      data_cleaned = str_extract(data_cleaned, "^((?:[^\n]*\n){6}[^\n]*)") # sevens
+    ) |> 
+    select(data_cleaned, value) |>
+    separate(
+      col = data_cleaned,
+      sep = "\n",
+      into = c(
+        "current_week",
+        "title",
+        "performer",
+        "last_week",
+        "peak_pos",
+        "wks_at_no1",
+        "wks_on_chart"
+      )
+    ) |>
+    select(-value) |>
+    mutate(chart_week = chart_date, .before = current_week)
   
+  # process rest of rows
+  scrape_rest <- scrape_tibble |>
+    slice(2:100) |> 
+    mutate(
+      data_cleaned = str_remove_all(value, " NEW\nNEW|LW\n|PEAK\n|WEEKS ON CHART\n|WEEKS AT NO. 1\n|WEEKS\n"),
+      data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY|RE-ENTRY"),
+      data_cleaned = str_extract(data_cleaned, "^((?:[^\n]*\n){5}[^\n]*)") # sevens
+    ) |> 
+    select(data_cleaned, value) |>
+    separate(
+      col = data_cleaned,
+      sep = "\n",
+      into = c(
+        "current_week",
+        "title",
+        "performer",
+        "last_week",
+        "peak_pos",
+        # "wks_at_no1",
+        "wks_on_chart"
+      )
+    ) |>
+    select(-value) |>
+    mutate(chart_week = chart_date, .before = current_week)
+  
+  # bind them
+  scrape_clean <- scrape_toprow |> 
+    bind_rows(scrape_rest)
+
+  # name path to save file
+  folder_path <- paste("data-scraped/", chart, "/", chart_year, "/", sep = "")
+  
+  # create the directory if it doesn't exist
+  if (!dir.exists(here(folder_path))) {dir.create(here(folder_path), recursive = TRUE)}
+  
+  # write the file
+  scrape_clean |> write_csv(paste(folder_path, chart_date, ".csv", sep = ""))
+
+}
+```
+
+
+Clean up the tibble
+
   # clean up the tibble
   scrape_clean <- scrape_tibble |> 
     mutate(
-      data_cleaned = str_remove_all(value, " NEW\nNEW|LW\n|PEAK\n|WEEKS\n"),
+      data_cleaned = str_remove_all(value, " NEW\nNEW|LW\n|PEAK\n|WEEKS ON CHART\n|WEEKS AT NO. 1\n|WEEKS\n"),
       data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY|RE-ENTRY")
     ) |> 
     select(data_cleaned, value) |> 
@@ -106,18 +271,3 @@ for (chart in charts_list) {
     ) |> 
     select(-value) |> 
     mutate(chart_week = chart_date, .before = current_week)
-  
-  # name path to save file
-  folder_path <- paste("data-scraped/", chart, "/", chart_year, "/", sep = "")
-  
-  # create the directory if it doesn't exist
-  if (!dir.exists(here(folder_path))) {dir.create(here(folder_path), recursive = TRUE)}
-  
-  # write the file
-  scrape_clean |> write_csv(paste(folder_path, chart_date, ".csv", sep = ""))
-
-}
-```
-
-
-
