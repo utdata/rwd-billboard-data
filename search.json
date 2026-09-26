@@ -1,0 +1,312 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Billboard Data",
+    "section": "",
+    "text": "This project archives Billboard Hot 100 and Billboard 200 charts data.\nThe code maintaning the files are in the rwd-billboard-data Github repo. This site explains exploratory code to figure it out.\nIf you are here looking for a current archive, here are the files of interest:\n\ndata-out/hot-100-current.csv has the Billboard Hot 100 back to its inception in 1958.\ndata-out/billboard-200-current.csv is the Billboard 200 from its inception in 1967.\n\n\nThere are minor data errors in both archives. See details below.\n\nThis project has been … an adventure. Details below.\n\n\nThere are two Github Actions that call scripts to scrape a list of charts each week and then combine each chart’s files with some processed archives from other sources. I currently collect for the Hot 100 and Billboard 200 charts.\n\n.github/workflows/scrap_charts.yml is a Github Action that is scheduled on a cron to run action_scrape_charts.R. That scrapes the current chart and saves it.\n.github/workflows/combine_charts.yml is a Github Action that is scheduled on a cron to run action_combine_charts.R. This combines scraped charts with any previous_archives files, if any.\n\nThe actions run Tuesday through Friday, though the charts usually update on Tuesdays (or Wednesdays on weeks with a Monday holiday.) There are also sometimes corrections.\n\n\nThere are some RMarkdown notebooks used to explore and maintain those scripts: 01-scrape-charts.Rmd, 02-combine-charts.Rmd and 03-check-charts.Rmd. There are some details recorded there that can help explain what is happening in the scrap/combine charts scripts.\n\n\n\n\n\n\nThe Github Action script saves data into data-scraped/hot-100 based on the chart date. These files cover 2022 and forward.\n\n\n\nWhere the data comes from:\n\nWe downloaded this kaggle data straight from the web page. It is saved as data-download/hot100_kaggle_195808_20211106.csv. It has charts into November 2021. There are some missing records (at least 13).\nSince the kaggle data is stale, some gap data was collected with a Data Miner Chrome plugin and saved as a Google Sheet. It’s possible this will replaced in the future.\nAnother source of Billboard Hot 100 data is on data.world and it is used to fill in the data missing from kaggle. It only goes through June 2021 and also has gaps, but not the same gaps as the kaggle data.\n\nHow it comes together:\n\nnotebooks/02-hot100-archive: Combines different data sources to create the complete archive, saved into the data-out folder.\n\n\n\n\nTLDR: My data matches what is currently online.\n\nThere are a couple of records for “Rainy Night In Georgia/Rubberneckin’” by Brook Benton, which some think is a mistake. Elvis’ “Rubberneckin’” appears higher in these same weeks. As of 2022-07-23 the data appears this way online for 1970-01-10 and 1970-01-17 charts.\nThis comment on the data.world collection: “Just another heads up for anyone using this dataset. The charts for 1961 contain another error. The Pips”Every Beat Of My Heart” is duplicated twice in some of the weekly charts, except the duplicates are credited to Gladys Knight & The Pips. The original 1961 release was credited to only Pips or The Pips, later re-releases of the song in the 70s reflect the band’s change of name.” I have confirmed the double entries in this data set and currently online at Billboard, but have not researched the possible reasons why.\n\n\n\n\n\nThe chart scraping script also collects the Billboard 200 each week in to data-scraped/billboard-200 stored by date, and the chart combine script builds a current archive saved as data-out/billboard-200-current.csv.\nThe combine script taps a processed archive file for charts pre-2020, explained below.\n\nThe following scripts won’t work anymore. It would be nice to build the pre-2020 archive from my own R scrapes, but I haven’t done that as yet.\n\n\n01-build-archive-billboard200 is a python Jupyter Notebook that downloads the files one year at a time. The resulting files are saved in data. There are two significant issues to be aware of:\nThe downloaded data had errors dealing with quote escaping (I don’t recall exactly). Errors were manually fixed in a text editor as they were discovered.\nThis process will no longer work because the python package is broken. It no longer understands previousDate. The original data has been moved to data-download/py-billboard-200 and the fixed data is in data-process/billboard200.\n02-billboard200-combine is an R notebook used to combine the data. I used this notebook to find problems and then manually cleaned files, which are stored in data-process/billboard200/. Combined data is in data-out/billboard200.csv.\n\n\n\n\nThe first five weeks in the history have only 175 rows but that matches what is online. This is not really an error, but of note.\nThere are only 191 records for 1967-09-16. The chart is also incorrect online, missing records 153, 154, 182, 184, 192, 193, 195, 196 and 197.\n\n\n\n\n\n\nSeptember 2026: Scraper updated after Billboard added a “WEEKS AT NO. 1” value to all their charts. Also converted to Quarto vs RNotebooks.\n\n\nJune 2023: The combine action was updated to create a modified version of Hot 100 for an assignment.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#charts-scraping-and-combining",
+    "href": "index.html#charts-scraping-and-combining",
+    "title": "Billboard Data",
+    "section": "",
+    "text": "There are two Github Actions that call scripts to scrape a list of charts each week and then combine each chart’s files with some processed archives from other sources. I currently collect for the Hot 100 and Billboard 200 charts.\n\n.github/workflows/scrap_charts.yml is a Github Action that is scheduled on a cron to run action_scrape_charts.R. That scrapes the current chart and saves it.\n.github/workflows/combine_charts.yml is a Github Action that is scheduled on a cron to run action_combine_charts.R. This combines scraped charts with any previous_archives files, if any.\n\nThe actions run Tuesday through Friday, though the charts usually update on Tuesdays (or Wednesdays on weeks with a Monday holiday.) There are also sometimes corrections.\n\n\nThere are some RMarkdown notebooks used to explore and maintain those scripts: 01-scrape-charts.Rmd, 02-combine-charts.Rmd and 03-check-charts.Rmd. There are some details recorded there that can help explain what is happening in the scrap/combine charts scripts.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#hot-100",
+    "href": "index.html#hot-100",
+    "title": "Billboard Data",
+    "section": "",
+    "text": "The Github Action script saves data into data-scraped/hot-100 based on the chart date. These files cover 2022 and forward.\n\n\n\nWhere the data comes from:\n\nWe downloaded this kaggle data straight from the web page. It is saved as data-download/hot100_kaggle_195808_20211106.csv. It has charts into November 2021. There are some missing records (at least 13).\nSince the kaggle data is stale, some gap data was collected with a Data Miner Chrome plugin and saved as a Google Sheet. It’s possible this will replaced in the future.\nAnother source of Billboard Hot 100 data is on data.world and it is used to fill in the data missing from kaggle. It only goes through June 2021 and also has gaps, but not the same gaps as the kaggle data.\n\nHow it comes together:\n\nnotebooks/02-hot100-archive: Combines different data sources to create the complete archive, saved into the data-out folder.\n\n\n\n\nTLDR: My data matches what is currently online.\n\nThere are a couple of records for “Rainy Night In Georgia/Rubberneckin’” by Brook Benton, which some think is a mistake. Elvis’ “Rubberneckin’” appears higher in these same weeks. As of 2022-07-23 the data appears this way online for 1970-01-10 and 1970-01-17 charts.\nThis comment on the data.world collection: “Just another heads up for anyone using this dataset. The charts for 1961 contain another error. The Pips”Every Beat Of My Heart” is duplicated twice in some of the weekly charts, except the duplicates are credited to Gladys Knight & The Pips. The original 1961 release was credited to only Pips or The Pips, later re-releases of the song in the 70s reflect the band’s change of name.” I have confirmed the double entries in this data set and currently online at Billboard, but have not researched the possible reasons why.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#billboard-200",
+    "href": "index.html#billboard-200",
+    "title": "Billboard Data",
+    "section": "",
+    "text": "The chart scraping script also collects the Billboard 200 each week in to data-scraped/billboard-200 stored by date, and the chart combine script builds a current archive saved as data-out/billboard-200-current.csv.\nThe combine script taps a processed archive file for charts pre-2020, explained below.\n\nThe following scripts won’t work anymore. It would be nice to build the pre-2020 archive from my own R scrapes, but I haven’t done that as yet.\n\n\n01-build-archive-billboard200 is a python Jupyter Notebook that downloads the files one year at a time. The resulting files are saved in data. There are two significant issues to be aware of:\nThe downloaded data had errors dealing with quote escaping (I don’t recall exactly). Errors were manually fixed in a text editor as they were discovered.\nThis process will no longer work because the python package is broken. It no longer understands previousDate. The original data has been moved to data-download/py-billboard-200 and the fixed data is in data-process/billboard200.\n02-billboard200-combine is an R notebook used to combine the data. I used this notebook to find problems and then manually cleaned files, which are stored in data-process/billboard200/. Combined data is in data-out/billboard200.csv.\n\n\n\n\nThe first five weeks in the history have only 175 rows but that matches what is online. This is not really an error, but of note.\nThere are only 191 records for 1967-09-16. The chart is also incorrect online, missing records 153, 154, 182, 184, 192, 193, 195, 196 and 197.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#recent-updates",
+    "href": "index.html#recent-updates",
+    "title": "Billboard Data",
+    "section": "",
+    "text": "September 2026: Scraper updated after Billboard added a “WEEKS AT NO. 1” value to all their charts. Also converted to Quarto vs RNotebooks.\n\n\nJune 2023: The combine action was updated to create a modified version of Hot 100 for an assignment.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "03-assignment-data.html",
+    "href": "03-assignment-data.html",
+    "title": "RWDIR assignment data",
+    "section": "",
+    "text": "The goal here is to create Billboard Hot 100 data for the Reporting with Data in R book. It is purposely mucked up for the assignment.\n\nIn June 2023 the script action_combine_charts.R was updated to create assignment data from “current” data. So this isn’t really needed anymore except for posterity.\n\n\n\n\n\nlibrary(tidyverse)\nlibrary(lubridate)\n\n\n\n\nImport the most current Billboard Hot 100 data.\n\nhot100_current &lt;- read_csv(\"data-out/hot-100-current.csv\")\n\nWarning: One or more parsing issues, call `problems()` on your data frame for details,\ne.g.:\n  dat &lt;- vroom(...)\n  problems(dat)\n\n\nRows: 355600 Columns: 8\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): title, performer\ndbl  (4): current_week, last_week, peak_pos, wks_on_chart\nlgl  (1): wks_at_no1\ndate (1): chart_week\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n\n\nFor the book assignment, we want only full years so we remove rows from the most recent year.\n\nThis is bad … we don’t clip the year anymore\n\n\n# This gets the current year.\nhot100_clipped &lt;- hot100_current |&gt; \n  filter(year(chart_week) &lt; year(Sys.Date()))\n\nhot100_clipped$chart_week |&gt; summary()\n\n        Min.      1st Qu.       Median         Mean      3rd Qu.         Max. \n\"1958-08-04\" \"1975-06-14\" \"1992-04-18\" \"1992-04-17\" \"2009-02-21\" \"2025-12-27\" \n\n\n\n\n\nWe change the names of the column headers and muck up the data to force students to deal with that in Reporting with Data in R Chapter 3.\n\nhot100_assignment &lt;- hot100_clipped %&gt;%\n  # muck the date\n  mutate(\n    chart_week = paste(\n      month(chart_week) %&gt;% as.character(),\n      day(chart_week) %&gt;% as.character(),\n      year(chart_week) %&gt;% as.character(),\n      sep = \"/\"\n      )\n  ) |&gt;   \n  # muck the names\n  select(\n    `CHART WEEK` = chart_week,\n    `THIS WEEK` = current_week,\n    `TITLE` = title,\n    `PERFORMER` = performer,\n    `LAST WEEK` = last_week,\n    `PEAK POS.` = peak_pos,\n    `WKS ON CHART` = wks_on_chart\n  )\n\nhot100_assignment %&gt;% glimpse()\n\nRows: 351,700\nColumns: 7\n$ `CHART WEEK`   &lt;chr&gt; \"1/1/2022\", \"1/1/2022\", \"1/1/2022\", \"1/1/2022\", \"1/1/20…\n$ `THIS WEEK`    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …\n$ TITLE          &lt;chr&gt; \"All I Want For Christmas Is You\", \"Rockin' Around The …\n$ PERFORMER      &lt;chr&gt; \"Mariah Carey\", \"Brenda Lee\", \"Bobby Helms\", \"Burl Ives…\n$ `LAST WEEK`    &lt;dbl&gt; 1, 2, 4, 5, 3, 7, 9, 11, 6, 13, 15, 17, 18, 0, 8, 25, 1…\n$ `PEAK POS.`    &lt;dbl&gt; 1, 2, 3, 4, 1, 5, 7, 6, 1, 10, 11, 8, 12, 14, 7, 16, 12…\n$ `WKS ON CHART` &lt;dbl&gt; 50, 44, 41, 25, 11, 26, 24, 19, 24, 15, 31, 18, 14, 1, …\n\n\n\n\n\nHere we export the data for the assignment.\nThis is commented out so I don’t overwrite “current” data.\n\n# hot100_assignment |&gt; write_csv(\"data-out/hot100_assignment.csv\")",
+    "crumbs": [
+      "RWDIR assignment data"
+    ]
+  },
+  {
+    "objectID": "03-assignment-data.html#goal-of-this-notebook",
+    "href": "03-assignment-data.html#goal-of-this-notebook",
+    "title": "RWDIR assignment data",
+    "section": "",
+    "text": "The goal here is to create Billboard Hot 100 data for the Reporting with Data in R book. It is purposely mucked up for the assignment.\n\nIn June 2023 the script action_combine_charts.R was updated to create assignment data from “current” data. So this isn’t really needed anymore except for posterity.",
+    "crumbs": [
+      "RWDIR assignment data"
+    ]
+  },
+  {
+    "objectID": "03-assignment-data.html#setup",
+    "href": "03-assignment-data.html#setup",
+    "title": "RWDIR assignment data",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(lubridate)",
+    "crumbs": [
+      "RWDIR assignment data"
+    ]
+  },
+  {
+    "objectID": "03-assignment-data.html#import-data",
+    "href": "03-assignment-data.html#import-data",
+    "title": "RWDIR assignment data",
+    "section": "",
+    "text": "Import the most current Billboard Hot 100 data.\n\nhot100_current &lt;- read_csv(\"data-out/hot-100-current.csv\")\n\nWarning: One or more parsing issues, call `problems()` on your data frame for details,\ne.g.:\n  dat &lt;- vroom(...)\n  problems(dat)\n\n\nRows: 355600 Columns: 8\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): title, performer\ndbl  (4): current_week, last_week, peak_pos, wks_on_chart\nlgl  (1): wks_at_no1\ndate (1): chart_week\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "crumbs": [
+      "RWDIR assignment data"
+    ]
+  },
+  {
+    "objectID": "03-assignment-data.html#clip-the-year",
+    "href": "03-assignment-data.html#clip-the-year",
+    "title": "RWDIR assignment data",
+    "section": "",
+    "text": "For the book assignment, we want only full years so we remove rows from the most recent year.\n\nThis is bad … we don’t clip the year anymore\n\n\n# This gets the current year.\nhot100_clipped &lt;- hot100_current |&gt; \n  filter(year(chart_week) &lt; year(Sys.Date()))\n\nhot100_clipped$chart_week |&gt; summary()\n\n        Min.      1st Qu.       Median         Mean      3rd Qu.         Max. \n\"1958-08-04\" \"1975-06-14\" \"1992-04-18\" \"1992-04-17\" \"2009-02-21\" \"2025-12-27\"",
+    "crumbs": [
+      "RWDIR assignment data"
+    ]
+  },
+  {
+    "objectID": "03-assignment-data.html#muck-the-data",
+    "href": "03-assignment-data.html#muck-the-data",
+    "title": "RWDIR assignment data",
+    "section": "",
+    "text": "We change the names of the column headers and muck up the data to force students to deal with that in Reporting with Data in R Chapter 3.\n\nhot100_assignment &lt;- hot100_clipped %&gt;%\n  # muck the date\n  mutate(\n    chart_week = paste(\n      month(chart_week) %&gt;% as.character(),\n      day(chart_week) %&gt;% as.character(),\n      year(chart_week) %&gt;% as.character(),\n      sep = \"/\"\n      )\n  ) |&gt;   \n  # muck the names\n  select(\n    `CHART WEEK` = chart_week,\n    `THIS WEEK` = current_week,\n    `TITLE` = title,\n    `PERFORMER` = performer,\n    `LAST WEEK` = last_week,\n    `PEAK POS.` = peak_pos,\n    `WKS ON CHART` = wks_on_chart\n  )\n\nhot100_assignment %&gt;% glimpse()\n\nRows: 351,700\nColumns: 7\n$ `CHART WEEK`   &lt;chr&gt; \"1/1/2022\", \"1/1/2022\", \"1/1/2022\", \"1/1/2022\", \"1/1/20…\n$ `THIS WEEK`    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …\n$ TITLE          &lt;chr&gt; \"All I Want For Christmas Is You\", \"Rockin' Around The …\n$ PERFORMER      &lt;chr&gt; \"Mariah Carey\", \"Brenda Lee\", \"Bobby Helms\", \"Burl Ives…\n$ `LAST WEEK`    &lt;dbl&gt; 1, 2, 4, 5, 3, 7, 9, 11, 6, 13, 15, 17, 18, 0, 8, 25, 1…\n$ `PEAK POS.`    &lt;dbl&gt; 1, 2, 3, 4, 1, 5, 7, 6, 1, 10, 11, 8, 12, 14, 7, 16, 12…\n$ `WKS ON CHART` &lt;dbl&gt; 50, 44, 41, 25, 11, 26, 24, 19, 24, 15, 31, 18, 14, 1, …",
+    "crumbs": [
+      "RWDIR assignment data"
+    ]
+  },
+  {
+    "objectID": "03-assignment-data.html#export",
+    "href": "03-assignment-data.html#export",
+    "title": "RWDIR assignment data",
+    "section": "",
+    "text": "Here we export the data for the assignment.\nThis is commented out so I don’t overwrite “current” data.\n\n# hot100_assignment |&gt; write_csv(\"data-out/hot100_assignment.csv\")",
+    "crumbs": [
+      "RWDIR assignment data"
+    ]
+  },
+  {
+    "objectID": "01-scrape-charts.html",
+    "href": "01-scrape-charts.html",
+    "title": "Scrape charts",
+    "section": "",
+    "text": "Here I work out how to scrape the chart, and then test it as a function.\nGiven a Billboard chart slug name (from it’s URL) and date (default to current), scrape the chart and save the file.\nCharts I’m using this on are Billboard Hot 100 and Billboard 200.\nA compilation of the resulting files are handled in a different script.\n\nThis same concept is used with the Github Action version that scrapes only the current chart: action_scrape_charts.R.\n\n\nThe “write_rds” step is commented out so files are not overwritten unless purposely changes.\n\n\n\n\n\n\n\nThis could process be more efficient. I wish I had one scraper function using if/else to deal with the extra variable in the first row. I don’t like repeating that cleaning code.\n\n\n\n\n\n\n\nlibrary(tidyverse)\nlibrary(rvest)\nlibrary(lubridate)\nlibrary(here)\n\n\n\n\nThis comes from the url of the chart, like “hot-100” from https://www.billboard.com/charts/hot-100/.\n\ncharts_list &lt;- c(\"hot-100\", \"billboard-200\")\n\n\n\n\nI set up some flags to get a specific date or the current date. I won’t need this with the final Github Action\n\nF pulls the current chart\nT pulls the chart that is noted in the edition_request object This won’t work anymore because old charts are behind a paywall.\n\n\nedition_request &lt;- \"2026-09-19\"\nedition_flag &lt;- F\n\n\n\n\nHere I work out how to scrape the Hot 100 table.\n\nmain_url &lt;- \"https://www.billboard.com/charts/hot-100/\"\n\n# get initial scrape\nscrape_first &lt;- read_html(main_url)\n\n# pull date from scrape\nchart_date &lt;- scrape_first |&gt; \n  html_element(\"div#chart-date-picker\") |&gt; \n  html_attr(\"data-date\")\n\n# pull year from scrape\nchart_year &lt;- year(chart_date)\n\n# process results into a tibble\nscrape_tibble &lt;- scrape_first |&gt; \n  html_elements(\"ul.o-chart-results-list-row\") |&gt; \n  html_text2() |&gt; \n  as_tibble()\n\nEach line has some extra columns repeated … LW, PEAK, WEEKS ON CHART. On the first line for the number 1 song, there is also WEEKS AT NO. 1. This was added the chart week of Sept. 19th when the top song tied for the longest. I’m not sure if it will remain a part of the chart, but I’ve had to make changes to deal with it.\n\n\nHere we grab the first row and extract just the first seven “fields” so I remove the duplicated variables. Doing this one separately from the other 99 allows me to keep the “weeks at No. 1” variable.\n\nscrape_toprow &lt;- scrape_tibble |&gt;\n  slice(1) |&gt; \n  mutate(\n    data_cleaned = str_remove_all(value, \" NEW\\nNEW|LW\\n|PEAK\\n|WEEKS ON CHART\\n|WEEKS AT NO. 1\\n|WEEKS\\n\"),\n    data_cleaned = str_remove_all(data_cleaned, \" RE- ENTRY\\n|RE- ENTRY|RE-ENTRY\"),\n    data_cleaned = str_extract(data_cleaned, \"^((?:[^\\n]*\\n){6}[^\\n]*)\") # sevens\n  ) |&gt; \n  select(data_cleaned, value) |&gt;\n  separate(\n    col = data_cleaned,\n    sep = \"\\n\",\n    into = c(\n      \"current_week\",\n      \"title\",\n      \"performer\",\n      \"last_week\",\n      \"peak_pos\",\n      \"wks_at_no1\",\n      \"wks_on_chart\"\n    )\n  ) |&gt;\n  select(-value) |&gt;\n  mutate(chart_week = chart_date, .before = current_week)\n\n\n\n\nHere we process the other 99 rows as a 6-column table.\n\nscrape_rest &lt;- scrape_tibble |&gt;\n  slice(2:100) |&gt; \n  mutate(\n    data_cleaned = str_remove_all(value, \" NEW\\nNEW|LW\\n|PEAK\\n|WEEKS ON CHART\\n|WEEKS AT NO. 1\\n|WEEKS\\n\"),\n    data_cleaned = str_remove_all(data_cleaned, \" RE- ENTRY\\n|RE- ENTRY|RE-ENTRY\"),\n    data_cleaned = str_extract(data_cleaned, \"^((?:[^\\n]*\\n){5}[^\\n]*)\") # sevens\n  ) |&gt; \n  select(data_cleaned, value) |&gt;\n  separate(\n    col = data_cleaned,\n    sep = \"\\n\",\n    into = c(\n      \"current_week\",\n      \"title\",\n      \"performer\",\n      \"last_week\",\n      \"peak_pos\",\n      # \"wks_at_no1\",\n      \"wks_on_chart\"\n    )\n  ) |&gt;\n  select(-value) |&gt;\n  mutate(chart_week = chart_date, .before = current_week)\n\n\n\n\nNow we put those two together to for a single 100-row table.\n\nscrape_clean &lt;- scrape_toprow |&gt; \n  bind_rows(scrape_rest)\n\nscrape_clean\n\n\n  \n\n\n\nMost rows have NA for wks_at_no1.\n\n\n\n\nSince the Hot 100 and Billboard 200 (albums) are structured the same, I turn the scraper into a function and run it on a list of charts. I only do the two, though I could theoretically capture the other charts like Artist 100. To get the archive, I would have to subscribe.\nIt is this code that is duplicated in action_scrape_charts.R\n\nfor (chart in charts_list) {\n\n  # Sets edition flag\n  edition_current &lt;- \"\"\n  if (edition_flag == T) edition_page &lt;- edition_request else edition_page &lt;- edition_current\n\n  # make the url\n  scrape_url &lt;- paste(\n  \"https://www.billboard.com/charts/\",\n  chart,\n  \"/\",\n  edition_page,\n  sep = \"\"\n  )\n  \n  # get initial scrape\n  scrape_first &lt;- read_html(scrape_url)\n  \n  # pull date from scrape\n  chart_date &lt;- scrape_first |&gt; \n    html_element(\"div#chart-date-picker\") |&gt; \n    html_attr(\"data-date\")\n  \n  # pull year from scrape\n  chart_year &lt;- year(chart_date)\n  \n  # process results into a tibble\n  scrape_tibble &lt;- scrape_first |&gt; \n    html_elements(\"ul.o-chart-results-list-row\") |&gt; \n    html_text2() |&gt; \n    as_tibble()\n\n  # process first row\n  scrape_toprow &lt;- scrape_tibble |&gt;\n    slice(1) |&gt; \n    mutate(\n      data_cleaned = str_remove_all(value, \" NEW\\nNEW|LW\\n|PEAK\\n|WEEKS ON CHART\\n|WEEKS AT NO. 1\\n|WEEKS\\n\"),\n      data_cleaned = str_remove_all(data_cleaned, \" RE- ENTRY\\n|RE- ENTRY|RE-ENTRY\"),\n      data_cleaned = str_extract(data_cleaned, \"^((?:[^\\n]*\\n){6}[^\\n]*)\") # sevens\n    ) |&gt; \n    select(data_cleaned, value) |&gt;\n    separate(\n      col = data_cleaned,\n      sep = \"\\n\",\n      into = c(\n        \"current_week\",\n        \"title\",\n        \"performer\",\n        \"last_week\",\n        \"peak_pos\",\n        \"wks_at_no1\",\n        \"wks_on_chart\"\n      )\n    ) |&gt;\n    select(-value) |&gt;\n    mutate(chart_week = chart_date, .before = current_week)\n  \n  # process rest of rows\n  scrape_rest &lt;- scrape_tibble |&gt;\n    slice(2:100) |&gt; \n    mutate(\n      data_cleaned = str_remove_all(value, \" NEW\\nNEW|LW\\n|PEAK\\n|WEEKS ON CHART\\n|WEEKS AT NO. 1\\n|WEEKS\\n\"),\n      data_cleaned = str_remove_all(data_cleaned, \" RE- ENTRY\\n|RE- ENTRY|RE-ENTRY\"),\n      data_cleaned = str_extract(data_cleaned, \"^((?:[^\\n]*\\n){5}[^\\n]*)\") # sevens\n    ) |&gt; \n    select(data_cleaned, value) |&gt;\n    separate(\n      col = data_cleaned,\n      sep = \"\\n\",\n      into = c(\n        \"current_week\",\n        \"title\",\n        \"performer\",\n        \"last_week\",\n        \"peak_pos\",\n        # \"wks_at_no1\",\n        \"wks_on_chart\"\n      )\n    ) |&gt;\n    select(-value) |&gt;\n    mutate(chart_week = chart_date, .before = current_week)\n  \n  # bind them\n  scrape_clean &lt;- scrape_toprow |&gt; \n    bind_rows(scrape_rest)\n\n  # name path to save file\n  folder_path &lt;- paste(\"data-scraped/\", chart, \"/\", chart_year, \"/\", sep = \"\")\n  \n  # create the directory if it doesn't exist\n  if (!dir.exists(here(folder_path))) {dir.create(here(folder_path), recursive = TRUE)}\n  \n  # write the file\n  scrape_clean |&gt; write_csv(paste(folder_path, chart_date, \".csv\", sep = \"\"))\n\n}",
+    "crumbs": [
+      "Scrape charts"
+    ]
+  },
+  {
+    "objectID": "01-scrape-charts.html#goals",
+    "href": "01-scrape-charts.html#goals",
+    "title": "Scrape charts",
+    "section": "",
+    "text": "Here I work out how to scrape the chart, and then test it as a function.\nGiven a Billboard chart slug name (from it’s URL) and date (default to current), scrape the chart and save the file.\nCharts I’m using this on are Billboard Hot 100 and Billboard 200.\nA compilation of the resulting files are handled in a different script.\n\nThis same concept is used with the Github Action version that scrapes only the current chart: action_scrape_charts.R.\n\n\nThe “write_rds” step is commented out so files are not overwritten unless purposely changes.\n\n\n\n\n\n\n\nThis could process be more efficient. I wish I had one scraper function using if/else to deal with the extra variable in the first row. I don’t like repeating that cleaning code.",
+    "crumbs": [
+      "Scrape charts"
+    ]
+  },
+  {
+    "objectID": "01-scrape-charts.html#setup",
+    "href": "01-scrape-charts.html#setup",
+    "title": "Scrape charts",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(rvest)\nlibrary(lubridate)\nlibrary(here)",
+    "crumbs": [
+      "Scrape charts"
+    ]
+  },
+  {
+    "objectID": "01-scrape-charts.html#set-up-the-list-of-charts",
+    "href": "01-scrape-charts.html#set-up-the-list-of-charts",
+    "title": "Scrape charts",
+    "section": "",
+    "text": "This comes from the url of the chart, like “hot-100” from https://www.billboard.com/charts/hot-100/.\n\ncharts_list &lt;- c(\"hot-100\", \"billboard-200\")",
+    "crumbs": [
+      "Scrape charts"
+    ]
+  },
+  {
+    "objectID": "01-scrape-charts.html#date-options",
+    "href": "01-scrape-charts.html#date-options",
+    "title": "Scrape charts",
+    "section": "",
+    "text": "I set up some flags to get a specific date or the current date. I won’t need this with the final Github Action\n\nF pulls the current chart\nT pulls the chart that is noted in the edition_request object This won’t work anymore because old charts are behind a paywall.\n\n\nedition_request &lt;- \"2026-09-19\"\nedition_flag &lt;- F",
+    "crumbs": [
+      "Scrape charts"
+    ]
+  },
+  {
+    "objectID": "01-scrape-charts.html#scrape-a-single-file",
+    "href": "01-scrape-charts.html#scrape-a-single-file",
+    "title": "Scrape charts",
+    "section": "",
+    "text": "Here I work out how to scrape the Hot 100 table.\n\nmain_url &lt;- \"https://www.billboard.com/charts/hot-100/\"\n\n# get initial scrape\nscrape_first &lt;- read_html(main_url)\n\n# pull date from scrape\nchart_date &lt;- scrape_first |&gt; \n  html_element(\"div#chart-date-picker\") |&gt; \n  html_attr(\"data-date\")\n\n# pull year from scrape\nchart_year &lt;- year(chart_date)\n\n# process results into a tibble\nscrape_tibble &lt;- scrape_first |&gt; \n  html_elements(\"ul.o-chart-results-list-row\") |&gt; \n  html_text2() |&gt; \n  as_tibble()\n\nEach line has some extra columns repeated … LW, PEAK, WEEKS ON CHART. On the first line for the number 1 song, there is also WEEKS AT NO. 1. This was added the chart week of Sept. 19th when the top song tied for the longest. I’m not sure if it will remain a part of the chart, but I’ve had to make changes to deal with it.\n\n\nHere we grab the first row and extract just the first seven “fields” so I remove the duplicated variables. Doing this one separately from the other 99 allows me to keep the “weeks at No. 1” variable.\n\nscrape_toprow &lt;- scrape_tibble |&gt;\n  slice(1) |&gt; \n  mutate(\n    data_cleaned = str_remove_all(value, \" NEW\\nNEW|LW\\n|PEAK\\n|WEEKS ON CHART\\n|WEEKS AT NO. 1\\n|WEEKS\\n\"),\n    data_cleaned = str_remove_all(data_cleaned, \" RE- ENTRY\\n|RE- ENTRY|RE-ENTRY\"),\n    data_cleaned = str_extract(data_cleaned, \"^((?:[^\\n]*\\n){6}[^\\n]*)\") # sevens\n  ) |&gt; \n  select(data_cleaned, value) |&gt;\n  separate(\n    col = data_cleaned,\n    sep = \"\\n\",\n    into = c(\n      \"current_week\",\n      \"title\",\n      \"performer\",\n      \"last_week\",\n      \"peak_pos\",\n      \"wks_at_no1\",\n      \"wks_on_chart\"\n    )\n  ) |&gt;\n  select(-value) |&gt;\n  mutate(chart_week = chart_date, .before = current_week)\n\n\n\n\nHere we process the other 99 rows as a 6-column table.\n\nscrape_rest &lt;- scrape_tibble |&gt;\n  slice(2:100) |&gt; \n  mutate(\n    data_cleaned = str_remove_all(value, \" NEW\\nNEW|LW\\n|PEAK\\n|WEEKS ON CHART\\n|WEEKS AT NO. 1\\n|WEEKS\\n\"),\n    data_cleaned = str_remove_all(data_cleaned, \" RE- ENTRY\\n|RE- ENTRY|RE-ENTRY\"),\n    data_cleaned = str_extract(data_cleaned, \"^((?:[^\\n]*\\n){5}[^\\n]*)\") # sevens\n  ) |&gt; \n  select(data_cleaned, value) |&gt;\n  separate(\n    col = data_cleaned,\n    sep = \"\\n\",\n    into = c(\n      \"current_week\",\n      \"title\",\n      \"performer\",\n      \"last_week\",\n      \"peak_pos\",\n      # \"wks_at_no1\",\n      \"wks_on_chart\"\n    )\n  ) |&gt;\n  select(-value) |&gt;\n  mutate(chart_week = chart_date, .before = current_week)\n\n\n\n\nNow we put those two together to for a single 100-row table.\n\nscrape_clean &lt;- scrape_toprow |&gt; \n  bind_rows(scrape_rest)\n\nscrape_clean\n\n\n  \n\n\n\nMost rows have NA for wks_at_no1.",
+    "crumbs": [
+      "Scrape charts"
+    ]
+  },
+  {
+    "objectID": "01-scrape-charts.html#scraper-function-starts-here",
+    "href": "01-scrape-charts.html#scraper-function-starts-here",
+    "title": "Scrape charts",
+    "section": "",
+    "text": "Since the Hot 100 and Billboard 200 (albums) are structured the same, I turn the scraper into a function and run it on a list of charts. I only do the two, though I could theoretically capture the other charts like Artist 100. To get the archive, I would have to subscribe.\nIt is this code that is duplicated in action_scrape_charts.R\n\nfor (chart in charts_list) {\n\n  # Sets edition flag\n  edition_current &lt;- \"\"\n  if (edition_flag == T) edition_page &lt;- edition_request else edition_page &lt;- edition_current\n\n  # make the url\n  scrape_url &lt;- paste(\n  \"https://www.billboard.com/charts/\",\n  chart,\n  \"/\",\n  edition_page,\n  sep = \"\"\n  )\n  \n  # get initial scrape\n  scrape_first &lt;- read_html(scrape_url)\n  \n  # pull date from scrape\n  chart_date &lt;- scrape_first |&gt; \n    html_element(\"div#chart-date-picker\") |&gt; \n    html_attr(\"data-date\")\n  \n  # pull year from scrape\n  chart_year &lt;- year(chart_date)\n  \n  # process results into a tibble\n  scrape_tibble &lt;- scrape_first |&gt; \n    html_elements(\"ul.o-chart-results-list-row\") |&gt; \n    html_text2() |&gt; \n    as_tibble()\n\n  # process first row\n  scrape_toprow &lt;- scrape_tibble |&gt;\n    slice(1) |&gt; \n    mutate(\n      data_cleaned = str_remove_all(value, \" NEW\\nNEW|LW\\n|PEAK\\n|WEEKS ON CHART\\n|WEEKS AT NO. 1\\n|WEEKS\\n\"),\n      data_cleaned = str_remove_all(data_cleaned, \" RE- ENTRY\\n|RE- ENTRY|RE-ENTRY\"),\n      data_cleaned = str_extract(data_cleaned, \"^((?:[^\\n]*\\n){6}[^\\n]*)\") # sevens\n    ) |&gt; \n    select(data_cleaned, value) |&gt;\n    separate(\n      col = data_cleaned,\n      sep = \"\\n\",\n      into = c(\n        \"current_week\",\n        \"title\",\n        \"performer\",\n        \"last_week\",\n        \"peak_pos\",\n        \"wks_at_no1\",\n        \"wks_on_chart\"\n      )\n    ) |&gt;\n    select(-value) |&gt;\n    mutate(chart_week = chart_date, .before = current_week)\n  \n  # process rest of rows\n  scrape_rest &lt;- scrape_tibble |&gt;\n    slice(2:100) |&gt; \n    mutate(\n      data_cleaned = str_remove_all(value, \" NEW\\nNEW|LW\\n|PEAK\\n|WEEKS ON CHART\\n|WEEKS AT NO. 1\\n|WEEKS\\n\"),\n      data_cleaned = str_remove_all(data_cleaned, \" RE- ENTRY\\n|RE- ENTRY|RE-ENTRY\"),\n      data_cleaned = str_extract(data_cleaned, \"^((?:[^\\n]*\\n){5}[^\\n]*)\") # sevens\n    ) |&gt; \n    select(data_cleaned, value) |&gt;\n    separate(\n      col = data_cleaned,\n      sep = \"\\n\",\n      into = c(\n        \"current_week\",\n        \"title\",\n        \"performer\",\n        \"last_week\",\n        \"peak_pos\",\n        # \"wks_at_no1\",\n        \"wks_on_chart\"\n      )\n    ) |&gt;\n    select(-value) |&gt;\n    mutate(chart_week = chart_date, .before = current_week)\n  \n  # bind them\n  scrape_clean &lt;- scrape_toprow |&gt; \n    bind_rows(scrape_rest)\n\n  # name path to save file\n  folder_path &lt;- paste(\"data-scraped/\", chart, \"/\", chart_year, \"/\", sep = \"\")\n  \n  # create the directory if it doesn't exist\n  if (!dir.exists(here(folder_path))) {dir.create(here(folder_path), recursive = TRUE)}\n  \n  # write the file\n  scrape_clean |&gt; write_csv(paste(folder_path, chart_date, \".csv\", sep = \"\"))\n\n}",
+    "crumbs": [
+      "Scrape charts"
+    ]
+  },
+  {
+    "objectID": "02-combine-charts.html",
+    "href": "02-combine-charts.html",
+    "title": "Combine charts",
+    "section": "",
+    "text": "To combine scraped Billboard chart files with a previous-processed archive to create a “current” archive. See 01-scrape-charts.qmd for more info on scraping, and the home page for more about the archives.\n\nThe writing of files is commented out to prevent overwriting. Modify to test.\n\n\n\n\n\nlibrary(tidyverse)\nlibrary(fs)\nlibrary(lubridate)\n\n\n\n\nBased on url slug.\n\ncharts_list &lt;- c(\"hot-100\", \"billboard-200\")\n\n\n\n\nThis combination script required some one-time processing of some previously-worked files (see README).\nThe code is commented because it doesn’t need to run again.\n\n# archive_process_hot100 &lt;- read_csv(\"data-out/hot100_archive_1958_2021.csv\") |&gt; \n#   rename(\n#     chart_week = chart_date,\n#     current_week = current_position,\n#     last_week = previous_position,\n#     peak_pos = peak_position,\n#     wks_on_chart = weeks_on_chart\n#   )\n# \n# archive_process_bb200 &lt;- read_csv(\"data-out/billboard200.csv\") |&gt; \n#     select(\n#       chart_week = date,\n#       current_week = current,\n#       title,\n#       performer = artist,\n#       last_week = previous,\n#       peak_pos = peak,\n#       wks_on_chart = weeks\n#     )\n# \n# archive_process_hot100 |&gt; write_csv(\"data-scraped/hot-100/previous_archive.csv\")\n# archive_process_bb200 |&gt; write_csv(\"data-scraped/billboard-200/previous_archive.csv\")\n\n\n\n\nHere we combine all the files for each chart and (in the darkness) bind them.\nOf the many ways to do this, this is the sparsest binding code. Not sure what I would do it this way if read_csv needed arguments. This uses the tidyverse purrr map function.\n\nfor (chart in charts_list) {\n\n  # compile a list of files to scrape\n  files_list &lt;-  dir_ls(paste(\"data-scraped\", chart, sep = \"/\"), recurse = TRUE, regexp = \".csv\")\n\n  # combine all the files\n  charts_recent &lt;- map_dfr(files_list, read_csv, col_types = cols(\"last_week\" = col_integer()))\n  \n  # write the combined file\n  # uncomment to test the writing of files\n  # charts_recent |&gt; write_csv(paste(\"data-out/\", chart, \"-current.csv\", sep = \"\"))\n  \n}",
+    "crumbs": [
+      "Combine charts"
+    ]
+  },
+  {
+    "objectID": "02-combine-charts.html#goals-of-this-notebook",
+    "href": "02-combine-charts.html#goals-of-this-notebook",
+    "title": "Combine charts",
+    "section": "",
+    "text": "To combine scraped Billboard chart files with a previous-processed archive to create a “current” archive. See 01-scrape-charts.qmd for more info on scraping, and the home page for more about the archives.\n\nThe writing of files is commented out to prevent overwriting. Modify to test.",
+    "crumbs": [
+      "Combine charts"
+    ]
+  },
+  {
+    "objectID": "02-combine-charts.html#setup",
+    "href": "02-combine-charts.html#setup",
+    "title": "Combine charts",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(fs)\nlibrary(lubridate)",
+    "crumbs": [
+      "Combine charts"
+    ]
+  },
+  {
+    "objectID": "02-combine-charts.html#chart-list",
+    "href": "02-combine-charts.html#chart-list",
+    "title": "Combine charts",
+    "section": "",
+    "text": "Based on url slug.\n\ncharts_list &lt;- c(\"hot-100\", \"billboard-200\")",
+    "crumbs": [
+      "Combine charts"
+    ]
+  },
+  {
+    "objectID": "02-combine-charts.html#one-time-processing",
+    "href": "02-combine-charts.html#one-time-processing",
+    "title": "Combine charts",
+    "section": "",
+    "text": "This combination script required some one-time processing of some previously-worked files (see README).\nThe code is commented because it doesn’t need to run again.\n\n# archive_process_hot100 &lt;- read_csv(\"data-out/hot100_archive_1958_2021.csv\") |&gt; \n#   rename(\n#     chart_week = chart_date,\n#     current_week = current_position,\n#     last_week = previous_position,\n#     peak_pos = peak_position,\n#     wks_on_chart = weeks_on_chart\n#   )\n# \n# archive_process_bb200 &lt;- read_csv(\"data-out/billboard200.csv\") |&gt; \n#     select(\n#       chart_week = date,\n#       current_week = current,\n#       title,\n#       performer = artist,\n#       last_week = previous,\n#       peak_pos = peak,\n#       wks_on_chart = weeks\n#     )\n# \n# archive_process_hot100 |&gt; write_csv(\"data-scraped/hot-100/previous_archive.csv\")\n# archive_process_bb200 |&gt; write_csv(\"data-scraped/billboard-200/previous_archive.csv\")",
+    "crumbs": [
+      "Combine charts"
+    ]
+  },
+  {
+    "objectID": "02-combine-charts.html#the-loop",
+    "href": "02-combine-charts.html#the-loop",
+    "title": "Combine charts",
+    "section": "",
+    "text": "Here we combine all the files for each chart and (in the darkness) bind them.\nOf the many ways to do this, this is the sparsest binding code. Not sure what I would do it this way if read_csv needed arguments. This uses the tidyverse purrr map function.\n\nfor (chart in charts_list) {\n\n  # compile a list of files to scrape\n  files_list &lt;-  dir_ls(paste(\"data-scraped\", chart, sep = \"/\"), recurse = TRUE, regexp = \".csv\")\n\n  # combine all the files\n  charts_recent &lt;- map_dfr(files_list, read_csv, col_types = cols(\"last_week\" = col_integer()))\n  \n  # write the combined file\n  # uncomment to test the writing of files\n  # charts_recent |&gt; write_csv(paste(\"data-out/\", chart, \"-current.csv\", sep = \"\"))\n  \n}",
+    "crumbs": [
+      "Combine charts"
+    ]
+  },
+  {
+    "objectID": "03-check-charts.html",
+    "href": "03-check-charts.html",
+    "title": "Various data checks",
+    "section": "",
+    "text": "Check for problems in the combined current archives\n\n\n\n\nlibrary(tidyverse)\nlibrary(janitor)\nlibrary(lubridate)\n\n\n\n\nImport\n\nhot100 &lt;- read_csv(\"data-out/hot-100-current.csv\")\n\nWarning: One or more parsing issues, call `problems()` on your data frame for details,\ne.g.:\n  dat &lt;- vroom(...)\n  problems(dat)\n\n\nRows: 355600 Columns: 8\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): title, performer\ndbl  (4): current_week, last_week, peak_pos, wks_on_chart\nlgl  (1): wks_at_no1\ndate (1): chart_week\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nhot100 %&gt;%  glimpse()\n\nRows: 355,600\nColumns: 8\n$ chart_week   &lt;date&gt; 2022-01-01, 2022-01-01, 2022-01-01, 2022-01-01, 2022-01-…\n$ current_week &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…\n$ title        &lt;chr&gt; \"All I Want For Christmas Is You\", \"Rockin' Around The Ch…\n$ performer    &lt;chr&gt; \"Mariah Carey\", \"Brenda Lee\", \"Bobby Helms\", \"Burl Ives\",…\n$ last_week    &lt;dbl&gt; 1, 2, 4, 5, 3, 7, 9, 11, 6, 13, 15, 17, 18, 0, 8, 25, 19,…\n$ peak_pos     &lt;dbl&gt; 1, 2, 3, 4, 1, 5, 7, 6, 1, 10, 11, 8, 12, 14, 7, 16, 12, …\n$ wks_on_chart &lt;dbl&gt; 50, 44, 41, 25, 11, 26, 24, 19, 24, 15, 31, 18, 14, 1, 49…\n$ wks_at_no1   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n\n\nCheck most recent chart\n\ncounts_hot100 &lt;- hot100 %&gt;% \n  group_by(chart_week) %&gt;% \n  summarise(cnt = n()) %&gt;% \n  arrange(chart_week %&gt;% desc())\n\ncounts_hot100 %&gt;% head()\n\n\n  \n\n\n\nLook for short counts\n\ncounts_hot100 %&gt;% \n  filter(cnt != 100)\n\n\n  \n\n\n\n\n\n\nImport\n\nbb200 &lt;- read_csv(\"data-out/billboard-200-current.csv\")\n\nRows: 620591 Columns: 8\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): title, performer\ndbl  (4): current_week, last_week, peak_pos, wks_on_chart\nlgl  (1): wks_at_no1\ndate (1): chart_week\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nbb200 |&gt; glimpse()\n\nRows: 620,591\nColumns: 8\n$ chart_week   &lt;date&gt; 2021-01-02, 2021-01-02, 2021-01-02, 2021-01-02, 2021-01-…\n$ current_week &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…\n$ title        &lt;chr&gt; \"Evermore\", \"McCartney III\", \"Music To Be Murdered By\", \"…\n$ performer    &lt;chr&gt; \"Taylor Swift\", \"Paul McCartney\", \"Eminem\", \"Michael Bubl…\n$ last_week    &lt;dbl&gt; 1, 0, 199, 4, 10, 8, 6, 3, 13, 12, 7, 17, 2, 11, 23, 9, 1…\n$ peak_pos     &lt;dbl&gt; 1, 2, 1, 1, 3, 6, 5, 1, 7, 10, 1, 12, 2, 1, 14, 1, 2, 18,…\n$ wks_on_chart &lt;dbl&gt; 2, 1, 48, 90, 99, 56, 13, 22, 18, 88, 25, 15, 2, 8, 46, 4…\n$ wks_at_no1   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n\n\nSee most recent charts\n\nbb200 |&gt; \n  count(chart_week) |&gt; \n  arrange(chart_week |&gt; desc()) |&gt; \n  head()\n\n\n  \n\n\n\nCheck counts less than 200\n\nbb200 |&gt; \n  count(chart_week) |&gt; \n  filter(n != 200)\n\n\n  \n\n\n\n\nThe 175 weeks are how they appear online today. Could be that was all there were as that was the chart’s birth.\nThe 1967-09-16 data is an error in my collected data that needs to be fixed, but I haven’t decided how yet.\n\n\n\n\n\nassign_hot100 &lt;- read_csv(\"data-out/hot100_assignment.csv\")\n\nRows: 355600 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (3): CHART WEEK, TITLE, PERFORMER\ndbl (4): THIS WEEK, LAST WEEK, PEAK POS., WKS ON CHART\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nCheck the date:\n\nassign_hot100 |&gt; \n  clean_names() |&gt; \n  mutate(chart_week = mdy(chart_week)) |&gt; \n  summary()\n\n   chart_week           this_week           title            performer     \n Min.   :1958-08-04   Min.   :  1.0   Length   :355600   Length   :355600  \n 1st Qu.:1975-08-21   1st Qu.: 26.0   N.unique : 27095   N.unique : 11308  \n Median :1992-09-01   Median : 51.0   N.blank  :     0   N.blank  :     0  \n Mean   :1992-09-01   Mean   : 50.5   Min.nchar:     1   Min.nchar:     1  \n 3rd Qu.:2009-09-13   3rd Qu.: 75.0   Max.nchar:    75   Max.nchar:   113  \n Max.   :2026-09-26   Max.   :100.0                                        \n                                                                           \n   last_week        peak_pos       wks_on_chart    \n Min.   :  0.0   Min.   :  1.00   Min.   :  1.000  \n 1st Qu.: 22.0   1st Qu.: 13.00   1st Qu.:  4.000  \n Median : 46.0   Median : 37.00   Median :  7.000  \n Mean   : 46.9   Mean   : 40.38   Mean   :  9.468  \n 3rd Qu.: 71.0   3rd Qu.: 65.00   3rd Qu.: 13.000  \n Max.   :100.0   Max.   :100.00   Max.   :112.000  \n NAs    :32460",
+    "crumbs": [
+      "Various data checks"
+    ]
+  },
+  {
+    "objectID": "03-check-charts.html#goals",
+    "href": "03-check-charts.html#goals",
+    "title": "Various data checks",
+    "section": "",
+    "text": "Check for problems in the combined current archives",
+    "crumbs": [
+      "Various data checks"
+    ]
+  },
+  {
+    "objectID": "03-check-charts.html#setup",
+    "href": "03-check-charts.html#setup",
+    "title": "Various data checks",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(janitor)\nlibrary(lubridate)",
+    "crumbs": [
+      "Various data checks"
+    ]
+  },
+  {
+    "objectID": "03-check-charts.html#hot-100",
+    "href": "03-check-charts.html#hot-100",
+    "title": "Various data checks",
+    "section": "",
+    "text": "Import\n\nhot100 &lt;- read_csv(\"data-out/hot-100-current.csv\")\n\nWarning: One or more parsing issues, call `problems()` on your data frame for details,\ne.g.:\n  dat &lt;- vroom(...)\n  problems(dat)\n\n\nRows: 355600 Columns: 8\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): title, performer\ndbl  (4): current_week, last_week, peak_pos, wks_on_chart\nlgl  (1): wks_at_no1\ndate (1): chart_week\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nhot100 %&gt;%  glimpse()\n\nRows: 355,600\nColumns: 8\n$ chart_week   &lt;date&gt; 2022-01-01, 2022-01-01, 2022-01-01, 2022-01-01, 2022-01-…\n$ current_week &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…\n$ title        &lt;chr&gt; \"All I Want For Christmas Is You\", \"Rockin' Around The Ch…\n$ performer    &lt;chr&gt; \"Mariah Carey\", \"Brenda Lee\", \"Bobby Helms\", \"Burl Ives\",…\n$ last_week    &lt;dbl&gt; 1, 2, 4, 5, 3, 7, 9, 11, 6, 13, 15, 17, 18, 0, 8, 25, 19,…\n$ peak_pos     &lt;dbl&gt; 1, 2, 3, 4, 1, 5, 7, 6, 1, 10, 11, 8, 12, 14, 7, 16, 12, …\n$ wks_on_chart &lt;dbl&gt; 50, 44, 41, 25, 11, 26, 24, 19, 24, 15, 31, 18, 14, 1, 49…\n$ wks_at_no1   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n\n\nCheck most recent chart\n\ncounts_hot100 &lt;- hot100 %&gt;% \n  group_by(chart_week) %&gt;% \n  summarise(cnt = n()) %&gt;% \n  arrange(chart_week %&gt;% desc())\n\ncounts_hot100 %&gt;% head()\n\n\n  \n\n\n\nLook for short counts\n\ncounts_hot100 %&gt;% \n  filter(cnt != 100)",
+    "crumbs": [
+      "Various data checks"
+    ]
+  },
+  {
+    "objectID": "03-check-charts.html#billboard-200",
+    "href": "03-check-charts.html#billboard-200",
+    "title": "Various data checks",
+    "section": "",
+    "text": "Import\n\nbb200 &lt;- read_csv(\"data-out/billboard-200-current.csv\")\n\nRows: 620591 Columns: 8\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): title, performer\ndbl  (4): current_week, last_week, peak_pos, wks_on_chart\nlgl  (1): wks_at_no1\ndate (1): chart_week\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nbb200 |&gt; glimpse()\n\nRows: 620,591\nColumns: 8\n$ chart_week   &lt;date&gt; 2021-01-02, 2021-01-02, 2021-01-02, 2021-01-02, 2021-01-…\n$ current_week &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…\n$ title        &lt;chr&gt; \"Evermore\", \"McCartney III\", \"Music To Be Murdered By\", \"…\n$ performer    &lt;chr&gt; \"Taylor Swift\", \"Paul McCartney\", \"Eminem\", \"Michael Bubl…\n$ last_week    &lt;dbl&gt; 1, 0, 199, 4, 10, 8, 6, 3, 13, 12, 7, 17, 2, 11, 23, 9, 1…\n$ peak_pos     &lt;dbl&gt; 1, 2, 1, 1, 3, 6, 5, 1, 7, 10, 1, 12, 2, 1, 14, 1, 2, 18,…\n$ wks_on_chart &lt;dbl&gt; 2, 1, 48, 90, 99, 56, 13, 22, 18, 88, 25, 15, 2, 8, 46, 4…\n$ wks_at_no1   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n\n\nSee most recent charts\n\nbb200 |&gt; \n  count(chart_week) |&gt; \n  arrange(chart_week |&gt; desc()) |&gt; \n  head()\n\n\n  \n\n\n\nCheck counts less than 200\n\nbb200 |&gt; \n  count(chart_week) |&gt; \n  filter(n != 200)\n\n\n  \n\n\n\n\nThe 175 weeks are how they appear online today. Could be that was all there were as that was the chart’s birth.\nThe 1967-09-16 data is an error in my collected data that needs to be fixed, but I haven’t decided how yet.",
+    "crumbs": [
+      "Various data checks"
+    ]
+  },
+  {
+    "objectID": "03-check-charts.html#assignment-file",
+    "href": "03-check-charts.html#assignment-file",
+    "title": "Various data checks",
+    "section": "",
+    "text": "assign_hot100 &lt;- read_csv(\"data-out/hot100_assignment.csv\")\n\nRows: 355600 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (3): CHART WEEK, TITLE, PERFORMER\ndbl (4): THIS WEEK, LAST WEEK, PEAK POS., WKS ON CHART\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nCheck the date:\n\nassign_hot100 |&gt; \n  clean_names() |&gt; \n  mutate(chart_week = mdy(chart_week)) |&gt; \n  summary()\n\n   chart_week           this_week           title            performer     \n Min.   :1958-08-04   Min.   :  1.0   Length   :355600   Length   :355600  \n 1st Qu.:1975-08-21   1st Qu.: 26.0   N.unique : 27095   N.unique : 11308  \n Median :1992-09-01   Median : 51.0   N.blank  :     0   N.blank  :     0  \n Mean   :1992-09-01   Mean   : 50.5   Min.nchar:     1   Min.nchar:     1  \n 3rd Qu.:2009-09-13   3rd Qu.: 75.0   Max.nchar:    75   Max.nchar:   113  \n Max.   :2026-09-26   Max.   :100.0                                        \n                                                                           \n   last_week        peak_pos       wks_on_chart    \n Min.   :  0.0   Min.   :  1.00   Min.   :  1.000  \n 1st Qu.: 22.0   1st Qu.: 13.00   1st Qu.:  4.000  \n Median : 46.0   Median : 37.00   Median :  7.000  \n Mean   : 46.9   Mean   : 40.38   Mean   :  9.468  \n 3rd Qu.: 71.0   3rd Qu.: 65.00   3rd Qu.: 13.000  \n Max.   :100.0   Max.   :100.00   Max.   :112.000  \n NAs    :32460",
+    "crumbs": [
+      "Various data checks"
+    ]
+  }
+]
