@@ -391,7 +391,7 @@ $ `WKS ON CHART` &lt;dbl&gt; 50, 44, 41, 25, 11, 26, 24, 19, 24, 15, 31, 18, 14,
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/utdata\.github\.io\/rwd-billboard-data\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

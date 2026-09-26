@@ -182,7 +182,6 @@ ul.task-list li input[type="checkbox"] {
 <section id="billboard-data" class="level1">
 <h1>Billboard Data</h1>
 <p>This project archives <a href="https://www.billboard.com/charts/hot-100/">Billboard Hot 100</a> and <a href="https://www.billboard.com/charts/billboard-200/">Billboard 200</a> charts data.</p>
-<p>The code maintaning the files are in the <a href="https://github.com/utdata/rwd-billboard-data">rwd-billboard-data</a> Github repo. This site explains exploratory code to figure it out.</p>
 <p>If you are here looking for a current archive, here are the files of interest:</p>
 <ul>
 <li><a href="data-out/hot-100-current.csv">data-out/hot-100-current.csv</a> has the <a href="https://www.billboard.com/charts/hot-100/">Billboard Hot 100</a> back to its inception in 1958.</li>
@@ -194,6 +193,7 @@ ul.task-list li input[type="checkbox"] {
 <p>This project has been … an adventure. Details below.</p>
 <section id="charts-scraping-and-combining" class="level2">
 <h2 class="anchored" data-anchor-id="charts-scraping-and-combining">Charts scraping and combining</h2>
+<p>The code that maintains these files is in the <a href="https://github.com/utdata/rwd-billboard-data">rwd-billboard-data</a> Github repo.</p>
 <p>There are two Github Actions that call scripts to scrape a list of charts each week and then combine each chart’s files with some processed archives from other sources. I currently collect for the Hot 100 and Billboard 200 charts.</p>
 <ul>
 <li><code>.github/workflows/scrap_charts.yml</code> is a Github Action that is scheduled on a cron to run <code>action_scrape_charts.R</code>. That scrapes the current chart and saves it.</li>
@@ -202,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
 <p>The actions run Tuesday through Friday, though the charts usually update on Tuesdays (or Wednesdays on weeks with a Monday holiday.) There are also sometimes corrections.</p>
 <section id="exploration-and-maintenance" class="level3">
 <h3 class="anchored" data-anchor-id="exploration-and-maintenance">Exploration and maintenance</h3>
-<p>There are some RMarkdown notebooks used to explore and maintain those scripts: <code>01-scrape-charts.Rmd</code>, <code>02-combine-charts.Rmd</code> and <code>03-check-charts.Rmd</code>. There are some details recorded there that can help explain what is happening in the scrap/combine charts scripts.</p>
+<p>There are some Quarto notebooks used to explore and maintain those scripts: <code>01-scrape-charts.qmd</code>, <code>02-combine-charts.qmd</code> and <code>03-check-charts.qmd</code>. There are some details recorded there that can help explain what is happening in the scrap/combine charts scripts.</p>
 </section>
 </section>
 <section id="hot-100" class="level2">
@@ -226,7 +226,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="known-hot-100-data-errors" class="level3">
 <h3 class="anchored" data-anchor-id="known-hot-100-data-errors">Known Hot 100 data errors</h3>
-<p>TLDR: My data matches what is currently online.</p>
+<p>TLDR: My data matches what is currently online (or what was online when I checked it. It’s all behind a paywall now).</p>
 <ul>
 <li>There are a couple of records for “Rainy Night In Georgia/Rubberneckin’” by Brook Benton, which <a href="https://data.world/kcmillersean/billboard-hot-100-1958-2017/discuss/billboard-hot-100-1958-2017/me2tkmbx#kex5mx5n">some think</a> is a mistake. Elvis’ “Rubberneckin’” appears higher in these same weeks. As of 2022-07-23 the data appears this way online for <a href="https://www.billboard.com/charts/hot-100/1970-01-10/">1970-01-10</a> and <a href="https://www.billboard.com/charts/hot-100/1970-01-17/">1970-01-17</a> charts.</li>
 <li><a href="https://data.world/kcmillersean/billboard-hot-100-1958-2017/discuss/billboard-hot-100-1958-2017/me2tkmbx#emfy2p2n">This comment</a> on the data.world collection: “Just another heads up for anyone using this dataset. The charts for 1961 contain another error. The Pips”Every Beat Of My Heart” is duplicated twice in some of the weekly charts, except the duplicates are credited to Gladys Knight &amp; The Pips. The original 1961 release was credited to only Pips or The Pips, later re-releases of the song in the 70s reflect the band’s change of name.” I have confirmed the double entries in this data set and currently online at Billboard, but have not researched the possible reasons why.</li>
@@ -257,7 +257,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="recent-updates" class="level2">
 <h2 class="anchored" data-anchor-id="recent-updates">Recent updates</h2>
 <blockquote class="blockquote">
-<p><strong>September 2026</strong>: Scraper updated after Billboard added a “WEEKS AT NO. 1” value to all their charts. Also converted to Quarto vs RNotebooks.</p>
+<p><strong>September 2026</strong>: Scraper updated after Billboard added a “WEEKS AT NO. 1” to the top row of all their charts. I also converted to Quarto from RNotebooks.</p>
 </blockquote>
 <blockquote class="blockquote">
 <p><strong>June 2023</strong>: The combine action was updated to create a modified version of Hot 100 for an assignment.</p>
@@ -341,7 +341,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/utdata\.github\.io\/rwd-billboard-data\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
