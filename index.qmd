@@ -2,6 +2,8 @@
 
 This project archives [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) and [Billboard 200](https://www.billboard.com/charts/billboard-200/) charts data.
 
+The code maintaning the files are in the [rwd-billboard-data](https://github.com/utdata/rwd-billboard-data) Github repo. This site explains exploratory code to figure it out.
+
 If you are here looking for a current archive, here are the files of interest:
 
 - [data-out/hot-100-current.csv](data-out/hot-100-current.csv) has the [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) back to its inception in 1958.

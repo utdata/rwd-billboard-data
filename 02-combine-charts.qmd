@@ -1,8 +1,8 @@
-# Explore - Combine for current charts
+# Combine charts
 
 ## Goals of this notebook
 
-To combine scraped Billboard chart files with a previous-processed archive to create a "current" archive. See `01-scrape-charts.Rmd` for more info on scraping, and the README for more about the archives.
+To combine scraped Billboard chart files with a previous-processed archive to create a "current" archive. See [01-scrape-charts.qmd](01-scrape-charts.qmd) for more info on scraping, and the [home page](index.qmd) for more about the archives.
 
 > The writing of files is commented out to prevent overwriting. Modify to test.
 
@@ -24,7 +24,7 @@ charts_list <- c("hot-100", "billboard-200")
 
 ## One-time processing
 
-This combination script does require some **one-time** processing of some previously-worked files (see README).
+This combination script required some **one-time** processing of some previously-worked files (see README).
 
 The code is **commented** because it doesn't need to run again.
 

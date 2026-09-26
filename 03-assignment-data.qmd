@@ -1,4 +1,4 @@
-# RWDIR Hot 100 data
+# RWDIR assignment data
 
 ## Goal of this notebook
 

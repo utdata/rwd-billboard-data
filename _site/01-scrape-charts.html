@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-scrape-charts.html">Explore - Scraping</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-scrape-charts.html">Scrape charts</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -158,19 +158,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01-scrape-charts.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Explore - Scraping</span></a>
+ <span class="menu-text">Scrape charts</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02-combine-charts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Explore - Combine for current charts</span></a>
+ <span class="menu-text">Combine charts</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03-assignment-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">RWDIR Hot 100 data</span></a>
+ <span class="menu-text">RWDIR assignment data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -189,12 +189,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#explore---scraping" id="toc-explore---scraping" class="nav-link active" data-scroll-target="#explore---scraping">Explore - Scraping</a>
+  <li><a href="#scrape-charts" id="toc-scrape-charts" class="nav-link active" data-scroll-target="#scrape-charts">Scrape charts</a>
   <ul class="collapse">
   <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals">Goals</a></li>
   <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
   <li><a href="#set-up-the-list-of-charts" id="toc-set-up-the-list-of-charts" class="nav-link" data-scroll-target="#set-up-the-list-of-charts">Set up the list of charts</a></li>
   <li><a href="#date-options" id="toc-date-options" class="nav-link" data-scroll-target="#date-options">Date options</a></li>
+  <li><a href="#scrape-a-single-file" id="toc-scrape-a-single-file" class="nav-link" data-scroll-target="#scrape-a-single-file">Scrape a single file</a>
+  <ul class="collapse">
+  <li><a href="#process-first-row" id="toc-process-first-row" class="nav-link" data-scroll-target="#process-first-row">Process first row</a></li>
+  <li><a href="#process-other-rows" id="toc-process-other-rows" class="nav-link" data-scroll-target="#process-other-rows">Process other rows</a></li>
+  <li><a href="#bind-them-together" id="toc-bind-them-together" class="nav-link" data-scroll-target="#bind-them-together">Bind them together</a></li>
+  </ul></li>
   <li><a href="#scraper-function-starts-here" id="toc-scraper-function-starts-here" class="nav-link" data-scroll-target="#scraper-function-starts-here">Scraper function starts here</a></li>
   </ul></li>
   </ul>
@@ -206,10 +212,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="explore---scraping" class="level1">
-<h1>Explore - Scraping</h1>
+<section id="scrape-charts" class="level1">
+<h1>Scrape charts</h1>
 <section id="goals" class="level2">
 <h2 class="anchored" data-anchor-id="goals">Goals</h2>
+<p>Here I work out how to scrape the chart, and then test it as a function.</p>
 <p>Given a Billboard chart slug name (from it’s URL) and date (default to current), scrape the chart and save the file.</p>
 <p>Charts I’m using this on are <a href="https://www.billboard.com/charts/hot-100/">Billboard Hot 100</a> and <a href="https://www.billboard.com/charts/billboard-200/">Billboard 200</a>.</p>
 <p>A compilation of the resulting files are handled in a different script.</p>
@@ -219,6 +226,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>The “write_rds” step is commented out so files are not overwritten unless purposely changes.</p>
 </blockquote>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This could process be more efficient. I wish I had one scraper function using if/else to deal with the extra variable in the first row. I don’t like repeating that cleaning code.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
@@ -241,89 +258,215 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>I set up some flags to get a specific date or the current date. I won’t need this with the final Github Action</p>
 <ul>
 <li><code>F</code> pulls the current chart</li>
-<li><code>T</code> pulls the chart that is noted in the <code>edition_request</code> object</li>
+<li><del><code>T</code> pulls the chart that is noted in the <code>edition_request</code> object</del> This won’t work anymore because old charts are behind a paywall.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>edition_request <span class="ot">&lt;-</span> <span class="st">"2022-02-26"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>edition_request <span class="ot">&lt;-</span> <span class="st">"2026-09-19"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>edition_flag <span class="ot">&lt;-</span> F</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
+<section id="scrape-a-single-file" class="level2">
+<h2 class="anchored" data-anchor-id="scrape-a-single-file">Scrape a single file</h2>
+<p>Here I work out how to scrape the Hot 100 table.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>main_url <span class="ot">&lt;-</span> <span class="st">"https://www.billboard.com/charts/hot-100/"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># get initial scrape</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>scrape_first <span class="ot">&lt;-</span> <span class="fu">read_html</span>(main_url)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># pull date from scrape</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>chart_date <span class="ot">&lt;-</span> scrape_first <span class="sc">|&gt;</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">"div#chart-date-picker"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">"data-date"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># pull year from scrape</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>chart_year <span class="ot">&lt;-</span> <span class="fu">year</span>(chart_date)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># process results into a tibble</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>scrape_tibble <span class="ot">&lt;-</span> scrape_first <span class="sc">|&gt;</span> </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">"ul.o-chart-results-list-row"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Each line has some extra columns repeated … LW, PEAK, WEEKS ON CHART. On the first line for the number 1 song, there is also WEEKS AT NO. 1. This was added the chart week of Sept.&nbsp;19th when the top song tied for the longest. I’m not sure if it will remain a part of the chart, but I’ve had to make changes to deal with it.</p>
+<section id="process-first-row" class="level3">
+<h3 class="anchored" data-anchor-id="process-first-row">Process first row</h3>
+<p>Here we grab the first row and extract just the first seven “fields” so I remove the duplicated variables. Doing this one separately from the other 99 allows me to keep the “weeks at No.&nbsp;1” variable.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>scrape_toprow <span class="ot">&lt;-</span> scrape_tibble <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_cleaned =</span> <span class="fu">str_remove_all</span>(value, <span class="st">" NEW</span><span class="sc">\n</span><span class="st">NEW|LW</span><span class="sc">\n</span><span class="st">|PEAK</span><span class="sc">\n</span><span class="st">|WEEKS ON CHART</span><span class="sc">\n</span><span class="st">|WEEKS AT NO. 1</span><span class="sc">\n</span><span class="st">|WEEKS</span><span class="sc">\n</span><span class="st">"</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_cleaned =</span> <span class="fu">str_remove_all</span>(data_cleaned, <span class="st">" RE- ENTRY</span><span class="sc">\n</span><span class="st">|RE- ENTRY|RE-ENTRY"</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_cleaned =</span> <span class="fu">str_extract</span>(data_cleaned, <span class="st">"^((?:[^</span><span class="sc">\n</span><span class="st">]*</span><span class="sc">\n</span><span class="st">){6}[^</span><span class="sc">\n</span><span class="st">]*)"</span>) <span class="co"># sevens</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(data_cleaned, value) <span class="sc">|&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> data_cleaned,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">into =</span> <span class="fu">c</span>(</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"current_week"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"title"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"performer"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"last_week"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"peak_pos"</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">"wks_at_no1"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">"wks_on_chart"</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>value) <span class="sc">|&gt;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chart_week =</span> chart_date, <span class="at">.before =</span> current_week)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="process-other-rows" class="level3">
+<h3 class="anchored" data-anchor-id="process-other-rows">Process other rows</h3>
+<p>Here we process the other 99 rows as a 6-column table.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>scrape_rest <span class="ot">&lt;-</span> scrape_tibble <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_cleaned =</span> <span class="fu">str_remove_all</span>(value, <span class="st">" NEW</span><span class="sc">\n</span><span class="st">NEW|LW</span><span class="sc">\n</span><span class="st">|PEAK</span><span class="sc">\n</span><span class="st">|WEEKS ON CHART</span><span class="sc">\n</span><span class="st">|WEEKS AT NO. 1</span><span class="sc">\n</span><span class="st">|WEEKS</span><span class="sc">\n</span><span class="st">"</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_cleaned =</span> <span class="fu">str_remove_all</span>(data_cleaned, <span class="st">" RE- ENTRY</span><span class="sc">\n</span><span class="st">|RE- ENTRY|RE-ENTRY"</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_cleaned =</span> <span class="fu">str_extract</span>(data_cleaned, <span class="st">"^((?:[^</span><span class="sc">\n</span><span class="st">]*</span><span class="sc">\n</span><span class="st">){5}[^</span><span class="sc">\n</span><span class="st">]*)"</span>) <span class="co"># sevens</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(data_cleaned, value) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> data_cleaned,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">into =</span> <span class="fu">c</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"current_week"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"title"</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"performer"</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"last_week"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"peak_pos"</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>      <span class="co"># "wks_at_no1",</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">"wks_on_chart"</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>value) <span class="sc">|&gt;</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chart_week =</span> chart_date, <span class="at">.before =</span> current_week)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="bind-them-together" class="level3">
+<h3 class="anchored" data-anchor-id="bind-them-together">Bind them together</h3>
+<p>Now we put those two together to for a single 100-row table.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>scrape_clean <span class="ot">&lt;-</span> scrape_toprow <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(scrape_rest)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>scrape_clean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["chart_week"],"name":[1],"type":["chr"],"align":["left"]},{"label":["current_week"],"name":[2],"type":["chr"],"align":["left"]},{"label":["title"],"name":[3],"type":["chr"],"align":["left"]},{"label":["performer"],"name":[4],"type":["chr"],"align":["left"]},{"label":["last_week"],"name":[5],"type":["chr"],"align":["left"]},{"label":["peak_pos"],"name":[6],"type":["chr"],"align":["left"]},{"label":["wks_at_no1"],"name":[7],"type":["chr"],"align":["left"]},{"label":["wks_on_chart"],"name":[8],"type":["chr"],"align":["left"]}],"data":[{"1":"2026-09-26","2":"1","3":"Choosin' Texas","4":"Ella Langley","5":"1","6":"1","7":"23","8":"48"},{"1":"2026-09-26","2":"2","3":"Boston","4":"Stella Lefty","5":"2","6":"2","7":"NA","8":"24"},{"1":"2026-09-26","2":"3","3":"Been By Now","4":"Morgan Wallen","5":"4","6":"2","7":"NA","8":"8"},{"1":"2026-09-26","2":"4","3":"Hate That I Made You Love Me","4":"Ariana Grande","5":"5","6":"1","7":"NA","8":"16"},{"1":"2026-09-26","2":"5","3":"Dracula","4":"Tame Impala & JENNIE","5":"6","6":"5","7":"NA","8":"51"},{"1":"2026-09-26","2":"6","3":"I Knew It, I Knew You","4":"Taylor Swift","5":"3","6":"1","7":"NA","8":"15"},{"1":"2026-09-26","2":"7","3":"BbY WOW","4":"Karol G With Judeline & rusowsky","5":"10","6":"7","7":"NA","8":"6"},{"1":"2026-09-26","2":"8","3":"So Easy (To Fall In Love)","4":"Olivia Dean","5":"7","6":"5","7":"NA","8":"51"},{"1":"2026-09-26","2":"9","3":"Man I Need","4":"Olivia Dean","5":"8","6":"2","7":"NA","8":"56"},{"1":"2026-09-26","2":"10","3":"Be Her","4":"Ella Langley","5":"9","6":"2","7":"NA","8":"31"},{"1":"2026-09-26","2":"11","3":"Risk It All","4":"Bruno Mars","5":"11","6":"4","7":"NA","8":"29"},{"1":"2026-09-26","2":"12","3":"Stupid Song","4":"Olivia Rodrigo","5":"12","6":"3","7":"NA","8":"14"},{"1":"2026-09-26","2":"13","3":"I Just Might","4":"Bruno Mars","5":"15","6":"1","7":"NA","8":"36"},{"1":"2026-09-26","2":"14","3":"Midnight Sun","4":"Zara Larsson","5":"13","6":"13","7":"NA","8":"35"},{"1":"2026-09-26","2":"15","3":"I Can't Love You Anymore","4":"Ella Langley & Morgan Wallen","5":"14","6":"4","7":"NA","8":"21"},{"1":"2026-09-26","2":"16","3":"Drop Dead","4":"Olivia Rodrigo","5":"16","6":"1","7":"NA","8":"22"},{"1":"2026-09-26","2":"17","3":"Be By You","4":"Luke Combs","5":"17","6":"12","7":"NA","8":"31"},{"1":"2026-09-26","2":"18","3":"Janice STFU","4":"Drake","5":"18","6":"1","7":"NA","8":"18"},{"1":"2026-09-26","2":"19","3":"Babydoll","4":"Dominic Fike","5":"20","6":"16","7":"NA","8":"32"},{"1":"2026-09-26","2":"20","3":"Earrings","4":"Malcolm Todd","5":"19","6":"19","7":"NA","8":"29"},{"1":"2026-09-26","2":"21","3":"Dead Fresh","4":"Lil Baby","5":"21","6":"18","7":"NA","8":"9"},{"1":"2026-09-26","2":"22","3":"Nicole Kidman","4":"ADELA","5":"45","6":"22","7":"NA","8":"2"},{"1":"2026-09-26","2":"23","3":"Loser","4":"Tame Impala","5":"22","6":"18","7":"NA","8":"8"},{"1":"2026-09-26","2":"24","3":"Loving Life Again","4":"Ella Langley","5":"24","6":"21","7":"NA","8":"26"},{"1":"2026-09-26","2":"25","3":"Jaded","4":"Koe Wetzel & Ella Langley","5":"23","6":"19","7":"NA","8":"6"},{"1":"2026-09-26","2":"26","3":"So Good","4":"Jhene Aiko Featuring Kendrick Lamar","5":"-","6":"26","7":"NA","8":"1"},{"1":"2026-09-26","2":"27","3":"The Cure","4":"Olivia Rodrigo","5":"25","6":"5","7":"NA","8":"17"},{"1":"2026-09-26","2":"28","3":"Animal","4":"KATSEYE","5":"27","6":"24","7":"NA","8":"8"},{"1":"2026-09-26","2":"29","3":"What You Need","4":"Tems","5":"32","6":"29","7":"NA","8":"26"},{"1":"2026-09-26","2":"30","3":"Ain't In LA","4":"ADELA","5":"30","6":"30","7":"NA","8":"7"},{"1":"2026-09-26","2":"31","3":"Oh Yeah?","4":"Steve Lacy","5":"26","6":"19","7":"NA","8":"7"},{"1":"2026-09-26","2":"32","3":"Dai Dai (FIFA World Cup Official Song 2026)","4":"Shakira X Burna Boy","5":"29","6":"17","7":"NA","8":"14"},{"1":"2026-09-26","2":"33","3":"Orbiter","4":"Noah Kahan","5":"39","6":"33","7":"NA","8":"21"},{"1":"2026-09-26","2":"34","3":"Spend Dat","4":"Yung Miami","5":"28","6":"17","7":"NA","8":"17"},{"1":"2026-09-26","2":"35","3":"Cinderella","4":"Mac Miller Featuring Ty Dolla $ign","5":"34","6":"25","7":"NA","8":"19"},{"1":"2026-09-26","2":"36","3":"Take Me Back (Leave Me There)","4":"Cody Johnson","5":"33","6":"33","7":"NA","8":"5"},{"1":"2026-09-26","2":"37","3":"Morning Dew (Donk)","4":"Beyonce","5":"31","6":"26","7":"NA","8":"11"},{"1":"2026-09-26","2":"38","3":"Mr. Know It All","4":"Teddy Swims","5":"38","6":"38","7":"NA","8":"22"},{"1":"2026-09-26","2":"39","3":"Rethink Some Things","4":"Luke Combs","5":"40","6":"39","7":"NA","8":"25"},{"1":"2026-09-26","2":"40","3":"Shabang","4":"Drake","5":"36","6":"4","7":"NA","8":"18"},{"1":"2026-09-26","2":"41","3":"He Belongs","4":"Jhene Aiko","5":"-","6":"41","7":"NA","8":"1"},{"1":"2026-09-26","2":"42","3":"Ghost","4":"Jhene Aiko","5":"-","6":"42","7":"NA","8":"1"},{"1":"2026-09-26","2":"43","3":"AH HA","4":"Cardi B","5":"41","6":"25","7":"NA","8":"7"},{"1":"2026-09-26","2":"44","3":"Self Aware","4":"Temper City","5":"43","6":"35","7":"NA","8":"23"},{"1":"2026-09-26","2":"45","3":"Bloodstream","4":"Alyssa Grace","5":"46","6":"45","7":"NA","8":"11"},{"1":"2026-09-26","2":"46","3":"Petal","4":"Ariana Grande","5":"37","6":"4","7":"NA","8":"7"},{"1":"2026-09-26","2":"47","3":"Freakin' Out","4":"Dexter And The Moonrocks","5":"47","6":"33","7":"NA","8":"26"},{"1":"2026-09-26","2":"48","3":"Phone, Keys, Wallet","4":"Lainey Wilson & John Mayer","5":"49","6":"48","7":"NA","8":"15"},{"1":"2026-09-26","2":"49","3":"Cowgirl","4":"Shaboozey","5":"42","6":"42","7":"NA","8":"11"},{"1":"2026-09-26","2":"50","3":"Something To Lose","4":"Stella Lefty Featuring Vincent Mason","5":"48","6":"40","7":"NA","8":"16"},{"1":"2026-09-26","2":"51","3":"Rein Me In","4":"Sam Fender & Olivia Dean","5":"51","6":"45","7":"NA","8":"26"},{"1":"2026-09-26","2":"52","3":"Hit The Wall","4":"Gracie Abrams","5":"50","6":"26","7":"NA","8":"18"},{"1":"2026-09-26","2":"53","3":"WTF GOIN","4":"Belly Gang Kushington & 21 Savage","5":"56","6":"53","7":"NA","8":"4"},{"1":"2026-09-26","2":"54","3":"Ceiling","4":"Jhene Aiko","5":"-","6":"54","7":"NA","8":"1"},{"1":"2026-09-26","2":"55","3":"My Body Isn't Ready","4":"sombr","5":"54","6":"30","7":"NA","8":"12"},{"1":"2026-09-26","2":"56","3":"Carry On","4":"Kenny Chesney","5":"53","6":"53","7":"NA","8":"13"},{"1":"2026-09-26","2":"57","3":"Great Expectation","4":"Sienna Spiro","5":"52","6":"52","7":"NA","8":"11"},{"1":"2026-09-26","2":"58","3":"Think As You Drunk","4":"Riley Green","5":"58","6":"58","7":"NA","8":"12"},{"1":"2026-09-26","2":"59","3":"Love Bomb","4":"Jhene Aiko & Ab-Soul","5":"-","6":"59","7":"NA","8":"1"},{"1":"2026-09-26","2":"60","3":"Noble","4":"F3miii","5":"61","6":"51","7":"NA","8":"19"},{"1":"2026-09-26","2":"61","3":"Mexico Honey","4":"Kacey Musgraves","5":"55","6":"39","7":"NA","8":"16"},{"1":"2026-09-26","2":"62","3":"Kid Myself","4":"John Morgan","5":"74","6":"62","7":"NA","8":"5"},{"1":"2026-09-26","2":"63","3":"Bass Persuades","4":"Miley","5":"35","6":"35","7":"NA","8":"2"},{"1":"2026-09-26","2":"64","3":"Sue Me","4":"Audrey Hobert","5":"57","6":"57","7":"NA","8":"8"},{"1":"2026-09-26","2":"65","3":"Empty Words","4":"Corey Kent","5":"66","6":"65","7":"NA","8":"14"},{"1":"2026-09-26","2":"66","3":"Chevy Silverado","4":"Bailey Zimmerman","5":"59","6":"41","7":"NA","8":"13"},{"1":"2026-09-26","2":"67","3":"Ghetto Love Story","4":"BabyChiefDoit","5":"62","6":"44","7":"NA","8":"11"},{"1":"2026-09-26","2":"68","3":"Another Drink","4":"Marshmello & Kelsea Ballerini","5":"60","6":"60","7":"NA","8":"7"},{"1":"2026-09-26","2":"69","3":"Nothing Nice To Say","4":"Jhene Aiko","5":"-","6":"69","7":"NA","8":"1"},{"1":"2026-09-26","2":"70","3":"McArthur","4":"HARDY, Eric Church, Morgan Wallen & Tim McGraw","5":"70","6":"31","7":"NA","8":"33"},{"1":"2026-09-26","2":"71","3":"South Of Sanity","4":"Zach Top","5":"77","6":"71","7":"NA","8":"10"},{"1":"2026-09-26","2":"72","3":"Like, Whatever","4":"Jhene Aiko Featuring Tyga","5":"-","6":"72","7":"NA","8":"1"},{"1":"2026-09-26","2":"73","3":"Break","4":"Jhene Aiko","5":"-","6":"73","7":"NA","8":"1"},{"1":"2026-09-26","2":"74","3":"Doors","4":"Noah Kahan","5":"68","6":"9","7":"NA","8":"21"},{"1":"2026-09-26","2":"75","3":"String By","4":"Mack Geiger","5":"71","6":"71","7":"NA","8":"5"},{"1":"2026-09-26","2":"76","3":"All My Exes","4":"Lauren Alaina Featuring Chase Matthew","5":"79","6":"76","7":"NA","8":"4"},{"1":"2026-09-26","2":"77","3":"Maggots For Brains","4":"Olivia Rodrigo","5":"65","6":"12","7":"NA","8":"14"},{"1":"2026-09-26","2":"78","3":"The Feeling","4":"Steve Lacy","5":"73","6":"67","7":"NA","8":"9"},{"1":"2026-09-26","2":"79","3":"Still","4":"Karol G With Bruno Mars","5":"64","6":"41","7":"NA","8":"6"},{"1":"2026-09-26","2":"80","3":"Expectations","4":"Olivia Rodrigo","5":"72","6":"20","7":"NA","8":"14"},{"1":"2026-09-26","2":"81","3":"Honeybee","4":"Olivia Rodrigo","5":"75","6":"9","7":"NA","8":"14"},{"1":"2026-09-26","2":"82","3":"In My Room","4":"Julia Wolf","5":"83","6":"57","7":"NA","8":"20"},{"1":"2026-09-26","2":"83","3":"Painted You Pretty","4":"Hudson Westbrook","5":"80","6":"80","7":"NA","8":"4"},{"1":"2026-09-26","2":"84","3":"Stop The Wedding!","4":"Ashe","5":"95","6":"84","7":"NA","8":"2"},{"1":"2026-09-26","2":"85","3":"Country And She Knows It","4":"Luke Bryan","5":"81","6":"81","7":"NA","8":"2"},{"1":"2026-09-26","2":"86","3":"Hands Up","4":"Jelly Roll","5":"82","6":"82","7":"NA","8":"5"},{"1":"2026-09-26","2":"87","3":"Get To Drinkin'","4":"Zach John King","5":"87","6":"87","7":"NA","8":"2"},{"1":"2026-09-26","2":"88","3":"Ahi","4":"Karol G With Drake","5":"76","6":"44","7":"NA","8":"6"},{"1":"2026-09-26","2":"89","3":"Wild Cat(s)","4":"Jhene Aiko","5":"-","6":"89","7":"NA","8":"1"},{"1":"2026-09-26","2":"90","3":"God I'm Just Grateful","4":"Elevation Worship & Chandler Moore","5":"91","6":"90","7":"NA","8":"2"},{"1":"2026-09-26","2":"91","3":"Hootie Frutti","4":"KATSEYE","5":"67","6":"31","7":"NA","8":"5"},{"1":"2026-09-26","2":"92","3":"onsra","4":"comehelpglo","5":"-","6":"92","7":"NA","8":"1"},{"1":"2026-09-26","2":"93","3":"SaWaDiKa","4":"LISA","5":"69","6":"69","7":"NA","8":"2"},{"1":"2026-09-26","2":"94","3":"Bet On That","4":"Blake Whiten","5":"84","6":"84","7":"NA","8":"4"},{"1":"2026-09-26","2":"95","3":"California Girls","4":"Future","5":"-","6":"23","7":"NA","8":"4"},{"1":"2026-09-26","2":"96","3":"You","4":"Jhene Aiko","5":"-","6":"96","7":"NA","8":"1"},{"1":"2026-09-26","2":"97","3":"Washed","4":"ELEVATION RHYTHM","5":"-","6":"97","7":"NA","8":"1"},{"1":"2026-09-26","2":"98","3":"Say So","4":"Dan + Shay","5":"-","6":"98","7":"NA","8":"2"},{"1":"2026-09-26","2":"99","3":"Some Of Your Love","4":"PARTYNEXTDOOR","5":"78","6":"36","7":"NA","8":"4"},{"1":"2026-09-26","2":"100","3":"What's Wrong With Me","4":"Olivia Rodrigo & Robert Smith","5":"86","6":"17","7":"NA","8":"14"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Most rows have NA for <code>wks_at_no1</code>.</p>
+</section>
+</section>
 <section id="scraper-function-starts-here" class="level2">
 <h2 class="anchored" data-anchor-id="scraper-function-starts-here">Scraper function starts here</h2>
+<p>Since the Hot 100 and Billboard 200 (albums) are structured the same, I turn the scraper into a function and run it on a list of charts. I only do the two, though I could theoretically capture the other charts like <a href="https://www.billboard.com/charts/artist-100/">Artist 100</a>. To get the archive, I would have to subscribe.</p>
+<p>It is this code that is duplicated in <a href="action_scrape_charts.R">action_scrape_charts.R</a></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (chart <span class="cf">in</span> charts_list) {</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sets edition flag</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  edition_current <span class="ot">&lt;-</span> <span class="st">""</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (edition_flag <span class="sc">==</span> T) edition_page <span class="ot">&lt;-</span> edition_request <span class="cf">else</span> edition_page <span class="ot">&lt;-</span> edition_current</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make the url</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  scrape_url <span class="ot">&lt;-</span> <span class="fu">paste</span>(</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://www.billboard.com/charts/"</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  chart,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/"</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  edition_page,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">""</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get initial scrape</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  scrape_first <span class="ot">&lt;-</span> <span class="fu">read_html</span>(scrape_url)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pull date from scrape</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  chart_date <span class="ot">&lt;-</span> scrape_first <span class="sc">|&gt;</span> </span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_element</span>(<span class="st">"div#chart-date-picker"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_attr</span>(<span class="st">"data-date"</span>)</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pull year from scrape</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  chart_year <span class="ot">&lt;-</span> <span class="fu">year</span>(chart_date)</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># process results into a tibble</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  scrape_tibble <span class="ot">&lt;-</span> scrape_first <span class="sc">|&gt;</span> </span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_elements</span>(<span class="st">"ul.o-chart-results-list-row"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text2</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_tibble</span>()</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># clean up the tibble</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  scrape_clean <span class="ot">&lt;-</span> scrape_tibble <span class="sc">|&gt;</span> </span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">data_cleaned =</span> <span class="fu">str_remove_all</span>(value, <span class="st">" NEW</span><span class="sc">\n</span><span class="st">NEW|LW</span><span class="sc">\n</span><span class="st">|PEAK</span><span class="sc">\n</span><span class="st">|WEEKS</span><span class="sc">\n</span><span class="st">"</span>),</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">data_cleaned =</span> <span class="fu">str_remove_all</span>(data_cleaned, <span class="st">" RE- ENTRY</span><span class="sc">\n</span><span class="st">|RE- ENTRY|RE-ENTRY"</span>)</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(data_cleaned, value) <span class="sc">|&gt;</span> </span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">col =</span> data_cleaned,</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">into =</span> <span class="fu">c</span>(</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"current_week"</span>,</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">"title"</span>,</span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>        <span class="st">"performer"</span>,</span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">"last_week"</span>,</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">"peak_pos"</span>,</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>        <span class="st">"wks_on_chart"</span></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>value) <span class="sc">|&gt;</span> </span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">chart_week =</span> chart_date, <span class="at">.before =</span> current_week)</span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>  <span class="co"># name path to save file</span></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>  folder_path <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"data-scraped/"</span>, chart, <span class="st">"/"</span>, chart_year, <span class="st">"/"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create the directory if it doesn't exist</span></span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">here</span>(folder_path))) {<span class="fu">dir.create</span>(<span class="fu">here</span>(folder_path), <span class="at">recursive =</span> <span class="cn">TRUE</span>)}</span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>  <span class="co"># write the file</span></span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>  <span class="co"># uncomment to test saving the file</span></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>  <span class="co"># scrape_clean |&gt; write_csv(paste(folder_path, chart_date, ".csv", sep = ""))</span></span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Expected 6 pieces. Additional pieces discarded in 100 rows [1, 2, 3, 4, 5, 6,
-7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Expected 6 pieces. Additional pieces discarded in 200 rows [1, 2, 3, 4, 5, 6,
-7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (chart <span class="cf">in</span> charts_list) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sets edition flag</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  edition_current <span class="ot">&lt;-</span> <span class="st">""</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (edition_flag <span class="sc">==</span> T) edition_page <span class="ot">&lt;-</span> edition_request <span class="cf">else</span> edition_page <span class="ot">&lt;-</span> edition_current</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make the url</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  scrape_url <span class="ot">&lt;-</span> <span class="fu">paste</span>(</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://www.billboard.com/charts/"</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  chart,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  edition_page,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">""</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get initial scrape</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  scrape_first <span class="ot">&lt;-</span> <span class="fu">read_html</span>(scrape_url)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pull date from scrape</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  chart_date <span class="ot">&lt;-</span> scrape_first <span class="sc">|&gt;</span> </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_element</span>(<span class="st">"div#chart-date-picker"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_attr</span>(<span class="st">"data-date"</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pull year from scrape</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  chart_year <span class="ot">&lt;-</span> <span class="fu">year</span>(chart_date)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># process results into a tibble</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  scrape_tibble <span class="ot">&lt;-</span> scrape_first <span class="sc">|&gt;</span> </span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_elements</span>(<span class="st">"ul.o-chart-results-list-row"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text2</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_tibble</span>()</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># process first row</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  scrape_toprow <span class="ot">&lt;-</span> scrape_tibble <span class="sc">|&gt;</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">data_cleaned =</span> <span class="fu">str_remove_all</span>(value, <span class="st">" NEW</span><span class="sc">\n</span><span class="st">NEW|LW</span><span class="sc">\n</span><span class="st">|PEAK</span><span class="sc">\n</span><span class="st">|WEEKS ON CHART</span><span class="sc">\n</span><span class="st">|WEEKS AT NO. 1</span><span class="sc">\n</span><span class="st">|WEEKS</span><span class="sc">\n</span><span class="st">"</span>),</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">data_cleaned =</span> <span class="fu">str_remove_all</span>(data_cleaned, <span class="st">" RE- ENTRY</span><span class="sc">\n</span><span class="st">|RE- ENTRY|RE-ENTRY"</span>),</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">data_cleaned =</span> <span class="fu">str_extract</span>(data_cleaned, <span class="st">"^((?:[^</span><span class="sc">\n</span><span class="st">]*</span><span class="sc">\n</span><span class="st">){6}[^</span><span class="sc">\n</span><span class="st">]*)"</span>) <span class="co"># sevens</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(data_cleaned, value) <span class="sc">|&gt;</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">col =</span> data_cleaned,</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">into =</span> <span class="fu">c</span>(</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>        <span class="st">"current_week"</span>,</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">"title"</span>,</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">"performer"</span>,</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>        <span class="st">"last_week"</span>,</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>        <span class="st">"peak_pos"</span>,</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">"wks_at_no1"</span>,</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>        <span class="st">"wks_on_chart"</span></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>value) <span class="sc">|&gt;</span></span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">chart_week =</span> chart_date, <span class="at">.before =</span> current_week)</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># process rest of rows</span></span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>  scrape_rest <span class="ot">&lt;-</span> scrape_tibble <span class="sc">|&gt;</span></span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>      <span class="at">data_cleaned =</span> <span class="fu">str_remove_all</span>(value, <span class="st">" NEW</span><span class="sc">\n</span><span class="st">NEW|LW</span><span class="sc">\n</span><span class="st">|PEAK</span><span class="sc">\n</span><span class="st">|WEEKS ON CHART</span><span class="sc">\n</span><span class="st">|WEEKS AT NO. 1</span><span class="sc">\n</span><span class="st">|WEEKS</span><span class="sc">\n</span><span class="st">"</span>),</span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>      <span class="at">data_cleaned =</span> <span class="fu">str_remove_all</span>(data_cleaned, <span class="st">" RE- ENTRY</span><span class="sc">\n</span><span class="st">|RE- ENTRY|RE-ENTRY"</span>),</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>      <span class="at">data_cleaned =</span> <span class="fu">str_extract</span>(data_cleaned, <span class="st">"^((?:[^</span><span class="sc">\n</span><span class="st">]*</span><span class="sc">\n</span><span class="st">){5}[^</span><span class="sc">\n</span><span class="st">]*)"</span>) <span class="co"># sevens</span></span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(data_cleaned, value) <span class="sc">|&gt;</span></span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(</span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>      <span class="at">col =</span> data_cleaned,</span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>      <span class="at">into =</span> <span class="fu">c</span>(</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>        <span class="st">"current_week"</span>,</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>        <span class="st">"title"</span>,</span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>        <span class="st">"performer"</span>,</span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>        <span class="st">"last_week"</span>,</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>        <span class="st">"peak_pos"</span>,</span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>        <span class="co"># "wks_at_no1",</span></span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>        <span class="st">"wks_on_chart"</span></span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>value) <span class="sc">|&gt;</span></span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">chart_week =</span> chart_date, <span class="at">.before =</span> current_week)</span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>  <span class="co"># bind them</span></span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>  scrape_clean <span class="ot">&lt;-</span> scrape_toprow <span class="sc">|&gt;</span> </span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>(scrape_rest)</span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>  <span class="co"># name path to save file</span></span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>  folder_path <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"data-scraped/"</span>, chart, <span class="st">"/"</span>, chart_year, <span class="st">"/"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create the directory if it doesn't exist</span></span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">here</span>(folder_path))) {<span class="fu">dir.create</span>(<span class="fu">here</span>(folder_path), <span class="at">recursive =</span> <span class="cn">TRUE</span>)}</span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>  <span class="co"># write the file</span></span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>  scrape_clean <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="fu">paste</span>(folder_path, chart_date, <span class="st">".csv"</span>, <span class="at">sep =</span> <span class="st">""</span>))</span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 

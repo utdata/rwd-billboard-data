@@ -2,6 +2,10 @@
 # Created by https://www.gitignore.io/api/r,macos,python,windows,jupyternotebooks
 # Edit at https://www.gitignore.io/?templates=r,macos,python,windows,jupyternotebooks
 
+### Quarto ###
+/.quarto/
+/_site/
+
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
