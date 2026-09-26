@@ -1,15 +1,4 @@
----
-title: "Various data checks"
-output:
-  html_document:
-    theme: flatly
-    toc: true
-    toc_depth: 3
-    toc_float: true
-    df_print: paged
-knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
----
-
+# Various data checks
 
 ## Goals
 

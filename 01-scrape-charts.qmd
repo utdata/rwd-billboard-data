@@ -1,14 +1,4 @@
----
-title: "Billboard Charts Scraping"
-output:
-  html_document:
-    theme: flatly
-    toc: true
-    toc_depth: 3
-    toc_float: true
-    df_print: paged
-knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
----
+# Explore - Scraping
 
 ## Goals
 
@@ -19,6 +9,8 @@ Charts I'm using this on are [Billboard Hot 100](https://www.billboard.com/chart
 A compilation of the resulting files are handled in a different script.
 
 > This same concept is used with the Github Action version that scrapes only the current chart: `action_scrape_charts.R`.
+
+> The "write_rds" step is commented out so files are not overwritten unless purposely changes.
 
 ## Setup
 
@@ -114,7 +106,8 @@ for (chart in charts_list) {
   if (!dir.exists(here(folder_path))) {dir.create(here(folder_path), recursive = TRUE)}
   
   # write the file
-  scrape_clean |> write_csv(paste(folder_path, chart_date, ".csv", sep = ""))
+  # uncomment to test saving the file
+  # scrape_clean |> write_csv(paste(folder_path, chart_date, ".csv", sep = ""))
 
 }
 ```

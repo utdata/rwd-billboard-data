@@ -218,3 +218,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/r,macos,python,windows,jupyternotebooks
+/.quarto/
+**/*.quarto_ipynb
