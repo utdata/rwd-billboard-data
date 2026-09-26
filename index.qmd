@@ -2,8 +2,6 @@
 
 This project archives [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) and [Billboard 200](https://www.billboard.com/charts/billboard-200/) charts data.
 
-The code maintaning the files are in the [rwd-billboard-data](https://github.com/utdata/rwd-billboard-data) Github repo. This site explains exploratory code to figure it out.
-
 If you are here looking for a current archive, here are the files of interest:
 
 - [data-out/hot-100-current.csv](data-out/hot-100-current.csv) has the [Billboard Hot 100](https://www.billboard.com/charts/hot-100/) back to its inception in 1958.
@@ -15,6 +13,8 @@ This project has been ... an adventure. Details below.
 
 ## Charts scraping and combining
 
+The code that maintains these files is in the [rwd-billboard-data](https://github.com/utdata/rwd-billboard-data) Github repo.
+
 There are two Github Actions that call scripts to scrape a list of charts each week and then combine each chart's files with some processed archives from other sources. I currently collect for the Hot 100 and Billboard 200 charts.
 
 - `.github/workflows/scrap_charts.yml` is a Github Action that is scheduled on a cron to run `action_scrape_charts.R`. That scrapes the current chart and saves it.
@@ -24,7 +24,7 @@ The actions run Tuesday through Friday, though the charts usually update on Tues
 
 ### Exploration and maintenance
 
-There are some RMarkdown notebooks used to explore and maintain those scripts: `01-scrape-charts.Rmd`, `02-combine-charts.Rmd` and `03-check-charts.Rmd`. There are some details recorded there that can help explain what is happening in the scrap/combine charts scripts.
+There are some Quarto notebooks used to explore and maintain those scripts: `01-scrape-charts.qmd`, `02-combine-charts.qmd` and `03-check-charts.qmd`. There are some details recorded there that can help explain what is happening in the scrap/combine charts scripts.
 
 ## Hot 100
 
@@ -46,7 +46,7 @@ How it comes together:
 
 ### Known Hot 100 data errors
 
-TLDR: My data matches what is currently online.
+TLDR: My data matches what is currently online (or what was online when I checked it. It's all behind a paywall now).
 
 - There are a couple of records for "Rainy Night In Georgia/Rubberneckin'" by Brook Benton, which [some think](https://data.world/kcmillersean/billboard-hot-100-1958-2017/discuss/billboard-hot-100-1958-2017/me2tkmbx#kex5mx5n) is a mistake. Elvis' "Rubberneckin'" appears higher in these same weeks. As of 2022-07-23 the data appears this way online for [1970-01-10](https://www.billboard.com/charts/hot-100/1970-01-10/) and [1970-01-17](https://www.billboard.com/charts/hot-100/1970-01-17/) charts.
 - [This comment](https://data.world/kcmillersean/billboard-hot-100-1958-2017/discuss/billboard-hot-100-1958-2017/me2tkmbx#emfy2p2n) on the data.world collection: "Just another heads up for anyone using this dataset. The charts for 1961 contain another error. The Pips "Every Beat Of My Heart" is duplicated twice in some of the weekly charts, except the duplicates are credited to Gladys Knight & The Pips. The original 1961 release was credited to only Pips or The Pips, later re-releases of the song in the 70s reflect the band's change of name." I have confirmed the double entries in this data set and currently online at Billboard, but have not researched the possible reasons why.
@@ -72,7 +72,7 @@ There are two significant issues to be aware of:
 
 ## Recent updates
 
-> **September 2026**: Scraper updated after Billboard added a "WEEKS AT NO. 1" value to all their charts. Also converted to Quarto vs RNotebooks.
+> **September 2026**: Scraper updated after Billboard added a "WEEKS AT NO. 1" to the top row of all their charts. I also converted to Quarto from RNotebooks.
 
 > **June 2023**: The combine action was updated to create a modified version of Hot 100 for an assignment.
 
