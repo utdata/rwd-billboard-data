@@ -1,14 +1,4 @@
----
-title: "RWDIR Hot 100 data"
-output:
-  html_document:
-    theme: flatly
-    toc: true
-    toc_depth: 3
-    toc_float: true
-    df_print: paged
-knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
----
+# RWDIR assignment data
 
 ## Goal of this notebook
 

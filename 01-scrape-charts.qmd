@@ -1,16 +1,8 @@
----
-title: "Billboard Charts Scraping"
-output:
-  html_document:
-    theme: flatly
-    toc: true
-    toc_depth: 3
-    toc_float: true
-    df_print: paged
-knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
----
+# Scrape charts
 
 ## Goals
+
+Here I work out how to scrape the chart, and then test it as a function. 
 
 Given a Billboard chart slug name (from it's URL) and date (default to current), scrape the chart and save the file.
 
@@ -19,6 +11,12 @@ Charts I'm using this on are [Billboard Hot 100](https://www.billboard.com/chart
 A compilation of the resulting files are handled in a different script.
 
 > This same concept is used with the Github Action version that scrapes only the current chart: `action_scrape_charts.R`.
+
+> The "write_rds" step is commented out so files are not overwritten unless purposely changes.
+
+::: callout
+This could process be more efficient. I wish I had one scraper function using if/else to deal with the extra variable in the first row. I don't like repeating that cleaning code.
+:::
 
 ## Setup
 
@@ -43,15 +41,16 @@ charts_list <- c("hot-100", "billboard-200")
 I set up some flags to get a specific date or the current date. I won't need this with the final Github Action
 
 - `F` pulls the current chart
-- `T` pulls the chart that is noted in the `edition_request` object
+- ~~`T` pulls the chart that is noted in the `edition_request` object~~ This won't work anymore because old charts are behind a paywall.
 
 ```{r flags}
 edition_request <- "2026-09-19"
 edition_flag <- F
 ```
 
-
 ## Scrape a single file
+
+Here I work out how to scrape the Hot 100 table.
 
 ```{r}
 main_url <- "https://www.billboard.com/charts/hot-100/"
@@ -74,11 +73,11 @@ scrape_tibble <- scrape_first |>
   as_tibble()
 ```
 
-Each line has some extra columns repeated ... LW, PEAK, WEEKS ON CHART. On the first line for the number 1 song, there is also WEEKS AT NO. 1. This was added the chart week of Sept. 19th when the top song tied for the longest. I'm not sure if it will remain a part of the chart, but I'd like to deal with it.
+Each line has some extra columns repeated ... LW, PEAK, WEEKS ON CHART. On the first line for the number 1 song, there is also WEEKS AT NO. 1. This was added the chart week of Sept. 19th when the top song tied for the longest. I'm not sure if it will remain a part of the chart, but I've had to make changes to deal with it.
 
 ### Process first row
 
-Here we grab the first row, then check if the term "NO. 1" exists, and if so process it as a 7-variable table. If not, then we process as a 6-variable table.
+Here we grab the first row and extract just the first seven "fields" so I remove the duplicated variables. Doing this one separately from the other 99 allows me to keep the "weeks at No. 1" variable.
 
 ```{r}
 scrape_toprow <- scrape_tibble |>
@@ -106,9 +105,9 @@ scrape_toprow <- scrape_tibble |>
   mutate(chart_week = chart_date, .before = current_week)
 ```
 
-Writing
-
 ### Process other rows
+
+Here we process the other 99 rows as a 6-column table.
 
 ```{r}
 scrape_rest <- scrape_tibble |>
@@ -138,6 +137,8 @@ scrape_rest <- scrape_tibble |>
 
 ### Bind them together
 
+Now we put those two together to for a single 100-row table.
+
 ```{r}
 scrape_clean <- scrape_toprow |> 
   bind_rows(scrape_rest)
@@ -145,8 +146,13 @@ scrape_clean <- scrape_toprow |>
 scrape_clean
 ```
 
+Most rows have NA for `wks_at_no1`.
 
 ## Scraper function starts here
+
+Since the Hot 100 and Billboard 200 (albums) are structured the same, I turn the scraper into a function and run it on a list of charts. I only do the two, though I could theoretically capture the other charts like [Artist 100](https://www.billboard.com/charts/artist-100/). To get the archive, I would have to subscribe.
+
+It is this code that is duplicated in [action_scrape_charts.R](action_scrape_charts.R)
 
 ```{r}
 for (chart in charts_list) {
@@ -246,28 +252,3 @@ for (chart in charts_list) {
 
 }
 ```
-
-
-Clean up the tibble
-
-  # clean up the tibble
-  scrape_clean <- scrape_tibble |> 
-    mutate(
-      data_cleaned = str_remove_all(value, " NEW\nNEW|LW\n|PEAK\n|WEEKS ON CHART\n|WEEKS AT NO. 1\n|WEEKS\n"),
-      data_cleaned = str_remove_all(data_cleaned, " RE- ENTRY\n|RE- ENTRY|RE-ENTRY")
-    ) |> 
-    select(data_cleaned, value) |> 
-    separate(
-      col = data_cleaned,
-      sep = "\n",
-      into = c(
-        "current_week",
-        "title",
-        "performer",
-        "last_week",
-        "peak_pos",
-        "wks_on_chart"
-      )
-    ) |> 
-    select(-value) |> 
-    mutate(chart_week = chart_date, .before = current_week)

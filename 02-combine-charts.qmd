@@ -1,18 +1,10 @@
----
-title: "Combine for current charts"
-output:
-  html_document:
-    theme: flatly
-    toc: true
-    toc_depth: 3
-    toc_float: true
-    df_print: paged
-knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
----
+# Combine charts
 
 ## Goals of this notebook
 
-To combine scraped Billboard chart files with a previous-processed archive to create a "current" archive. See `01-scrape-charts.Rmd` for more info on scraping, and the README for more about the archives.
+To combine scraped Billboard chart files with a previous-processed archive to create a "current" archive. See [01-scrape-charts.qmd](01-scrape-charts.qmd) for more info on scraping, and the [home page](index.qmd) for more about the archives.
+
+> The writing of files is commented out to prevent overwriting. Modify to test.
 
 ## Setup
 
@@ -32,7 +24,7 @@ charts_list <- c("hot-100", "billboard-200")
 
 ## One-time processing
 
-This combination script does require some **one-time** processing of some previously-worked files (see README).
+This combination script required some **one-time** processing of some previously-worked files (see README).
 
 The code is **commented** because it doesn't need to run again.
 
@@ -80,7 +72,8 @@ for (chart in charts_list) {
   charts_recent <- map_dfr(files_list, read_csv, col_types = cols("last_week" = col_integer()))
   
   # write the combined file
-  charts_recent |> write_csv(paste("data-out/", chart, "-current.csv", sep = ""))
+  # uncomment to test the writing of files
+  # charts_recent |> write_csv(paste("data-out/", chart, "-current.csv", sep = ""))
   
 }
 
