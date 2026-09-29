@@ -1,6 +1,7 @@
 project:
   type: website
   render:
+  - "!notebooks/"
   - "01*.qmd"
   - "*.qmd"
 
